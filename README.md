@@ -88,6 +88,14 @@ import cXmlWrite
 Discoveries
 ===========
 
+Build Time
+------------
+
+The absolute minimal example takes a significant time to build compared to a minimal CPython extension, seven seconds compared to sub-second build time.
+
+Passing Python Files into C++
+-------------------------------
+
 The original `XmlWrite.XmlStream` took as the first argument a string or file like object. If the former it was treated as the file path to write to. I havn't been able to reproduce this pattern by using a `PyObject*` and deciding within the constructor what to do:
 
 ```c

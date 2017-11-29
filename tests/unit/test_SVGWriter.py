@@ -29,9 +29,9 @@ import logging
 
 import io
 
-import cpip
-from cpip.util import XmlWrite
-from cpip.plot import SVGWriter, Coord
+from xmlwriter import Coord
+from xmlwriter import SVGWriter
+from xmlwriter import XmlWrite
 
 ######################
 # Section: Unit tests.
@@ -43,11 +43,11 @@ class TestSVGWriter(unittest.TestCase):
 
     def setUp(self):
         self.maxDiff = None
-        self._indentML = cpip.INDENT_ML
-        cpip.INDENT_ML = True
+        self._indentML = xmlwriter.INDENT_ML
+        xmlwriter.INDENT_ML = True
     
     def tearDown(self):
-        cpip.INDENT_ML = self._indentML
+        xmlwriter.INDENT_ML = self._indentML
     
     def test_00(self):
         """TestSVGWriter.test_00(): construction."""

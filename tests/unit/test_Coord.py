@@ -33,7 +33,7 @@ import logging
 #import StringIO
 
 #sys.path.append(os.path.join(os.pardir + os.sep))
-from cpip.plot import Coord
+from xmlwriter import Coord
 
 ######################
 # Section: Unit tests.

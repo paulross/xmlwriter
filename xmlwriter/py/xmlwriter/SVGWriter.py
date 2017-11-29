@@ -24,11 +24,15 @@ __author__  = 'Paul Ross'
 __date__    = '2011-07-10'
 __rights__  = 'Copyright (c) 2008-2017 Paul Ross'
 
-from cpip import ExceptionCpip
-from cpip.util import XmlWrite
-from cpip.plot import Coord
+try:
+    import cXmlWrite as XmlWrite
+except ImportError:
+    from xmlwriter import XmlWrite
 
-class ExceptionSVGWriter(ExceptionCpip):
+from xmlwriter import XmlWrite
+from xmlwriter import Coord
+
+class ExceptionSVGWriter(Exception):
     """Exception class for SVGWriter."""
     pass
 

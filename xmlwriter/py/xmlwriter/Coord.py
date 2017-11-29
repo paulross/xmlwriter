@@ -26,9 +26,7 @@ __rights__  = 'Copyright (c) 2008-2017 Paul Ross'
 #import sys
 import collections
 
-from cpip import ExceptionCpip
-
-class ExceptionCoord(ExceptionCpip):
+class ExceptionCoord(Exception):
     """Exception class for representing Coordinates."""
     pass
 

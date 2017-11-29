@@ -5,6 +5,7 @@ import setuptools
 
 __version__ = '0.0.1'
 
+# from setuptools import setup, find_packages
 
 class get_pybind_include(object):
     """Helper class to determine the pybind11 include path
@@ -24,8 +25,12 @@ class get_pybind_include(object):
 ext_modules = [
     Extension(
         'cXmlWrite',
-        ['xmlwriter/cpp/cXmlWrite.cpp'],
+        [
+            'xmlwriter/cpy/cXmlWrite.cpp',
+            'xmlwriter/cpp/XmlWrite.cpp',
+        ],
         include_dirs=[
+            'xmlwriter/cpp',
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True)
@@ -95,6 +100,8 @@ setup(
     author='Paul Ross',
     author_email='apaulross@gmail.com',
     url='https://github.com/paulross/xmlwriter',
+    packages=setuptools.find_packages('xmlwriter/py'),# include=['xmlwriter']),
+    package_dir={'' : 'xmlwriter/py'},
     description='An XML/HTML/SVG writer project using pybind11',
     long_description='',
     ext_modules=ext_modules,

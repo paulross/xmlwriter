@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C3770D4B1FCC134700315387 /* cXmlWrite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3770D4A1FCC134700315387 /* cXmlWrite.cpp */; };
+		C3770D4B1FCC134700315387 /* XmlWrite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3770D4A1FCC134700315387 /* XmlWrite.cpp */; };
 		C3770D4D1FCC147B00315387 /* Python in Frameworks */ = {isa = PBXBuildFile; fileRef = C3770D4C1FCC147B00315387 /* Python */; };
 		C3770D4F1FCC162E00315387 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3770D4E1FCC162E00315387 /* main.cpp */; };
+		C3770D531FCEE73B00315387 /* cXmlWrite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3770D521FCEE73B00315387 /* cXmlWrite.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,9 +27,11 @@
 
 /* Begin PBXFileReference section */
 		C3770D3F1FCC12FD00315387 /* xmlwriter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xmlwriter; sourceTree = BUILT_PRODUCTS_DIR; };
-		C3770D4A1FCC134700315387 /* cXmlWrite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cXmlWrite.cpp; sourceTree = "<group>"; };
+		C3770D4A1FCC134700315387 /* XmlWrite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XmlWrite.cpp; sourceTree = "<group>"; };
 		C3770D4C1FCC147B00315387 /* Python */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = Python; path = ../../../../../../Library/Frameworks/Python.framework/Versions/3.6/Python; sourceTree = "<group>"; };
 		C3770D4E1FCC162E00315387 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C3770D501FCEE72D00315387 /* XmlWrite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XmlWrite.h; sourceTree = "<group>"; };
+		C3770D521FCEE73B00315387 /* cXmlWrite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cXmlWrite.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +51,7 @@
 			children = (
 				C3770D4C1FCC147B00315387 /* Python */,
 				C3770D491FCC134700315387 /* cpp */,
+				C3770D511FCEE73B00315387 /* cpy */,
 				C3770D401FCC12FD00315387 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,10 +67,19 @@
 		C3770D491FCC134700315387 /* cpp */ = {
 			isa = PBXGroup;
 			children = (
-				C3770D4A1FCC134700315387 /* cXmlWrite.cpp */,
 				C3770D4E1FCC162E00315387 /* main.cpp */,
+				C3770D4A1FCC134700315387 /* XmlWrite.cpp */,
+				C3770D501FCEE72D00315387 /* XmlWrite.h */,
 			);
 			path = cpp;
+			sourceTree = "<group>";
+		};
+		C3770D511FCEE73B00315387 /* cpy */ = {
+			isa = PBXGroup;
+			children = (
+				C3770D521FCEE73B00315387 /* cXmlWrite.cpp */,
+			);
+			path = cpy;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,7 +139,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3770D4F1FCC162E00315387 /* main.cpp in Sources */,
-				C3770D4B1FCC134700315387 /* cXmlWrite.cpp in Sources */,
+				C3770D531FCEE73B00315387 /* cXmlWrite.cpp in Sources */,
+				C3770D4B1FCC134700315387 /* XmlWrite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

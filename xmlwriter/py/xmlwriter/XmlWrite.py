@@ -25,10 +25,10 @@ __rights__  = 'Copyright (c) Paul Ross'
 
 import logging
 #import traceback
+import io
 import sys
 #import htmlentitydefs
 import base64
-from cpip import ExceptionCpip
 
 #: Global flag that sets the error behaviour
 #:
@@ -39,7 +39,7 @@ from cpip import ExceptionCpip
 #: will be written. These will not mask other Exceptions. 
 RAISE_ON_ERROR = True
 
-class ExceptionXml(ExceptionCpip):
+class ExceptionXml(Exception):
     """Exception specialisation for the XML writer."""
     pass
 
@@ -157,13 +157,9 @@ class XmlStream(object):
                   ord("'")  : u'&apos;', 
                   ord('"')  : u'&quot;',
                   }
-    def __init__(self, theFout, theEnc='utf-8', theDtdLocal=None, theId=0, mustIndent=True):
-        """Initialise with a writable file like object or a file path.
+    def __init__(self, theEnc='utf-8', theDtdLocal=None, theId=0, mustIndent=True):
+        """Initialise with an encoding.
         
-        :param theFout: The file-like object or a path as a string. If the latter it
-            will be closed on __exit__.
-        :type theFout: ``_io.TextIOWrapper, str``
-
         :param theEnc: The encoding to be used.
         :type theEnc: ``str``
 
@@ -178,12 +174,7 @@ class XmlStream(object):
 
         :returns: ``NoneType``
         """
-        if isinstance(theFout, str):
-            self._file = open(theFout, 'w')
-            self._fileClose = True
-        else:
-            self._file = theFout
-            self._fileClose = False
+        self._file = io.StringIO()
         self._enc = theEnc
         self._dtdLocal = theDtdLocal
         # Stack of strings
@@ -193,7 +184,11 @@ class XmlStream(object):
         # An integer that represents a unique ID
         self._intId = theId
         self._mustIndent = mustIndent
-    
+
+    def getvalue(self):
+        """Returns the XML document suitable for writing to a file."""
+        return self._file.getvalue()
+
     @property
     def id(self):
         """A unique ID in this stream. The ID is incremented on each call.
@@ -472,9 +467,7 @@ class XmlStream(object):
         while len(self._elemStk):
             self.endElement(self._elemStk[-1])
         self._file.write(u'\n')
-        if self._fileClose:
-            self._file.close()
-        return False
+        return False # Propogate any exception
 #############################
 # End: XML Stream writer.
 #############################
