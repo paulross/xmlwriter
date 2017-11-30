@@ -54,7 +54,10 @@ PYBIND11_MODULE(cXmlWrite, m) {
         .def("startElement", &XmlStream::startElement, "Opens a named element with attributes.")
         .def("characters", &XmlStream::characters, "Encodes the string and writes it to the output.")
         .def("literal", &XmlStream::literal, "Writes theString to the output without encoding.")
-        .def("comment", &XmlStream::comment, "Writes a comment to the output stream.")
+        .def("comment", &XmlStream::comment, "Writes a comment to the output stream.",
+             py::arg("theS"),
+             py::arg("newLine")=false
+             )
         .def("pI", &XmlStream::pI, "Writes a Processing Instruction to the output stream.")
         .def("endElement", &XmlStream::endElement, "Ends an element.")
         .def("writeECMAScript", &XmlStream::writeECMAScript, "Writes the ECMA script.")
@@ -68,7 +71,7 @@ PYBIND11_MODULE(cXmlWrite, m) {
              "Close the element if open.")
         .def("_encode", &XmlStream::_encode,
              "Apply the XML encoding such as ``'<'`` to ``'&lt;'``.")
-        .def("__enter__", &XmlStream::_enter)
+        .def("__enter__", &XmlStream::_enter)//, py::return_value_policy::reference_internal)
         .def("__exit__", &XmlStream::_exit)
         ;
 
@@ -79,17 +82,17 @@ PYBIND11_MODULE(cXmlWrite, m) {
              py::arg("theDtdLocal")="",
              py::arg("theId")=0,
              py::arg("mustIndent")=true)
-        .def("__enter__", &XhtmlStream::_enter)
+        .def("__enter__", &XhtmlStream::_enter)//, py::return_value_policy::reference_internal)
         .def("charactersWithBr", &XhtmlStream::charactersWithBr)
     ;
 
     py::class_<Element>(m, "Element")
-        .def(py::init<XmlStream &, const std::string &, const std::map<std::string, std::string> &>(),
+        .def(py::init<XmlStream &, const std::string &, const tAttrs &>(),
              "Constructor",
              py::arg("theXmlStream"),
              py::arg("theName"),
-             py::arg("theAttrs"))
-        .def("__enter__", &Element::_enter)
+             py::arg("theAttrs")=tAttrs())
+        .def("__enter__", &Element::_enter)//, py::return_value_policy::reference_internal)
         .def("__exit__", &Element::_exit)
     ;
     

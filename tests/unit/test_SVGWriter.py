@@ -29,6 +29,7 @@ import logging
 
 import io
 
+import xmlwriter
 from xmlwriter import Coord
 from xmlwriter import SVGWriter
 from xmlwriter import XmlWrite
@@ -51,28 +52,26 @@ class TestSVGWriter(unittest.TestCase):
     
     def test_00(self):
         """TestSVGWriter.test_00(): construction."""
-        myF = io.StringIO()
         myViewPort = Coord.Box(
             Coord.Dim(100, 'mm'),
             Coord.Dim(20, 'mm'),
         )
-        with SVGWriter.SVGWriter(myF, myViewPort):
+        with SVGWriter.SVGWriter(myViewPort) as xS:
             pass
-        #print
-        #print myF.getvalue()
-        self.assertEqual(myF.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
+        # print()
+        # print(xS.getvalue())
+        self.assertEqual(xS.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg height="20.0mm" version="1.1" width="100.0mm" xmlns="http://www.w3.org/2000/svg" />\n""")
         
     def test_01(self):
         """TestSVGlWriter.test_01(): <desc> and four rectangles.
         From second example in http://www.w3.org/TR/2003/REC-SVG11-20030114/struct.html#NewDocumentOverview"""
-        myF = io.StringIO()
         myViewPort = Coord.Box(
             Coord.Dim(5, 'cm'),
             Coord.Dim(4, 'cm'),
         )
-        with SVGWriter.SVGWriter(myF, myViewPort) as xS:
+        with SVGWriter.SVGWriter(myViewPort) as xS:
             with XmlWrite.Element(xS, 'desc'):
                 xS.characters('Four separate rectangles')
             myPt = Coord.Pt(Coord.Dim(0.5, 'cm'), Coord.Dim(0.5, 'cm'))
@@ -105,8 +104,8 @@ class TestSVGWriter(unittest.TestCase):
                 ):
                 pass
         #print
-        #print myF.getvalue()
-        self.assertEqual(myF.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
+        #print xS.getvalue()
+        self.assertEqual(xS.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg height="4.00cm" version="1.1" width="5.00cm" xmlns="http://www.w3.org/2000/svg">
   <desc>Four separate rectangles</desc>
@@ -121,12 +120,11 @@ class TestSVGWriter(unittest.TestCase):
     def test_02(self):
         """TestSVGlWriter.test_02(): a circle.
         From http://www.w3.org/TR/2003/REC-SVG11-20030114/shapes.html#CircleElement"""
-        myF = io.StringIO()
         myViewPort = Coord.Box(
             Coord.Dim(12, 'cm'),
             Coord.Dim(4, 'cm'),
         )
-        with SVGWriter.SVGWriter(myF, myViewPort) as xS:
+        with SVGWriter.SVGWriter(myViewPort) as xS:
             with XmlWrite.Element(xS, 'desc'):
                 xS.characters('Example circle01 - circle filled with red and stroked with blue')
             #xS.comment(" Show outline of canvas using 'rect' element ")
@@ -139,8 +137,8 @@ class TestSVGWriter(unittest.TestCase):
             with SVGWriter.SVGCircle(xS, myPt, myRad, {'fill':"red", 'stroke':"blue",'stroke-width':"10"}):
                 pass
         #print
-        #print myF.getvalue()
-        self.assertEqual(myF.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
+        #print xS.getvalue()
+        self.assertEqual(xS.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg height="4.00cm" version="1.1" width="12.00cm" xmlns="http://www.w3.org/2000/svg">
   <desc>Example circle01 - circle filled with red and stroked with blue</desc>
@@ -152,12 +150,11 @@ class TestSVGWriter(unittest.TestCase):
     def test_03(self):
         """TestSVGlWriter.test_03(): an elipse.
         Based on http://www.w3.org/TR/2003/REC-SVG11-20030114/shapes.html#EllipseElement"""
-        myF = io.StringIO()
         myViewPort = Coord.Box(
             Coord.Dim(12, 'cm'),
             Coord.Dim(4, 'cm'),
         )
-        with SVGWriter.SVGWriter(myF, myViewPort) as xS:
+        with SVGWriter.SVGWriter(myViewPort) as xS:
             with XmlWrite.Element(xS, 'desc'):
                 xS.characters('Example ellipse01 - examples of ellipses')
             #xS.comment(" Show outline of canvas using 'rect' element ")
@@ -171,8 +168,8 @@ class TestSVGWriter(unittest.TestCase):
             with SVGWriter.SVGElipse(xS, myPt, myRadX, myRadY, {'fill':"red", 'stroke':"blue",'stroke-width':"10"}):
                 pass
         #print
-        #print myF.getvalue()
-        self.assertEqual(myF.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
+        #print xS.getvalue()
+        self.assertEqual(xS.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg height="4.00cm" version="1.1" width="12.00cm" xmlns="http://www.w3.org/2000/svg">
   <desc>Example ellipse01 - examples of ellipses</desc>
@@ -184,12 +181,11 @@ class TestSVGWriter(unittest.TestCase):
     def test_04(self):
         """TestSVGlWriter.test_04(): a line.
         Based on http://www.w3.org/TR/2003/REC-SVG11-20030114/shapes.html#LineElement"""
-        myF = io.StringIO()
         myViewPort = Coord.Box(
             Coord.Dim(12, 'cm'),
             Coord.Dim(4, 'cm'),
         )
-        with SVGWriter.SVGWriter(myF, myViewPort) as xS:
+        with SVGWriter.SVGWriter(myViewPort) as xS:
             with XmlWrite.Element(xS, 'desc'):
                 xS.characters('Example line01 - lines expressed in user coordinates')
             #xS.comment(" Show outline of canvas using 'rect' element ")
@@ -235,8 +231,8 @@ class TestSVGWriter(unittest.TestCase):
                     ):
                     pass
         #print
-        #print myF.getvalue()
-        self.assertEqual(myF.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
+        #print xS.getvalue()
+        self.assertEqual(xS.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg height="4.00cm" version="1.1" width="12.00cm" xmlns="http://www.w3.org/2000/svg">
   <desc>Example line01 - lines expressed in user coordinates</desc>
@@ -254,12 +250,11 @@ class TestSVGWriter(unittest.TestCase):
     def test_05(self):
         """TestSVGlWriter.test_05(): a polyline.
         Based on http://www.w3.org/TR/2003/REC-SVG11-20030114/shapes.html#PolylineElement"""
-        myF = io.StringIO()
         myViewPort = Coord.Box(
             Coord.Dim(12, 'cm'),
             Coord.Dim(4, 'cm'),
         )
-        with SVGWriter.SVGWriter(myF, myViewPort, {'viewBox' : "0 0 1200 400"}) as xS:
+        with SVGWriter.SVGWriter(myViewPort, {'viewBox' : "0 0 1200 400"}) as xS:
             with XmlWrite.Element(xS, 'desc'):
                 xS.characters('Example line01 - lines expressed in user coordinates')
             #xS.comment(" Show outline of canvas using 'rect' element ")
@@ -298,8 +293,8 @@ class TestSVGWriter(unittest.TestCase):
                 ):
                 pass
         #print
-        #print myF.getvalue()
-        self.assertEqual(myF.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
+        #print xS.getvalue()
+        self.assertEqual(xS.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg height="4.00cm" version="1.1" viewBox="0 0 1200 400" width="12.00cm" xmlns="http://www.w3.org/2000/svg">
   <desc>Example line01 - lines expressed in user coordinates</desc>
@@ -311,12 +306,11 @@ class TestSVGWriter(unittest.TestCase):
     def test_06(self):
         """TestSVGlWriter.test_06(): a polygon.
         Based on http://www.w3.org/TR/2003/REC-SVG11-20030114/shapes.html#PolygonElement"""
-        myF = io.StringIO()
         myViewPort = Coord.Box(
             Coord.Dim(12, 'cm'),
             Coord.Dim(4, 'cm'),
         )
-        with SVGWriter.SVGWriter(myF, myViewPort, {'viewBox' : "0 0 1200 400"}) as xS:
+        with SVGWriter.SVGWriter(myViewPort, {'viewBox' : "0 0 1200 400"}) as xS:
             with XmlWrite.Element(xS, 'desc'):
                 xS.characters('Example line01 - lines expressed in user coordinates')
             #xS.comment(" Show outline of canvas using 'rect' element ")
@@ -343,8 +337,8 @@ class TestSVGWriter(unittest.TestCase):
                 ):
                 pass
         #print
-        #print myF.getvalue()
-        self.assertEqual(myF.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
+        #print xS.getvalue()
+        self.assertEqual(xS.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg height="4.00cm" version="1.1" viewBox="0 0 1200 400" width="12.00cm" xmlns="http://www.w3.org/2000/svg">
   <desc>Example line01 - lines expressed in user coordinates</desc>
@@ -356,12 +350,11 @@ class TestSVGWriter(unittest.TestCase):
     def test_07(self):
         """TestSVGlWriter.test_07(): text.
         Based on http://www.w3.org/TR/2003/REC-SVG11-20030114/text.html#TextElement"""
-        myF = io.StringIO()
         myViewPort = Coord.Box(
             Coord.Dim(12, 'cm'),
             Coord.Dim(4, 'cm'),
         )
-        with SVGWriter.SVGWriter(myF, myViewPort, {'viewBox' : "0 0 1000 300"}) as xS:
+        with SVGWriter.SVGWriter(myViewPort, {'viewBox' : "0 0 1000 300"}) as xS:
             with XmlWrite.Element(xS, 'desc'):
                 xS.characters("Example text01 - 'Hello, out there' in blue")
             myPt = Coord.Pt(Coord.baseUnitsDim(250), Coord.baseUnitsDim(150))
@@ -373,8 +366,8 @@ class TestSVGWriter(unittest.TestCase):
             with SVGWriter.SVGRect(xS, myPt, myBx, {'fill':"none", 'stroke':"blue",'stroke-width':"2"}):
                 pass
         #print
-        #print myF.getvalue()
-        self.assertEqual(myF.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
+        #print xS.getvalue()
+        self.assertEqual(xS.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg height="4.00cm" version="1.1" viewBox="0 0 1000 300" width="12.00cm" xmlns="http://www.w3.org/2000/svg">
   <desc>Example text01 - &apos;Hello, out there&apos; in blue</desc>

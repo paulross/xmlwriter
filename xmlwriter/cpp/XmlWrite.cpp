@@ -42,12 +42,14 @@ void XmlStream::xmlSpacePreserve() {
 }
 
 void XmlStream::startElement(const std::string &name, const tAttrs &attrs) {
-    
+//    std::cout << "XmlStream::startElement: " << name << std::endl;
     _closeElemIfOpen();
+//    std::cout << "Help XmlStream::startElement: _indent()" << std::endl;
     _indent();
+//    std::cout << "Help XmlStream::startElement: output" << std::endl;
     output << '<' << name;
     for (auto iter: attrs) {
-        output << ' ' << iter.first << '=' << iter.second;
+        output << ' ' << iter.first << '=' << "\"" << iter.second << "\"";
     }
     _inElem = true;
     _canIndentStk.push_back(_mustIndent);
@@ -84,19 +86,19 @@ void XmlStream::pI(const std::string &theS) {
 }
 
 void XmlStream::endElement(const std::string &name) {
+//    std::cout << "XmlStream::endElement: " << name << std::endl;
     assert(_elemStk.size() > 0);
     
     if (name != _elemStk[_elemStk.size() - 1]) {
         // TODO: raise
     }
     _elemStk.pop_back();
-    
     if (_inElem) {
         output << " />";
         _inElem = false;
     } else {
         _indent();
-        output << '<' << name << '>';
+        output << "</" << name << '>';
     }
     _canIndentStk.pop_back();
 }
@@ -188,14 +190,16 @@ XhtmlStream::XhtmlStream(const std::string &theEnc/* ='utf-8'*/,
                          int theId /* =0 */,
                          bool mustIndent /* =True */) : XmlStream(theEnc,
                                                                   theDtdLocal,
-                                                                  mustIndent,
-                                                                  theId)
+                                                                  theId,
+                                                                  mustIndent    )
 {
 }
 
 XhtmlStream &XhtmlStream::_enter() {
+    XmlStream::_enter();
+    output << "\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"";
+    output << " \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">";
     startElement("html", ROOT_ATTRIBUTES);
-    
     return *this;
 }
 
@@ -203,7 +207,7 @@ XhtmlStream &XhtmlStream::_enter() {
 void XhtmlStream::charactersWithBr(const std::string &sIn) {
     size_t index = 0;
     while (index < sIn.size()) {
-        size_t found = sIn.find("\\n", index);
+        size_t found = sIn.find("\n", index);
         if (found != std::string::npos) {
             std::string slice(sIn, index, found - index);
             characters(slice);
@@ -214,6 +218,7 @@ void XhtmlStream::charactersWithBr(const std::string &sIn) {
             if (index < sIn.size()) {
                 std::string slice(sIn, index);
                 characters(slice);
+                break;
             }
         }
     }

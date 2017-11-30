@@ -56,7 +56,7 @@ def dimToTxt(theDim):
 
 class SVGWriter(XmlWrite.XmlStream):
     """An XML writer specialised for writing SVG."""
-    def __init__(self, theFile, theViewPort, rootAttrs=None, mustIndent=True):
+    def __init__(self, theViewPort, rootAttrs=None, mustIndent=True):
         """Initialise the stream with a file and Coord.Box() object.
         The view port units must be the same for width and depth.
 
@@ -74,7 +74,7 @@ class SVGWriter(XmlWrite.XmlStream):
 
         :returns: ``NoneType``
         """
-        super(SVGWriter, self).__init__(theFile, mustIndent=mustIndent)
+        super(SVGWriter, self).__init__(mustIndent=mustIndent)
         self._viewPort = theViewPort
         self._rootAttrs = rootAttrs
             
