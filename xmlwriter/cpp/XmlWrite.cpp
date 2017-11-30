@@ -8,8 +8,8 @@ XmlStream::XmlStream(const std::string &theEnc/* ='utf-8'*/,
               bool mustIndent /* =True */) : encodeing(theEnc),
                                              dtdLocal(theDtdLocal),
                                              _mustIndent(mustIndent),
-                                             _inElem(false),
-                                             _intId(theId)
+                                             _intId(theId),
+                                             _inElem(false)
     {
     }
 
@@ -41,8 +41,7 @@ void XmlStream::xmlSpacePreserve() {
     _flipIndent(false);
 }
 
-void XmlStream::startElement(const std::string &name,
-                             const std::map<std::string, std::string> &attrs) {
+void XmlStream::startElement(const std::string &name, const tAttrs &attrs) {
     
     _closeElemIfOpen();
     _indent();
@@ -102,12 +101,17 @@ void XmlStream::endElement(const std::string &name) {
     _canIndentStk.pop_back();
 }
 
-//void XmlStream::writeECMAScript(const std::string &theScript) {
-//    std::map<std::string, std::string> attrs = {std::string("type"), std::string("text/ecmascript")};
-//    startElement("script", attrs);
-//    writeCDATA(theScript);
-//    endElement("script");
-//}
+void XmlStream::writeECMAScript(const std::string &theScript) {
+    startElement("script",
+                 {
+                     std::pair<std::string, std::string>(
+                                                         "type",
+                                                         "text/ecmascript"
+                                                         )
+                 });
+    writeCDATA(theScript);
+    endElement("script");
+}
 
 void XmlStream::writeCDATA(const std::string &theData) {
     _closeElemIfOpen();
@@ -118,15 +122,28 @@ void XmlStream::writeCDATA(const std::string &theData) {
     output << "\n]]>\n";
 }
 
+void XmlStream::writeCSS(const std::map<std::string, tAttrs> &theCSSMap) {
 
-
-
+    startElement("style",
+                 {
+                     std::pair<std::string, std::string>("type", "text/css")
+                 });
+    for(auto style_map: theCSSMap) {
+        output << style_map.first << " {\n";
+        for (auto attr_value: style_map.second) {
+            output << attr_value.first << " : " << attr_value.second << ";\n";
+        }
+        output << "}\n";
+    }
+    endElement("style");
+}
 
 void XmlStream::_indent(size_t offset) {
     if (_canIndent()) {
         output << '\n';
-        for (int i = 0; i < _elemStk.size() - offset; ++i) {
+        while(offset < _elemStk.size()) {
             output << INDENT_STR;
+            ++offset;
         }
     }
 }
@@ -163,3 +180,43 @@ bool XmlStream::_exit(py::args args) {
     output << '\n';
     return false; // Propogate any exception
 }
+
+
+/*************** XhtmlStream **************/
+XhtmlStream::XhtmlStream(const std::string &theEnc/* ='utf-8'*/,
+                         const std::string &theDtdLocal /* =None */,
+                         int theId /* =0 */,
+                         bool mustIndent /* =True */) : XmlStream(theEnc,
+                                                                  theDtdLocal,
+                                                                  mustIndent,
+                                                                  theId)
+{
+}
+
+XhtmlStream &XhtmlStream::_enter() {
+    startElement("html", ROOT_ATTRIBUTES);
+    
+    return *this;
+}
+
+// Writes the string replacing any ``\\n`` characters with ``<br/>`` elements.
+void XhtmlStream::charactersWithBr(const std::string &sIn) {
+    size_t index = 0;
+    while (index < sIn.size()) {
+        size_t found = sIn.find("\\n", index);
+        if (found != std::string::npos) {
+            std::string slice(sIn, index, found - index);
+            characters(slice);
+            startElement("br", {});
+            endElement("br");
+            index = found + 1;
+        } else {
+            if (index < sIn.size()) {
+                std::string slice(sIn, index);
+                characters(slice);
+            }
+        }
+    }
+}
+
+/*************** XhtmlStream **************/
