@@ -28,6 +28,7 @@ ext_modules = [
         [
             'xmlwriter/cpy/cXmlWrite.cpp',
             'xmlwriter/cpp/XmlWrite.cpp',
+            'xmlwriter/cpp/base64.cpp',
         ],
         include_dirs=[
             'xmlwriter/cpp',

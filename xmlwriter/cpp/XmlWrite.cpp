@@ -1,6 +1,51 @@
 #include <assert.h>
 
 #include "XmlWrite.h"
+#include "base64.h"
+
+std::string encodeString(const std::string &theS, char theCharPrefix) {
+    std::string result;
+    result.push_back(theCharPrefix);
+    std::string base64 = base64_encode(theS);
+//    std::cout << "Encode: \"" << theS << "\" base64 \"" << base64 << "\"" << std::endl;
+    for (size_t i = 0; i < base64.size(); ++i) {
+        if (base64[i] == '+') {
+            result.push_back('-');
+        } else if (base64[i] == '/') {
+            result.push_back('.');
+        } else if (base64[i] == '=') {
+            result.push_back('_');
+        } else {
+            result.push_back(base64[i]);
+        }
+    }
+//    std::cout << "Encode was: \"" << theS << "\" now \"" << result << "\"" << std::endl;
+    return py::bytes(result);
+}
+
+std::string decodeString(const std::string &theS) {
+    std::string result;
+    for (size_t i = 1; i < theS.size(); ++i) {
+        if (theS[i] == '-') {
+            result.push_back('+');
+        } else if (theS[i] == '.') {
+            result.push_back('/');
+        } else if (theS[i] == '_') {
+            result.push_back('=');
+        } else {
+            result.push_back(theS[i]);
+        }
+    }
+    result = base64_decode(result);
+//    std::cout << "Decode was: \"" << theS << "\" now \"" << result << "\"" << std::endl;
+    // This does not work, see the cXmlWrite.cpp decodeString for the solution.
+    // return py::bytes(result);
+    return py::bytes(result);
+}
+
+std::string nameFromString(const std::string &theStr) {
+    return encodeString(theStr, 'Z');
+}
 
 XmlStream::XmlStream(const std::string &theEnc/* ='utf-8'*/,
               const std::string &theDtdLocal /* =None */,
@@ -87,10 +132,14 @@ void XmlStream::pI(const std::string &theS) {
 
 void XmlStream::endElement(const std::string &name) {
 //    std::cout << "XmlStream::endElement: " << name << std::endl;
-    assert(_elemStk.size() > 0);
-    
+    if (_elemStk.size() == 0) {
+        throw ExceptionXmlEndElement("endElement() on empty stack");
+    }
     if (name != _elemStk[_elemStk.size() - 1]) {
-        // TODO: raise
+        std::ostringstream err;
+        err << "endElement(\"" << name << "\") does not match \"";
+        err << _elemStk[_elemStk.size() - 1] << "\"";
+        throw ExceptionXmlEndElement(err.str());
     }
     _elemStk.pop_back();
     if (_inElem) {

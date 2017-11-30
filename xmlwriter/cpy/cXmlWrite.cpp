@@ -34,6 +34,30 @@ PYBIND11_MODULE(cXmlWrite, m) {
 //        Some other explanation about the subtract function.
 //    )pbdoc");
     
+    
+    
+    m.def("encodeString", &encodeString,
+          "Returns a string that is the argument encoded.",
+          py::arg("theS"),
+          py::arg("theCharPrefix")='_'
+          );
+//    m.def("decodeString", &decodeString,
+//          []() {
+//              return py::bytes(decodeString());
+//          }
+//          "Returns a string that is the argument decoded.");
+    m.def("decodeString",
+          [](const std::string & theS) {
+              return py::bytes(decodeString(theS));
+          }
+          );
+//          "Returns a string that is the argument decoded.");
+    m.def("nameFromString", &nameFromString,
+          "Returns a name from a string."
+          "See http://www.w3.org/TR/1999/REC-html401-19991224/types.html#type-cdata");
+    
+    py::register_exception<ExceptionXmlEndElement>(m, "ExceptionXmlEndElement");
+    
     py::class_<XmlStream>(m, "XmlStream")
         .def(py::init<const std::string &, const std::string &, int, bool>(),
              "Constructor",

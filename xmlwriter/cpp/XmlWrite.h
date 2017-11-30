@@ -21,6 +21,25 @@
 
 namespace py = pybind11;
 
+// """Exception specialisation for the XML writer."""
+class ExceptionXml : public std::exception {
+    
+};
+
+// """Exception specialisation for end of element."""
+class ExceptionXmlEndElement : public ExceptionXml {
+public:
+    explicit ExceptionXmlEndElement(const std::string &in_msg) : msg(in_msg) {}
+    const std::string &message() const { return msg; }
+    virtual ~ExceptionXmlEndElement() throw() {}
+protected:
+    std::string msg;
+};
+
+std::string encodeString(const std::string &theS, char theCharPrefix='_');
+std::string decodeString(const std::string &theS);
+std::string nameFromString(const std::string &theStr);
+
 using tAttrs = std::map<std::string, std::string>;
 
 class XmlStream {

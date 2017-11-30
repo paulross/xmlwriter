@@ -11,6 +11,7 @@
 		C3770D4D1FCC147B00315387 /* Python in Frameworks */ = {isa = PBXBuildFile; fileRef = C3770D4C1FCC147B00315387 /* Python */; };
 		C3770D4F1FCC162E00315387 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3770D4E1FCC162E00315387 /* main.cpp */; };
 		C3770D531FCEE73B00315387 /* cXmlWrite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3770D521FCEE73B00315387 /* cXmlWrite.cpp */; };
+		C3770D571FD084F300315387 /* base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3770D551FD084F300315387 /* base64.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +33,8 @@
 		C3770D4E1FCC162E00315387 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C3770D501FCEE72D00315387 /* XmlWrite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XmlWrite.h; sourceTree = "<group>"; };
 		C3770D521FCEE73B00315387 /* cXmlWrite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cXmlWrite.cpp; sourceTree = "<group>"; };
+		C3770D551FD084F300315387 /* base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = base64.cpp; sourceTree = "<group>"; };
+		C3770D561FD084F300315387 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +73,8 @@
 				C3770D4E1FCC162E00315387 /* main.cpp */,
 				C3770D4A1FCC134700315387 /* XmlWrite.cpp */,
 				C3770D501FCEE72D00315387 /* XmlWrite.h */,
+				C3770D551FD084F300315387 /* base64.cpp */,
+				C3770D561FD084F300315387 /* base64.h */,
 			);
 			path = cpp;
 			sourceTree = "<group>";
@@ -138,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3770D571FD084F300315387 /* base64.cpp in Sources */,
 				C3770D4F1FCC162E00315387 /* main.cpp in Sources */,
 				C3770D531FCEE73B00315387 /* cXmlWrite.cpp in Sources */,
 				C3770D4B1FCC134700315387 /* XmlWrite.cpp in Sources */,
