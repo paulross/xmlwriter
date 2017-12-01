@@ -268,8 +268,9 @@ this line.""")
                     xS.charactersWithBr(u'Break at end\n')
                 with XmlWrite.Element(xS, 'p'):
                     xS.charactersWithBr(u'\nBreak at beginning\nmiddle and end\n')
-        #print
-        #print myF.getvalue()
+        # print()
+        # print(xS.getvalue())
+        # self.maxDiff = None
         self.assertEqual(xS.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -288,7 +289,7 @@ this line.""")
 def _encode_text(text):
     XmlWrite.encodeString(text)
 
-def test_encode_text(benchmark):
+def test_XmlWrite_encode_text(benchmark):
     text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -298,7 +299,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 def _decode_text(text):
     XmlWrite.decodeString(text)
 
-def test_decode_text(benchmark):
+def test_XmlWrite_decode_text(benchmark):
     text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
@@ -310,7 +311,7 @@ def create_XML_stream():
     with XmlWrite.XmlStream() as xS:
         pass
 
-def test_bm_create_stream(benchmark):
+def test_XmlWrite_create_stream(benchmark):
     benchmark(create_XML_stream)
 
 def create_XML_stream_write_two_elements():
@@ -319,7 +320,7 @@ def create_XML_stream_write_two_elements():
             with XmlWrite.Element(xS, 'A', {'attr_1' : '1'}):
                 pass
 
-def test_bm_two_elements(benchmark):
+def test_XmlWrite_two_elements(benchmark):
     benchmark(create_XML_stream_write_two_elements)
 
 def write_small_XHTML_document():
@@ -341,7 +342,8 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     result = xS.getvalue()
     return result
 
-def test_bm_small_XHTML_doc(benchmark):
+def test_XmlWrite_small_XHTML_doc(benchmark):
+    # About 60kb
     result = benchmark(write_small_XHTML_document)
     # print()
     # print(result)
@@ -366,11 +368,38 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
     result = xS.getvalue()
     return result
 
-def test_bm_large_XHTML_doc(benchmark):
+def test_XmlWrite_large_XHTML_doc(benchmark):
+    # About 1Mb
     result = benchmark(write_large_XHTML_document)
     # print()
     # print(result)
     assert len(result) == 1193497
+
+def write_very_large_XHTML_document():
+    text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
+    headings = 16
+    with XmlWrite.XhtmlStream() as xS:
+        for i in range(headings):
+            with XmlWrite.Element(xS, 'h1', {}):
+                for j in range(headings):
+                    with XmlWrite.Element(xS, 'h2', {}):
+                        for k in range(headings):
+                            with XmlWrite.Element(xS, 'h3', {}):
+                                for l in range(8):
+                                    with XmlWrite.Element(xS, 'p', {}):
+                                        xS.characters(text)
+    result = xS.getvalue()
+    return result
+
+def test_XmlWrite_very_large_XHTML_doc(benchmark):
+    # About 15Mb
+    result = benchmark(write_very_large_XHTML_document)
+    # print()
+    # print(result)
+    assert len(result) == 15205585
 
 # ---------- END: Benchmarks -----------------
 

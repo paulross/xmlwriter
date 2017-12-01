@@ -95,6 +95,11 @@ class BuildExt(build_ext):
             ext.extra_compile_args = opts
         build_ext.build_extensions(self)
 
+test_requirements = [
+    'pytest',
+    'pytest-benchmark',
+]
+
 setup(
     name='xmlwriter',
     version=__version__,
@@ -107,6 +112,7 @@ setup(
     long_description='',
     ext_modules=ext_modules,
     install_requires=['pybind11>=2.2'],
+    tests_require=test_requirements,
     cmdclass={'build_ext': BuildExt},
     zip_safe=False,
 )

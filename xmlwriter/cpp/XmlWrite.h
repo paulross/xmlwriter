@@ -23,25 +23,34 @@ namespace py = pybind11;
 
 // """Exception specialisation for the XML writer."""
 class ExceptionXml : public std::exception {
-    
+public:
+    explicit ExceptionXml(const std::string &in_msg) : msg(in_msg) {}
+    const std::string &message() const { return msg; }
+    virtual ~ExceptionXml() throw() {}
+protected:
+    std::string msg;
 };
 
 // """Exception specialisation for end of element."""
 class ExceptionXmlEndElement : public ExceptionXml {
 public:
-    explicit ExceptionXmlEndElement(const std::string &in_msg) : msg(in_msg) {}
+    explicit ExceptionXmlEndElement(const std::string &in_msg) : ExceptionXml(in_msg) {}
     const std::string &message() const { return msg; }
     virtual ~ExceptionXmlEndElement() throw() {}
-protected:
-    std::string msg;
 };
 
-std::string encodeString(const std::string &theS, char theCharPrefix='_');
+// Global to decide error action. This is ignored, we always raise.
+extern bool RAISE_ON_ERROR;
+
+// base64 encoding and decoding
+std::string encodeString(const std::string &theS,
+                         const std::string &theCharPrefix="_");
 std::string decodeString(const std::string &theS);
 std::string nameFromString(const std::string &theStr);
 
 using tAttrs = std::map<std::string, std::string>;
 
+// Base stream class
 class XmlStream {
 public:
     XmlStream(const std::string &theEnc/* ='utf-8'*/,
@@ -90,7 +99,6 @@ protected:
     };
 };
 
-
 // Specialisation of an XmlStream to handle XHTML.
 class XhtmlStream : public XmlStream {
 public:
@@ -108,6 +116,7 @@ private:
     };
 };
 
+// An individual element.
 class Element {
 public:
     Element(XmlStream &theXmlStream,
@@ -116,20 +125,9 @@ public:
                 _stream(theXmlStream),
                 _name(theElemName),
                 _attrs(theAttrs) {
-//            std::cout << "Element::Element: " << &_stream << std::endl;
-//            std::cout << "Element::Element: " << _name << std::endl;
-//            for (auto iter : _attrs) {
-//                std::cout << "Element::Element: attr: " << iter.first << "=" << iter.second << std::endl;
-//            }
         }
     Element &_enter() {
-//        std::cout << "Element::_enter: " << &_stream << std::endl;
-//        std::cout << "Element::_enter: " << _name << std::endl;
-//        for (auto iter : _attrs) {
-//            std::cout << "Element::_enter: attr: " << iter.first << "=" << iter.second << std::endl;
-//        }
         _stream.startElement(_name, _attrs);
-//        std::cout << "Help: " << this << std::endl;
         return *this;
     }
     bool _exit(py::args args) {
@@ -138,6 +136,7 @@ public:
     }
 private:
     XmlStream &_stream;
+    // Making these const references causes a segfault
     const std::string _name;
     const tAttrs _attrs;
 };

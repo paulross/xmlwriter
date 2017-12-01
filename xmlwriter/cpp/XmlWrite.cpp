@@ -3,9 +3,18 @@
 #include "XmlWrite.h"
 #include "base64.h"
 
-std::string encodeString(const std::string &theS, char theCharPrefix) {
-    std::string result;
-    result.push_back(theCharPrefix);
+bool RAISE_ON_ERROR = true;
+
+std::string encodeString(const std::string &theS,
+                         const std::string &theCharPrefix) {
+    if (theCharPrefix.size() != 1) {
+        std::ostringstream err;
+        err << "Prefix for encoding string must be a single character, not \"";
+        err <<theCharPrefix << "\"";
+        throw ExceptionXml(err.str());
+    }
+    std::string result(theCharPrefix);
+//    result.push_back(theCharPrefix);
     std::string base64 = base64_encode(theS);
 //    std::cout << "Encode: \"" << theS << "\" base64 \"" << base64 << "\"" << std::endl;
     for (size_t i = 0; i < base64.size(); ++i) {
@@ -44,7 +53,7 @@ std::string decodeString(const std::string &theS) {
 }
 
 std::string nameFromString(const std::string &theStr) {
-    return encodeString(theStr, 'Z');
+    return encodeString(theStr, "Z");
 }
 
 XmlStream::XmlStream(const std::string &theEnc/* ='utf-8'*/,
@@ -54,9 +63,8 @@ XmlStream::XmlStream(const std::string &theEnc/* ='utf-8'*/,
                                              dtdLocal(theDtdLocal),
                                              _mustIndent(mustIndent),
                                              _intId(theId),
-                                             _inElem(false)
-    {
-    }
+                                             _inElem(false) {
+}
 
 std::string XmlStream::getvalue() const {
     return output.str();
@@ -231,7 +239,6 @@ bool XmlStream::_exit(py::args args) {
     output << '\n';
     return false; // Propogate any exception
 }
-
 
 /*************** XhtmlStream **************/
 XhtmlStream::XhtmlStream(const std::string &theEnc/* ='utf-8'*/,

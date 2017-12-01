@@ -2,10 +2,6 @@
 
 #include "XmlWrite.h"
 
-//int add(int i, int j) {
-//    return i + j;
-//}
-
 namespace py = pybind11;
 
 PYBIND11_MODULE(cXmlWrite, m) {
@@ -21,43 +17,31 @@ PYBIND11_MODULE(cXmlWrite, m) {
            add
            subtract
     )pbdoc";
-
-//    m.def("add", &add, R"pbdoc(
-//        Add two numbers
-//
-//        Some other explanation about the add function.
-//    )pbdoc");
-//
-//    m.def("subtract", [](int i, int j) { return i - j; }, R"pbdoc(
-//        Subtract two numbers
-//
-//        Some other explanation about the subtract function.
-//    )pbdoc");
     
+    // Exceptions
+    py::register_exception<ExceptionXml>(m, "ExceptionXml");
+    py::register_exception<ExceptionXmlEndElement>(m, "ExceptionXmlEndElement");
     
+    // Global to decide error action. This is ignored, we always raise.
+    m.attr("RAISE_ON_ERROR") = RAISE_ON_ERROR;
     
+    // base64 encoding and decoding
     m.def("encodeString", &encodeString,
           "Returns a string that is the argument encoded.",
           py::arg("theS"),
           py::arg("theCharPrefix")='_'
           );
-//    m.def("decodeString", &decodeString,
-//          []() {
-//              return py::bytes(decodeString());
-//          }
-//          "Returns a string that is the argument decoded.");
     m.def("decodeString",
           [](const std::string & theS) {
               return py::bytes(decodeString(theS));
-          }
+          },
+          "Returns a string that is the argument decoded."
           );
-//          "Returns a string that is the argument decoded.");
     m.def("nameFromString", &nameFromString,
           "Returns a name from a string."
           "See http://www.w3.org/TR/1999/REC-html401-19991224/types.html#type-cdata");
     
-    py::register_exception<ExceptionXmlEndElement>(m, "ExceptionXmlEndElement");
-    
+    // The XmlStream class
     py::class_<XmlStream>(m, "XmlStream")
         .def(py::init<const std::string &, const std::string &, int, bool>(),
              "Constructor",
@@ -99,6 +83,7 @@ PYBIND11_MODULE(cXmlWrite, m) {
         .def("__exit__", &XmlStream::_exit)
         ;
 
+    // The XhtmlStream class
     py::class_<XhtmlStream, XmlStream>(m, "XhtmlStream")
         .def(py::init<const std::string &, const std::string &, int, bool>(),
              "Constructor",
@@ -109,7 +94,8 @@ PYBIND11_MODULE(cXmlWrite, m) {
         .def("__enter__", &XhtmlStream::_enter)//, py::return_value_policy::reference_internal)
         .def("charactersWithBr", &XhtmlStream::charactersWithBr)
     ;
-
+    
+    // The element class
     py::class_<Element>(m, "Element")
         .def(py::init<XmlStream &, const std::string &, const tAttrs &>(),
              "Constructor",
@@ -120,8 +106,6 @@ PYBIND11_MODULE(cXmlWrite, m) {
         .def("__exit__", &Element::_exit)
     ;
     
-//    py::class_<TestPyObject>(m, "TestPyObject")
-//        .def(py::init<PyObject*>());
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else
