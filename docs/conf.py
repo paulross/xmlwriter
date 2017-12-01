@@ -20,6 +20,22 @@ import os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
+# Get the project root dir, which is the grandparent dir of this
+cwd = os.getcwd()
+project_root = os.path.dirname(cwd)
+
+# Insert the project root dir as the first element in the PYTHONPATH.
+# This lets us ensure that the source package is imported, and that its
+# version is used.
+sys.path.insert(0, project_root)
+sys.path.insert(0, os.path.abspath('../'))
+
+# import xmlwriter
+# import cXmlWrite
+# import cXmlWrite as XmlWrite
+import cXmlWrite
+from xmlwriter import XmlWrite
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -52,9 +68,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'python_example'
-copyright = u'2016, Sylvain Corlay'
-author = u'Sylvain Corlay'
+project = u'xmlwriter'
+copyright = u'2017, Paul Ross'
+author = u'Paul Ross'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -206,7 +222,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'python_exampledoc'
+htmlhelp_basename = 'xmlwriter'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -228,8 +244,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'python_example.tex', u'python_example Documentation',
-     u'Sylvain Corlay', 'manual'),
+    (master_doc, 'xmlwriter.tex', u'xmlwriter Documentation',
+     u'Paul Ross', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -258,7 +274,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'python_example', u'python_example Documentation',
+    (master_doc, 'xmlwriter', u'xmlwriter Documentation',
      [author], 1)
 ]
 
@@ -272,8 +288,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'python_example', u'python_example Documentation',
-     author, 'python_example', 'One line description of project.',
+    (master_doc, 'xmlwriter', u'xmlwriter Documentation',
+     author, 'xmlwriter', 'One line description of project.',
      'Miscellaneous'),
 ]
 

@@ -1,10 +1,14 @@
-python_example Documentation
+xmlwriter Documentation
 ============================
+
+Hi welcome!
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-   python_example
+   xmlwriter
+   XmlWrite
+   cXmlWrite
 
