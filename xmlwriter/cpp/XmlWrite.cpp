@@ -29,7 +29,7 @@ std::string encodeString(const std::string &theS,
         }
     }
 //    std::cout << "Encode was: \"" << theS << "\" now \"" << result << "\"" << std::endl;
-    return py::bytes(result);
+    return result;
 }
 
 std::string decodeString(const std::string &theS) {
@@ -49,7 +49,7 @@ std::string decodeString(const std::string &theS) {
 //    std::cout << "Decode was: \"" << theS << "\" now \"" << result << "\"" << std::endl;
     // This does not work, see the cXmlWrite.cpp decodeString for the solution.
     // return py::bytes(result);
-    return py::bytes(result);
+    return result;
 }
 
 std::string nameFromString(const std::string &theStr) {

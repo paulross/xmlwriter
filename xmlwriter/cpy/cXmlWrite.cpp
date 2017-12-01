@@ -114,6 +114,7 @@ PYBIND11_MODULE(cXmlWrite, m) {
           py::arg("theS"),
           py::arg("theCharPrefix")='_'
           );
+    // NOTE: The way we have to return bytes by creating a lambda wrapper.
     m.def("decodeString",
           [](const std::string & theS) {
               return py::bytes(decodeString(theS));
