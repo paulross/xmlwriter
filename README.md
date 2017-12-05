@@ -1,15 +1,16 @@
 # Table of contents
 1. [Introduction](#Introduction)
 2. [Discoveries](#Discoveries)
-    1. [Build Time](#Build_Time")
-    2. [Passing Python File Objects into C++](#Passing_Python_File_Objects_into_C++)
+    1. [Build Time](#Build_Time)
+    2. [Passing Python File Objects into C++](#Passing_Python_File_Objects_into_Cpp)
 3. [Results](#Results)
     1. [The ``pybind11`` Project](#The_pybind11_Project)
     2. [Development Time](#Development_Time)
     3. [Build System](#Build_System)
     4. [Code Maintainability](#Code_Maintainability)
     5. [Performance](#Performance)
-        1. [Actual Benchmarks](#Actual_Benchmarks)
+        1. [Selected Benchmarks](#Selected_Benchmarks)
+        2. [All Benchmarks](#All_Benchmarks)
     6. [Documentation](#Documentation)
 4. [Conclusions](#Conclusions)
 5. [Boilerplate Footnotes](#Boilerplate_Footnotes)
@@ -40,7 +41,7 @@ Project is based on the [pybind11 example](https://github.com/pybind/python_exam
 
 The absolute minimal example takes a significant time to build compared to a minimal CPython extension, seven seconds compared to sub-second build time. Xcode is much faster, possibly multiprocessing is at work here.
 
-<a name="Passing_Python_File_Objects_into_C"></a>
+<a name="Passing_Python_File_Objects_into_Cpp"></a>
 ## Passing Python File Objects into C++
 
 The original `XmlWrite.XmlStream` took as the first argument a string or file like object. If the former it was treated as the file path to write to. I havn't been able to reproduce this pattern by using a `PyObject*` and deciding within the constructor what to do:
@@ -81,14 +82,14 @@ A degree of effort went into separating pure C++ code from CPython and pybind11 
 
 About 2 to 3 days of work. This should be reduced in future projects as there was a fair amount of fiddling around understanding pybind11 corner cases, such as having to use a lambda to convert a ``std::string`` to a bytes object.
 
-This development time would be what I would expect for a 'C' extension (but see [code maintainability](Code_Maintainability) below.
+This development time would be what I would expect for a 'C' extension, but see [code maintainability](Code_Maintainability) below.
 
 <a name="Build_System"></a>
 ## Build System
 
 This is pretty good. It is worth creating the project to build under Xcode as this is faster to build and find compile/link time bugs.
 
-<a name="Code_Maintainability"/a>
+<a name="Code_Maintainability"></a>
 ## Code Maintainability
 
 This is rather nice. ``XmlWrite.cpp`` is written in C++11 and reads almost like Python. It is 284 lines long compared to the original pure Python implementation of around 300 lines (if you ignore the documentation strings). Of course you have the header file ``XmlWrite.h`` (145 lines) but this is pretty simple and generally does not change much over time. There is some additional code to do base64 encoding/decoding that C++ needs, Python does not as it is in the standard library which I am ignoring here.
@@ -113,8 +114,22 @@ It just goes to show how careful you must be in your choice before you set out t
 
 It might be worth trying pybind11 out on TotalDepth's LIS file indexer. This spends more time in C/C++ land so should show an great improvement. Also we have a C reference implementation that is 100x faster than the pure Python one so we could compare pybind11 with that.
 
-<a name="Actual_Benchmarks"></a>
-### Actual Benchmarks
+<a name="Selected_Benchmarks"></a>
+### Selected Benchmarks
+
+
+| Operation                             | Python implementation     | C++ implementation    | Ratio C++/Python  |
+| ------------------------------------- | ------------------------: | --------------------: | ----------------: |
+| Encode text                           | 4.25                      | 9.24                  | 2.18              |
+| Decode text                           | 4.39                      | 11.79                 | 2.69              |
+| Create stream                         | 2.83                      | 4.31                  | 1.52              |
+| Write two elements                    | 17.91                     | 12.44                 | 0.69              |
+| Small XHTML document (60 kb)          | 1,968.00                  | 1,512.84              | 0.77              |
+| Large XHTML document (1.14 Mb)        | 33,773.32                 | 26,479.86             | 0.78              |
+| Very large XHTML document (14.5 Mb)   | 440,929                   | 351,852.75            | 0.80              |
+
+<a name="All_Benchmarks"></a>
+### All Benchmarks
 
 ```
 ---------------------------------------------------------------------------------------------------------- benchmark: 14 tests -----------------------------------------------------------------------------------------------------------
