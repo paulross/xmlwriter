@@ -212,6 +212,8 @@ One noticeable thing was the slow turnaround when editing the documentation, you
 <a name="History"></a>
 # History (latest at top)
 
+## 2017-12-05 11:45 - Made repository public
+
 Made public around: Tue  5 Dec 2017 11:45:14 GMT
 
 ## 2017-12-05 11:44 - Last private commit
