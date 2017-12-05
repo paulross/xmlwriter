@@ -13,8 +13,8 @@
         2. [All Benchmarks](#All_Benchmarks)
     6. [Documentation](#Documentation)
 4. [Conclusions](#Conclusions)
-5. [Boilerplate Footnotes](#Boilerplate_Footnotes)
-6. [History](#History)
+5. [History](#History)
+6. [Boilerplate Footnotes](#Boilerplate_Footnotes)
 
 <a name="Introduction"></a>
 # Introduction
@@ -31,7 +31,7 @@ The aim of this project was:
 * Have a look at the auto-generated documentation by pybind11.
 * To create a faster XML/XHTML/SVG reader, the pure Python implementation was presumed to be slow in other projects (``cpip``, ``TotalDepth`` etc.).
 
-Project is based on the [pybind11 example](https://github.com/pybind/python_example).
+This project is based on the [pybind11 example](https://github.com/pybind/python_example).
 
 <a name="Discoveries"></a>
 # Discoveries
@@ -69,7 +69,8 @@ Invoked with: 'test.xml', 'utf-8', '', 0, True
 
 I can not find a way to map Python's file object to an internal C++ stream: http://pybind11.readthedocs.io/en/stable/advanced/pycpp/object.html
 
-Rewrote both Python and C++ code to write to an internal buffer, the caller can retrieve this and write it to file.
+So that I could move on to the other aspect of the project I rewrote both Python and C++ code to write to an internal buffer.
+The caller can retrieve this and write it to file.
 
 <a name="Results"></a>
 # Results
@@ -101,7 +102,7 @@ This is pretty good. It is worth creating the project to build under Xcode as th
 This is rather nice. ``XmlWrite.cpp`` is written in C++11 and reads almost like Python.
 ``XmlWrite.cpp`` is 284 lines of code compared to the original pure Python implementation of around 300 lines (if you ignore the documentation strings).
 Of course you have the header file ``XmlWrite.h`` (145 lines) but this is pretty simple and generally does not change much over time.
-There is some additional code to do base64 encoding/decoding that C++ needs, Python does not as it is in the standard library so I am ignoring that here.
+There is some additional C++ code to do base64 encoding/decoding that C++ needs, Python does not need this of course as it is in the Python standard library.
 
 Then there is the ``cXmlWrite.cpp`` file that is the pybind11 interface, this is about 120 lines (ignoring documentation strings).
 Of course it is written in pybind11 style that takes a little getting used to but is perfectly readable.
@@ -138,34 +139,12 @@ Values are the execution time in microseconds rounded to 3 S.F.:
 | Operation                             | Python implementation     | C++ implementation    | Ratio C++/Python  |
 | ------------------------------------- | ------------------------: | --------------------: | ----------------: |
 | Encode text                           | 4.25                      | 9.24                  | 2.18              |
-| Decode text                           | 4.39                      | 11.79                 | 2.69              |
-| Create stream                         | 2.83                      | 4.31                  | 1.52              |
-| Write two elements                    | 17.91                     | 12.44                 | 0.69              |
-| Small XHTML document (60 kb)          | 1,968.00                  | 1,512.84              | 0.77              |
-| Large XHTML document (1.14 Mb)        | 33,773.32                 | 26,479.86             | 0.78              |
-| Very large XHTML document (14.5 Mb)   | 440,929.30                | 351,852.75            | 0.80              |
-
-
-| Operation                             | Python implementation     | C++ implementation    | Ratio C++/Python  |
-| ------------------------------------- | ------------------------: | --------------------: | ----------------: |
-| Encode text                           | 4.25                      | 9.24                  | 2.18              |
-| Decode text                           | 4.39                      | 11.80                 | 2.69              |
-| Create stream                         | 2.83                      | 4.31                  | 1.52              |
-| Write two elements                    | 17.90                     | 12.40                 | 0.695             |
-| Small XHTML document (60 kb)          | 1,970.00                  | 1,510.00              | 0.769             |
-| Large XHTML document (1.14 Mb)        | 33,800.00                 | 26,500.00             | 0.784             |
-| Very large XHTML document (14.5 Mb)   | 441,000.00                | 352,000.00            | 0.798             |
-
-| Operation                             | Python implementation     | C++ implementation    | Ratio C++/Python  |
-| ------------------------------------- | ------------------------: | --------------------: | ----------------: |
-| Encode text                           | 4.25                      | 9.24                  | 2.18              |
 | Decode text                           | 4.39                      | 11.80                 | 2.69              |
 | Create stream                         | 2.83                      | 4.31                  | 1.52              |
 | Write two elements                    | 17.9                      | 12.4                  | 0.695             |
 | Small XHTML document (60 kb)          | 1,970                     | 1,510                 | 0.769             |
 | Large XHTML document (1.14 Mb)        | 33,800                    | 26,500                | 0.784             |
 | Very large XHTML document (14.5 Mb)   | 441,000                   | 352,000               | 0.798             |
-
 
 <a name="All_Benchmarks"></a>
 ### All Benchmarks
@@ -205,7 +184,31 @@ One noticeable thing was the slow turnaround when editing the documentation, you
 <a name="Conclusions"></a>
 # Conclusions
 
+* [``pybind11``](https://github.com/pybind/pybind11) provides a quick and simple interface between Python and C++ code.
+   This is particularly true when creating new types (classes).
+   It is clearly a very competent project and I have only scratched the surface here,
+* The relative performance of ``pybind11`` is a bit disappointing in this project.
+* I suspect that ``pybind11`` would show much better performance on a project where the bulk of the time is spent in C++ and the Python/C++ boundary is infrequently crossed.
+* Libraries that are in the Python standard library will have to be replaced with their C/C++ equivalents (as happened here with base64).
+   The disadvantage with this is:
+  * The C/C++ libraries might not be exactly equivalent and require workarounds.
+  * This increases the dependencies and possible licencing conflicts.
 
+   All of this increases the creation and maintenance cost.
+
+* ``pybind11``'s ability to generate type specific documentation is very attractive for environments and IDEs that can incorporate this.
+* I'd certainly consider ``pybind11`` as a first class option when there is a large body of Python code to move into C++ or to create an interface to an existing C++ library.
+
+<a name="History"></a>
+# History (latest at top)
+
+## 2017-11-27
+
+commit f4267ff0eefe9a99c27a9b84ff22087e1ff29f1c
+Author: paulross <apaulross@gmail.com>
+Date:   Mon Nov 27 09:19:37 2017 +0000
+
+Initial commit.
 
 <a name="Boilerplate_Footnotes"></a>
 # Boilerplate Footnotes
@@ -282,8 +285,3 @@ terms and conditions of this license.
 ```python
 import cXmlWrite
 ```
-
-<a name="History"></a>
-# History
-
-
