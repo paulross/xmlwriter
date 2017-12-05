@@ -1,6 +1,18 @@
-# xmlwriter
+# Table of contents
+1. [Introduction](#Introduction)
+2. [Discoveries](#Discoveries)
+    1. [Build Time](<a name="Build_Time"></a>)
+    2. [Passing Python File Objects into C++](<a name="Passing_Python_File_Objects_into_C++"></a>)
+3. [Results](#Results)
+    1. [The ``pybind11`` Project](The_pybind11_Project)
+    2. [Development Time](Development_Time)
+    3. [Build System](Build_System)
 
-A Python XML/HTML/SVG writer originally implemented in Python and now migrated to C++ with [pybind11](https://github.com/pybind/pybind11). The aim of this project was:
+# Introduction <a name="Introduction"></a>
+
+A Python XML/HTML/SVG writer originally implemented in Python and now migrated to C++ with [pybind11](https://github.com/pybind/pybind11).
+
+The aim of this project was:
 
 * To get familiar with the nuts and bolts of a pybind11 project.
 * See how long the migration would take.
@@ -12,14 +24,13 @@ A Python XML/HTML/SVG writer originally implemented in Python and now migrated t
 
 Project is based on the [pybind11 example](https://github.com/pybind/python_example).
 
+# Discoveries <a name="Discoveries"></a>
 
-# Discoveries
-
-## Build Time
+## Build Time <a name="Build_Time"></a>
 
 The absolute minimal example takes a significant time to build compared to a minimal CPython extension, seven seconds compared to sub-second build time. Xcode is much faster, possibly multiprocessing is at work here.
 
-## Passing Python Files into C++
+## Passing Python File Objects into C++
 
 The original `XmlWrite.XmlStream` took as the first argument a string or file like object. If the former it was treated as the file path to write to. I havn't been able to reproduce this pattern by using a `PyObject*` and deciding within the constructor what to do:
 
@@ -45,23 +56,25 @@ I can not find a way to map Python's file object to an internal C++ stream: http
 
 Rewrote both Python and C++ code to write to an internal buffer, the caller can retrieve this and write it to file.
 
-# Results
+# Results <a name="Results"/a>
 
-## A ``pybind11`` Project
+## The ``pybind11`` Project <a name="The_pybind11_Project"/a>
 
 This project is based on the [pybind11 example](https://github.com/pybind/python_example), it can also build under Xcode which is useful for error checking.
 
 A degree of effort went into separating pure C++ code from CPython and pybind11 code. The intention was that code in the ``cpp/`` directory was independent of CPython and pybind11, in practice pybind11 headers were needs to provide ``*args`` for the ``__exit__`` methods. Perhaps there is a workaround for this.
 
-## Time Taken
+## Development Time <a name="Development_Time"/a>
 
 About 2 to 3 days of work. This should be reduced in future projects as there was a fair amount of fiddling around understanding pybind11 corner cases, such as having to use a lambda to convert a ``std::string`` to a bytes object.
 
-## Build System
+This development time would be what I would expect for a 'C' extension (but see [code maintainability](Code_Maintainability) below.
+
+## Build System <a name="Build_System"/a>
 
 This is pretty good. It is worth creating the project to build under Xcode as this is faster to build and find compile/link time bugs.
 
-## Code Maintainability
+## Code Maintainability <a name="Code_Maintainability"/a>
 
 This is rather nice. ``XmlWrite.cpp`` is written in C++11 and reads almost like Python. It is 284 lines long compared to the original pure Python implementation of around 300 lines (if you ignore the documentation strings). Of course you have the header file ``XmlWrite.h`` (145 lines) but this is pretty simple and generally does not change much over time. There is some additional code to do base64 encoding/decoding that C++ needs, Python does not as it is in the standard library which I am ignoring here.
 
@@ -77,7 +90,7 @@ For base64 encoding the pybind11 code is actually slower, taking more than twice
 
 I think that the reasons for this disappointment are these:
 
-* The design of the XML writer required the construction and destruction of many small objects and perhaps pybind11 does not shine here.
+* The design of the XML writer required the construction and destruction of many small objects and perhaps pybind11 does not shine here. To be fair any C/C++ solution would, most likely, behave the same way.
 * The Python standard library for base64 is written directly in C so one would not expect an improvement when going through pybind11's machinery.
 
 It just goes to show how careful you must be in your choice before you set out to migrate to pybind11.
@@ -114,6 +127,10 @@ I got this started with commit b41afc0414a7157c1dbc42819181b1cb9b9b0fad. It is a
 The nice thing is that type annotations are generated in the documentation automatically from the C++ code.
 
 One noticeable thing was the slow turnaround when editing the documentation, you have to edit in C++, build then ``make html``.
+
+# Conclusions
+
+
 
 
 # Boilerplate Footnotes
