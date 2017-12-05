@@ -212,6 +212,17 @@ One noticeable thing was the slow turnaround when editing the documentation, you
 <a name="History"></a>
 # History (latest at top)
 
+Made public around: Tue  5 Dec 2017 11:45:14 GMT
+
+## 2017-12-05 11:44 - Last private commit
+
+```
+commit 517f5267709029fe9f651bf3e0b88655a40ae052
+Author: Paul Ross <apaulross@gmail.com>
+Date:   Tue Dec 5 11:44:17 2017 +0000
+```
+    Last private commit.
+
 
 ## 2017-11-27
 
@@ -220,7 +231,8 @@ commit f4267ff0eefe9a99c27a9b84ff22087e1ff29f1c
 Author: paulross <apaulross@gmail.com>
 Date:   Mon Nov 27 09:19:37 2017 +0000
 ```
-Initial commit.
+
+    Initial commit.
 
 <a name="Boilerplate_Footnotes"></a>
 # Boilerplate Footnotes
