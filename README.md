@@ -156,6 +156,17 @@ Values are the execution time in microseconds rounded to 3 S.F.:
 | Large XHTML document (1.14 Mb)        | 33,800.00                 | 26,500.00             | 0.784             |
 | Very large XHTML document (14.5 Mb)   | 441,000.00                | 352,000.00            | 0.798             |
 
+| Operation                             | Python implementation     | C++ implementation    | Ratio C++/Python  |
+| ------------------------------------- | ------------------------: | --------------------: | ----------------: |
+| Encode text                           | 4.25                      | 9.24                  | 2.18              |
+| Decode text                           | 4.39                      | 11.80                 | 2.69              |
+| Create stream                         | 2.83                      | 4.31                  | 1.52              |
+| Write two elements                    | 17.9                      | 12.4                  | 0.695             |
+| Small XHTML document (60 kb)          | 1,970                     | 1,510                 | 0.769             |
+| Large XHTML document (1.14 Mb)        | 33,800                    | 26,500                | 0.784             |
+| Very large XHTML document (14.5 Mb)   | 441,000                   | 352,000               | 0.798             |
+
+
 <a name="All_Benchmarks"></a>
 ### All Benchmarks
 
