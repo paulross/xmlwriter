@@ -1,12 +1,19 @@
 # Table of contents
 1. [Introduction](#Introduction)
 2. [Discoveries](#Discoveries)
-    1. [Build Time](<a name="Build_Time"></a>)
-    2. [Passing Python File Objects into C++](<a name="Passing_Python_File_Objects_into_C++"></a>)
+    1. [Build Time](#Build_Time")
+    2. [Passing Python File Objects into C++](#Passing_Python_File_Objects_into_C++)
 3. [Results](#Results)
-    1. [The ``pybind11`` Project](The_pybind11_Project)
-    2. [Development Time](Development_Time)
-    3. [Build System](Build_System)
+    1. [The ``pybind11`` Project](#The_pybind11_Project)
+    2. [Development Time](#Development_Time)
+    3. [Build System](#Build_System)
+    4. [Code Maintainability](#Code_Maintainability)
+    5. [Performance](#Performance)
+        1. [Actual Benchmarks](#Actual_Benchmarks)
+    6. [Documentation](#Documentation)
+4. [Conclusions](#Conclusions)
+5. [Boilerplate Footnotes](#Boilerplate_Footnotes)
+6. [History](#History)
 
 # Introduction <a name="Introduction"></a>
 
@@ -56,21 +63,21 @@ I can not find a way to map Python's file object to an internal C++ stream: http
 
 Rewrote both Python and C++ code to write to an internal buffer, the caller can retrieve this and write it to file.
 
-# Results <a name="Results"/a>
+# Results <a name="Results"></a>
 
-## The ``pybind11`` Project <a name="The_pybind11_Project"/a>
+## The ``pybind11`` Project <a name="The_pybind11_Project"></a>
 
 This project is based on the [pybind11 example](https://github.com/pybind/python_example), it can also build under Xcode which is useful for error checking.
 
 A degree of effort went into separating pure C++ code from CPython and pybind11 code. The intention was that code in the ``cpp/`` directory was independent of CPython and pybind11, in practice pybind11 headers were needs to provide ``*args`` for the ``__exit__`` methods. Perhaps there is a workaround for this.
 
-## Development Time <a name="Development_Time"/a>
+## Development Time <a name="Development_Time"></a>
 
 About 2 to 3 days of work. This should be reduced in future projects as there was a fair amount of fiddling around understanding pybind11 corner cases, such as having to use a lambda to convert a ``std::string`` to a bytes object.
 
 This development time would be what I would expect for a 'C' extension (but see [code maintainability](Code_Maintainability) below.
 
-## Build System <a name="Build_System"/a>
+## Build System <a name="Build_System"></a>
 
 This is pretty good. It is worth creating the project to build under Xcode as this is faster to build and find compile/link time bugs.
 
@@ -82,7 +89,7 @@ Then there is the ``cXmlWrite.cpp`` file that is the pybind11 interface, this is
 
 One notable feature of pybind11 is that if you get it wrong the compilation messages come from template meta-programming and are pretty obscure and you can take a long time to track the problem down. This glue code is definitely better than normal C Extension code or optimised Cython code.
 
-## Performance
+## Performance <a name="Performance"></a>
 
 This is pretty disappointing. The pybind11 code is consistently faster at writing documents but not by much. Typically the pybind11 module ``cXmlWrite`` takes about 65% to 75% of the time of the pure Python module ``XmlWrite``. This performance is not worth moving away from the convenience of writing in pure Python.
 
@@ -97,7 +104,7 @@ It just goes to show how careful you must be in your choice before you set out t
 
 It might be worth trying pybind11 out on TotalDepth's LIS file indexer. This spends more time in C/C++ land so should show an great improvement. Also we have a C reference implementation that is 100x faster than the pure Python one so we could compare pybind11 with that.
 
-### Actual Benchmarks
+### Actual Benchmarks <a name="Actual_Benchmarks"></a>
 
 ```
 ---------------------------------------------------------------------------------------------------------- benchmark: 14 tests -----------------------------------------------------------------------------------------------------------
@@ -120,7 +127,7 @@ test_XmlWrite_very_large_XHTML_doc      438,965.4738 (>1000.0)  468,747.6489 (>1
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ```
 
-## Documentation
+## Documentation <a name="Documentation"></a>
 
 I got this started with commit b41afc0414a7157c1dbc42819181b1cb9b9b0fad. It is a bit fiddly to set up. Migrating the documentation across from Python strings to C strings is a bit tedious but perhaps this could be automated. Possibly the C documentation strings should go in their own header file to reduce the clutter.
 
@@ -128,15 +135,14 @@ The nice thing is that type annotations are generated in the documentation autom
 
 One noticeable thing was the slow turnaround when editing the documentation, you have to edit in C++, build then ``make html``.
 
-# Conclusions
+# Conclusions <a name="Conclusions"></a>
 
 
 
 
-# Boilerplate Footnotes
+# Boilerplate Footnotes <a name="Boilerplate_Footnotes"></a>
 
 ## Installation
-
 
 **On Unix (Linux, OS X)**
 
@@ -208,3 +214,7 @@ terms and conditions of this license.
 ```python
 import cXmlWrite
 ```
+
+# History <a name="History"></a>
+
+
