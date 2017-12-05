@@ -33,13 +33,6 @@ The aim of this project was:
 
 This project is based on the [pybind11 example](https://github.com/pybind/python_example).
 
----
-
-NOTE: Only ``XmlWrite.py`` was converted to C++ as this was deemed sufficient to satisfy the project goals.
-The other Python files (``SVGWriter.py``, ``Coord.py``) were not converted is it was not believe that they would add anything.
-
----
-
 <a name="Discoveries"></a>
 # Discoveries
 
@@ -78,6 +71,13 @@ I can not find a way to map Python's file object to an internal C++ stream: http
 
 So that I could move on to the other aspects of the project I rewrote both Python and C++ code to write to an internal buffer.
 The caller can retrieve this and write it to file.
+
+---
+
+NOTE: Only ``XmlWrite.py`` was converted to C++ as this was deemed sufficient to satisfy the project goals.
+The other Python files (``SVGWriter.py``, ``Coord.py``) were not converted is it was not believe that they would add anything.
+
+---
 
 <a name="Results"></a>
 # Results
