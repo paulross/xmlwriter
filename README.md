@@ -39,12 +39,15 @@ Project is based on the [pybind11 example](https://github.com/pybind/python_exam
 <a name="Build_Time"></a>
 ## Build Time
 
-The absolute minimal example takes a significant time to build compared to a minimal CPython extension, seven seconds compared to sub-second build time. Xcode is much faster, possibly multiprocessing is at work here.
+The absolute minimal example takes a significant time to build compared to a minimal CPython extension, seven seconds compared to sub-second build time.
+Xcode is much faster, possibly multiprocessing is at work here.
 
 <a name="Passing_Python_File_Objects_into_Cpp"></a>
 ## Passing Python File Objects into C++
 
-The original `XmlWrite.XmlStream` took as the first argument a string or file like object. If the former it was treated as the file path to write to. I havn't been able to reproduce this pattern by using a `PyObject*` and deciding within the constructor what to do:
+The original `XmlWrite.XmlStream` took as the first argument a string or file like object.
+If the former it was treated as the file path to write to.
+I haven't been able to reproduce this pattern by using a `PyObject*` and deciding within the constructor what to do:
 
 ```c
     py::class_<XmlStream>(m, "XmlStream")
@@ -75,12 +78,15 @@ Rewrote both Python and C++ code to write to an internal buffer, the caller can 
 
 This project is based on the [pybind11 example](https://github.com/pybind/python_example), it can also build under Xcode which is useful for error checking.
 
-A degree of effort went into separating pure C++ code from CPython and pybind11 code. The intention was that code in the ``cpp/`` directory was independent of CPython and pybind11, in practice pybind11 headers were needs to provide ``*args`` for the ``__exit__`` methods. Perhaps there is a workaround for this.
+A degree of effort went into separating pure C++ code from CPython and pybind11 code.
+The intention was that code in the ``cpp/`` directory was independent of CPython and pybind11.
+In practice pybind11 headers were needed in the ``cpp/`` directory to provide ``*args`` for the ``__exit__`` methods. Perhaps there is a workaround for this.
 
 <a name="Development_Time"></a>
 ## Development Time
 
-About 2 to 3 days of work. This should be reduced in future projects as there was a fair amount of fiddling around understanding pybind11 corner cases, such as having to use a lambda to convert a ``std::string`` to a bytes object.
+About 2 to 3 days of work.
+This should be reduced in future projects as there was a fair amount of fiddling around understanding pybind11 corner cases, such as having to use a lambda to convert a ``std::string`` to a bytes object.
 
 This development time would be what I would expect for a 'C' extension, but see [code maintainability](Code_Maintainability) below.
 
@@ -92,16 +98,23 @@ This is pretty good. It is worth creating the project to build under Xcode as th
 <a name="Code_Maintainability"></a>
 ## Code Maintainability
 
-This is rather nice. ``XmlWrite.cpp`` is written in C++11 and reads almost like Python. It is 284 lines long compared to the original pure Python implementation of around 300 lines (if you ignore the documentation strings). Of course you have the header file ``XmlWrite.h`` (145 lines) but this is pretty simple and generally does not change much over time. There is some additional code to do base64 encoding/decoding that C++ needs, Python does not as it is in the standard library which I am ignoring here.
+This is rather nice. ``XmlWrite.cpp`` is written in C++11 and reads almost like Python.
+``XmlWrite.cpp`` is 284 lines of code compared to the original pure Python implementation of around 300 lines (if you ignore the documentation strings).
+Of course you have the header file ``XmlWrite.h`` (145 lines) but this is pretty simple and generally does not change much over time.
+There is some additional code to do base64 encoding/decoding that C++ needs, Python does not as it is in the standard library so I am ignoring that here.
 
-Then there is the ``cXmlWrite.cpp`` file that is the pybind11 interface, this is about 120 lines (ignoring documentation strings). Of course it is written in pybind11 style that takes a little getting used to but is perfectly readable.
+Then there is the ``cXmlWrite.cpp`` file that is the pybind11 interface, this is about 120 lines (ignoring documentation strings).
+Of course it is written in pybind11 style that takes a little getting used to but is perfectly readable.
 
-One notable feature of pybind11 is that if you get it wrong the compilation messages come from template meta-programming and are pretty obscure and you can take a long time to track the problem down. This glue code is definitely better than normal C Extension code or optimised Cython code.
+One notable feature of pybind11 is that if you get it wrong the compilation messages come from template meta-programming and are pretty obscure and you can take a long time to track the problem down.
+This glue code is definitely better than normal C Extension code or optimised Cython code.
 
 <a name="Performance"></a>
 ## Performance
 
-This is pretty disappointing. The pybind11 code is consistently faster at writing documents but not by much. Typically the pybind11 module ``cXmlWrite`` takes about 65% to 75% of the time of the pure Python module ``XmlWrite``. This performance is not worth moving away from the convenience of writing in pure Python.
+This is pretty disappointing. The pybind11 code is consistently faster at writing documents but not by much.
+Typically the pybind11 module ``cXmlWrite`` takes about 70% to 80% of the time of the pure Python module ``XmlWrite``.
+This performance is not worth moving away from the convenience of writing in pure Python.
 
 For base64 encoding the pybind11 code is actually slower, taking more than twice as long.
 
@@ -112,11 +125,15 @@ I think that the reasons for this disappointment are these:
 
 It just goes to show how careful you must be in your choice before you set out to migrate to pybind11.
 
-It might be worth trying pybind11 out on TotalDepth's LIS file indexer. This spends more time in C/C++ land so should show an great improvement. Also we have a C reference implementation that is 100x faster than the pure Python one so we could compare pybind11 with that.
+It might be worth trying pybind11 out on TotalDepth's LIS file indexer.
+This spends more time in C/C++ land so should show an great improvement.
+Also we have a C reference implementation that is 100x faster than the pure Python one so we could compare pybind11 with that.
 
 <a name="Selected_Benchmarks"></a>
 ### Selected Benchmarks
 
+Here are the median values of the benchmarks measured by ``pytest-benchmark`` for selected operations.
+Values are the execution time in microseconds rounded to 3 S.F.:
 
 | Operation                             | Python implementation     | C++ implementation    | Ratio C++/Python  |
 | ------------------------------------- | ------------------------: | --------------------: | ----------------: |
@@ -126,7 +143,18 @@ It might be worth trying pybind11 out on TotalDepth's LIS file indexer. This spe
 | Write two elements                    | 17.91                     | 12.44                 | 0.69              |
 | Small XHTML document (60 kb)          | 1,968.00                  | 1,512.84              | 0.77              |
 | Large XHTML document (1.14 Mb)        | 33,773.32                 | 26,479.86             | 0.78              |
-| Very large XHTML document (14.5 Mb)   | 440,929                   | 351,852.75            | 0.80              |
+| Very large XHTML document (14.5 Mb)   | 440,929.30                | 351,852.75            | 0.80              |
+
+
+| Operation                             | Python implementation     | C++ implementation    | Ratio C++/Python  |
+| ------------------------------------- | ------------------------: | --------------------: | ----------------: |
+| Encode text                           | 4.25                      | 9.24                  | 2.18              |
+| Decode text                           | 4.39                      | 11.80                 | 2.69              |
+| Create stream                         | 2.83                      | 4.31                  | 1.52              |
+| Write two elements                    | 17.90                     | 12.40                 | 0.695             |
+| Small XHTML document (60 kb)          | 1,970.00                  | 1,510.00              | 0.769             |
+| Large XHTML document (1.14 Mb)        | 33,800.00                 | 26,500.00             | 0.784             |
+| Very large XHTML document (14.5 Mb)   | 441,000.00                | 352,000.00            | 0.798             |
 
 <a name="All_Benchmarks"></a>
 ### All Benchmarks
@@ -155,7 +183,9 @@ test_XmlWrite_very_large_XHTML_doc      438,965.4738 (>1000.0)  468,747.6489 (>1
 <a name="Documentation"></a>
 ## Documentation
 
-I got this started with commit b41afc0414a7157c1dbc42819181b1cb9b9b0fad. It is a bit fiddly to set up. Migrating the documentation across from Python strings to C strings is a bit tedious but perhaps this could be automated. Possibly the C documentation strings should go in their own header file to reduce the clutter.
+I got this started with commit b41afc0414a7157c1dbc42819181b1cb9b9b0fad. It is a bit fiddly to set up.
+Migrating the documentation across from Python strings to C strings is a bit tedious but perhaps this could be automated.
+Possibly the C documentation strings should go in their own header file to reduce the clutter.
 
 The nice thing is that type annotations are generated in the documentation automatically from the C++ code.
 
