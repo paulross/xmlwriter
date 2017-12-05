@@ -188,7 +188,7 @@ Possibly the C documentation strings should go in their own header file to reduc
 
 The nice thing is that type annotations are generated in the documentation automatically from the C++ code.
 
-One noticeable thing was the slow turnaround when editing the documentation, you have to edit in C++, build then ``make html``.
+One noticeable thing was the slow turnaround when editing the documentation, you have to edit in C++, build the project (which takes several seconds) and then ``make html``.
 
 <a name="Conclusions"></a>
 # Conclusions
