@@ -33,6 +33,11 @@ The aim of this project was:
 
 This project is based on the [pybind11 example](https://github.com/pybind/python_example).
 
+---
+NOTE: Only ``XmlWrite.py`` was converted to C++ as this was deemed sufficient to satisfy the project goals.
+The other Python files (``SVGWriter.py``, ``Coord.py``) were not converted is it was not believe that they would add anything.
+---
+
 <a name="Discoveries"></a>
 # Discoveries
 
@@ -69,7 +74,7 @@ Invoked with: 'test.xml', 'utf-8', '', 0, True
 
 I can not find a way to map Python's file object to an internal C++ stream: http://pybind11.readthedocs.io/en/stable/advanced/pycpp/object.html
 
-So that I could move on to the other aspect of the project I rewrote both Python and C++ code to write to an internal buffer.
+So that I could move on to the other aspects of the project I rewrote both Python and C++ code to write to an internal buffer.
 The caller can retrieve this and write it to file.
 
 <a name="Results"></a>
@@ -94,7 +99,8 @@ This development time would be what I would expect for a 'C' extension, but see 
 <a name="Build_System"></a>
 ## Build System
 
-This is pretty good. It is worth creating the project to build under Xcode as this is faster to build and find compile/link time bugs.
+I used the ``setup.py`` and this was entirely satisfactory.
+It is worth creating the project to build under Xcode (or equivalent) as this is faster to build and find compile/link time bugs.
 
 <a name="Code_Maintainability"></a>
 ## Code Maintainability
@@ -107,7 +113,7 @@ There is some additional C++ code to do base64 encoding/decoding that C++ needs,
 Then there is the ``cXmlWrite.cpp`` file that is the pybind11 interface, this is about 120 lines (ignoring documentation strings).
 Of course it is written in pybind11 style that takes a little getting used to but is perfectly readable.
 
-One notable feature of pybind11 is that if you get it wrong the compilation messages come from template meta-programming and are pretty obscure and you can take a long time to track the problem down.
+One notable feature of pybind11 is that if you get it wrong the compilation messages can come from template meta-programming (or just template creation) and are thus pretty obscure and you can take a long time to track the problem down.
 This glue code is definitely better than normal C Extension code or optimised Cython code.
 
 <a name="Performance"></a>
@@ -134,7 +140,7 @@ Also we have a C reference implementation that is 100x faster than the pure Pyth
 ### Selected Benchmarks
 
 Here are the median values of the benchmarks measured by ``pytest-benchmark`` for selected operations.
-Values are the execution time in microseconds rounded to 3 S.F.:
+Values are the median execution time in microseconds rounded to 3 S.F.:
 
 | Operation                             | Python implementation     | C++ implementation    | Ratio C++/Python  |
 | ------------------------------------- | ------------------------: | --------------------: | ----------------: |
@@ -173,7 +179,8 @@ test_XmlWrite_very_large_XHTML_doc      438,965.4738 (>1000.0)  468,747.6489 (>1
 <a name="Documentation"></a>
 ## Documentation
 
-I got this started with commit b41afc0414a7157c1dbc42819181b1cb9b9b0fad. It is a bit fiddly to set up.
+I got this started with commit [b41afc0](https://github.com/paulross/xmlwriter/commit/b41afc0414a7157c1dbc42819181b1cb9b9b0fad).
+It is a bit fiddly to set up and is not entirely complete yet, it does illustrate what is possible however.
 Migrating the documentation across from Python strings to C strings is a bit tedious but perhaps this could be automated.
 Possibly the C documentation strings should go in their own header file to reduce the clutter.
 
@@ -186,28 +193,30 @@ One noticeable thing was the slow turnaround when editing the documentation, you
 
 * [``pybind11``](https://github.com/pybind/pybind11) provides a quick and simple interface between Python and C++ code.
    This is particularly true when creating new types (classes).
-   It is clearly a very competent project and I have only scratched the surface here,
-* The relative performance of ``pybind11`` is a bit disappointing in this project.
+   It is clearly a very competent project and I have only scratched the surface here.
+* The relative performance of ``pybind11`` is a bit disappointing in this *particular* project.
 * I suspect that ``pybind11`` would show much better performance on a project where the bulk of the time is spent in C++ and the Python/C++ boundary is infrequently crossed.
 * Libraries that are in the Python standard library will have to be replaced with their C/C++ equivalents (as happened here with base64).
    The disadvantage with this is:
   * The C/C++ libraries might not be exactly equivalent and require workarounds.
-  * This increases the dependencies and possible licencing conflicts.
+  * This adds to the dependencies
+  * There might be possible licencing conflicts.
 
    All of this increases the creation and maintenance cost.
 
-* ``pybind11``'s ability to generate type specific documentation is very attractive for environments and IDEs that can incorporate this.
-* I'd certainly consider ``pybind11`` as a first class option when there is a large body of Python code to move into C++ or to create an interface to an existing C++ library.
+* ``pybind11``'s ability to generate type specific documentation is very attractive for environments and IDEs that can make use of this.
+* I'd certainly consider ``pybind11`` as a first class option when there is a large body of Python code to move into C++ or when a Python interface is needed to an existing C++ library.
 
 <a name="History"></a>
 # History (latest at top)
 
 ## 2017-11-27
 
+```
 commit f4267ff0eefe9a99c27a9b84ff22087e1ff29f1c
 Author: paulross <apaulross@gmail.com>
 Date:   Mon Nov 27 09:19:37 2017 +0000
-
+```
 Initial commit.
 
 <a name="Boilerplate_Footnotes"></a>
