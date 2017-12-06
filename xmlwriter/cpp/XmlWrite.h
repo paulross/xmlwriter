@@ -73,9 +73,18 @@ public:
     void writeCSS(const std::map<std::string, tAttrs> &theCSSMap);
     void _indent(size_t offset=0);
     void _closeElemIfOpen();
-    std::string _encode(const std::string &theStr) const;
+//    std::string _encode(const std::string &theStr) const;
+    bool _encode(const std::string &input, std::string &output) const;
     XmlStream &_enter();
     bool _exit(py::args args);
+protected:
+    void _write_to_output(const std::string &input,
+                          std::string &output,
+                          const std::string &subst,
+                          size_t &index_start,
+                          size_t index_current,
+                          bool &use_original
+                          );
 protected:
     std::ostringstream output;
 public:

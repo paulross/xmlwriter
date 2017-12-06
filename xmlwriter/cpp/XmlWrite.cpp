@@ -214,19 +214,19 @@ void XmlStream::_closeElemIfOpen() {
     }
 }
 
-std::string XmlStream::_encode(const std::string &theStr) const {
-    std::string result;
-//    result.reserve(theStr.size());
-    for (auto chr: theStr) {
-        auto iter = ENTITY_MAP.find(chr);
-        if (iter != ENTITY_MAP.end()) {
-            result.append(iter->second);
-        } else {
-            result.push_back(chr);
-        }
-    }
-    return result;
-}
+//std::string XmlStream::_encode(const std::string &theStr) const {
+//    std::string result;
+////    result.reserve(theStr.size());
+//    for (auto chr: theStr) {
+//        auto iter = ENTITY_MAP.find(chr);
+//        if (iter != ENTITY_MAP.end()) {
+//            result.append(iter->second);
+//        } else {
+//            result.push_back(chr);
+//        }
+//    }
+//    return result;
+//}
 
 //std::string XmlStream::_encode(const std::string &theStr) const {
 //    std::string result;
@@ -256,43 +256,61 @@ std::string XmlStream::_encode(const std::string &theStr) const {
 //    return result;
 //}
 
-//std::string XmlStream::_encode(const std::string &input) const {
-//    std::string result; // Possible return value
-//    bool use_original = true;
-//    size_t start_str = 0;
-//    size_t index = 0;
-//    
-//    for (auto chr: input) {
-//        switch (chr) {
-//            case '<':
-//                
-//                result.append("&lt;");
-//                break;
-//            case '>':
-//                result.append("&gt;");
-//                break;
-//            case '&':
-//                result.append("&amp;");
-//                break;
-//            case '\'':
-//                result.append("&apos;");
-//                break;
-//            case '"':
-//                result.append("&quot;");
-//                break;
-//            default:
-//                if (! use_original) {
-//                    result.push_back(chr);
-//                }
-//                break;
-//        }
-//        ++index;
-//    }
-//    if (use_original) {
-//        return input;
-//    }
-//    return result;
-//}
+void XmlStream::_write_to_output(const std::string &input,
+                                 std::string &output,
+                                 const std::string &subst,
+                                 size_t &index_start,
+                                 size_t index_current,
+                                 bool &use_original
+                                 ) const {
+    if (output.size() == 0) {
+        output.reserve(input.size() * 2);
+    }
+    output.append(input, index_start, index_current - index_start);
+    output.append(subst);
+    index_start = index_current + 1;
+    use_original = false;
+}
+
+bool XmlStream::_encode(const std::string &input,
+                        std::string &output) const {
+    output.clear();
+    bool use_original = true;
+    size_t index_start = 0;
+    size_t index_current = 0;
+    
+    for (auto chr: input) {
+        switch (chr) {
+            case '<':
+                _write_to_output(input, output, "&lt;",
+                                 index_start, index_current, use_original);
+                break;
+            case '>':
+                _write_to_output(input, output, "&gt;",
+                                 index_start, index_current, use_original);
+                break;
+            case '&':
+                _write_to_output(input, output, "&amp;",
+                                 index_start, index_current, use_original);
+                break;
+            case '\'':
+                _write_to_output(input, output, "&apos;",
+                                 index_start, index_current, use_original);
+                break;
+            case '"':
+                _write_to_output(input, output, "&quot;",
+                                 index_start, index_current, use_original);
+                break;
+            default:
+                if (! use_original) {
+                    output.push_back(chr);
+                }
+                break;
+        }
+        ++index_current;
+    }
+    return ! use_original;
+}
 
 XmlStream &XmlStream::_enter() {
     output << "<?xml version='1.0' encoding=\"" << encodeing << "\"?>";
