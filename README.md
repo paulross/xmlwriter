@@ -9,8 +9,9 @@
     3. [Build System](#Build_System)
     4. [Code Maintainability](#Code_Maintainability)
     5. [Performance](#Performance)
-        1. [Selected Benchmarks](#Selected_Benchmarks)
-        2. [All Benchmarks](#All_Benchmarks)
+        1. [Selected Benchmarks](#Performance_Selected_Benchmarks)
+        2. [Optimisation](#Performance_Optimisation)
+        3. [Summary](#Performance_Summary)
     6. [Documentation](#Documentation)
 4. [Conclusions](#Conclusions)
 5. [History](#History)
@@ -138,7 +139,7 @@ It might be worth trying pybind11 out on TotalDepth's LIS file indexer.
 This spends more time in C/C++ land so should show an great improvement.
 Also we have a C reference implementation that is 100x faster than the pure Python one so we could compare pybind11 with that.
 
-<a name="Selected_Benchmarks"></a>
+<a name="Performance_Selected_Benchmarks"></a>
 ### Selected Benchmarks
 
 Here are the median values of the benchmarks measured by ``pytest-benchmark`` for selected operations.
@@ -154,6 +155,7 @@ Values are the median execution time in microseconds rounded to 3 S.F.:
 | Large XHTML document (1.14 Mb)        | 33,800                        | 26,500                    | 0.784             |
 | Very large XHTML document (14.5 Mb)   | 441,000                       | 352,000                   | 0.798             |
 
+<a name="Performance_Optimisation"></a>
 ### Optimisation
 
 As Ewan Higgs pointed out having checked this code with ``callgrind`` it shows a very large number of calls to ``XmlStream::_encode()`` (which translates certain characters to entities).
@@ -183,13 +185,16 @@ To get an understanding of the overhead I implemented some tests in [main.cpp](h
 
 So it looks like the encoding costs 16 ms and the cost of going through pybind11 is 115 ms.
 
-To summarise, the current state of play is:
+<a name="Performance_Summary"></a>
+### Summary
+
+The current state of play is:
 
 | Implementation                | Write 14.5 Mb XHTML document (ms)     | Factor (Python is x1)                             |
 | ----------------------------- | ------------------------------------: | :------------------------------------------------ |
-| Python                        | 441                                   | ``|-------------------------------------->`` 1.0  |
-| Current best pybind11/C++     | 234                                   | ``|------------------->`` 0.531                   |
-| Pure C++                      | 119                                   | ``|--------->`` 0.270                             |
+| Python                        | 441                                   | 1.0                                               |
+| Current best pybind11/C++     | 234                                   | 0.531                                             |
+| Pure C++                      | 119                                   | 0.270                                             |
 
 Of course these figures are only reflective of *this particular* problem.
 I still suspect that the many small objects problem is not allowing pybind11 to shine more brightly.
