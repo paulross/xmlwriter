@@ -144,39 +144,55 @@ Also we have a C reference implementation that is 100x faster than the pure Pyth
 Here are the median values of the benchmarks measured by ``pytest-benchmark`` for selected operations.
 Values are the median execution time in microseconds rounded to 3 S.F.:
 
-| Operation                             | Python implementation     | C++ implementation    | Ratio C++/Python  |
-| ------------------------------------- | ------------------------: | --------------------: | ----------------: |
-| Encode text                           | 4.25                      | 9.24                  | 2.18              |
-| Decode text                           | 4.39                      | 11.80                 | 2.69              |
-| Create stream                         | 2.83                      | 4.31                  | 1.52              |
-| Write two elements                    | 17.9                      | 12.4                  | 0.695             |
-| Small XHTML document (60 kb)          | 1,970                     | 1,510                 | 0.769             |
-| Large XHTML document (1.14 Mb)        | 33,800                    | 26,500                | 0.784             |
-| Very large XHTML document (14.5 Mb)   | 441,000                   | 352,000               | 0.798             |
+| Operation                             | Python implementation (us)    | C++ implementation (us)   | Ratio C++/Python  |
+| ------------------------------------- | ----------------------------: | ------------------------: | ----------------: |
+| Encode text                           | 4.25                          | 9.24                      | 2.18              |
+| Decode text                           | 4.39                          | 11.80                     | 2.69              |
+| Create stream                         | 2.83                          | 4.31                      | 1.52              |
+| Write two elements                    | 17.9                          | 12.4                      | 0.695             |
+| Small XHTML document (60 kb)          | 1,970                         | 1,510                     | 0.769             |
+| Large XHTML document (1.14 Mb)        | 33,800                        | 26,500                    | 0.784             |
+| Very large XHTML document (14.5 Mb)   | 441,000                       | 352,000                   | 0.798             |
 
-<a name="All_Benchmarks"></a>
-### All Benchmarks
+### Optimisation
 
-```
----------------------------------------------------------------------------------------------------------- benchmark: 14 tests -----------------------------------------------------------------------------------------------------------
-Name (time in us)                                Min                     Max                    Mean                 StdDev                  Median                    IQR            Outliers           OPS            Rounds  Iterations
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-test_XmlWrite_create_stream                   2.7469 (1.0)        1,385.3502 (20.96)          2.9812 (1.0)           4.9858 (3.88)           2.8303 (1.0)           0.0517 (1.0)      242;8264  335,439.7985 (1.0)       82726           1
-test_XmlWrite_encode_text                     4.0047 (1.46)          66.0908 (1.0)            4.4022 (1.48)          1.2847 (1.0)            4.2454 (1.50)          0.1220 (2.36)     988;2692  227,157.5821 (0.68)      34984           1
-test_cXmlWrite_create_stream                  4.0387 (1.47)         719.7023 (10.89)          4.7976 (1.61)          6.5002 (5.06)           4.3088 (1.52)          0.2328 (4.50)     363;3565  208,436.8944 (0.62)      38271           1
-test_XmlWrite_decode_text                     4.1472 (1.51)         166.3840 (2.52)           4.5389 (1.52)          1.9878 (1.55)           4.3851 (1.55)          0.1388 (2.68)     847;4309  220,315.4754 (0.66)      65691           1
-test_cXmlWrite_encode_text                    9.0417 (3.29)       3,529.4658 (53.40)         10.8616 (3.64)         17.8424 (13.89)          9.2420 (3.27)          0.3050 (5.90)    611;12664   92,067.3021 (0.27)      58513           1
-test_cXmlWrite_decode_text                   11.5791 (4.22)       1,964.8140 (29.73)         12.8903 (4.32)         13.4467 (10.47)         11.7938 (4.17)          0.1159 (2.24)    1057;9561   77,577.9732 (0.23)      62090           1
-test_cXmlWrite_two_elements                  11.6061 (4.23)       1,086.9242 (16.45)         13.0743 (4.39)         13.4104 (10.44)         12.4397 (4.40)          0.7162 (13.86)    220;1597   76,485.7586 (0.23)      20968           1
-test_XmlWrite_two_elements                   17.4632 (6.36)       2,073.3713 (31.37)         19.9164 (6.68)         22.8331 (17.77)         17.9070 (6.33)          0.2342 (4.53)     318;3689   50,209.9564 (0.15)      21619           1
-test_cXmlWrite_small_XHTML_doc            1,440.9530 (524.57)     4,770.5336 (72.18)      1,596.3809 (535.49)      325.5815 (253.42)     1,512.8399 (534.52)       74.3284 (>1000.0)     32;86      626.4169 (0.00)        630           1
-test_XmlWrite_small_XHTML_doc             1,932.6438 (703.56)     5,513.7030 (83.43)      2,144.2330 (719.26)      461.2596 (359.03)     1,967.9968 (695.33)      151.9362 (>1000.0)     29;42      466.3672 (0.00)        363           1
-test_cXmlWrite_large_XHTML_doc           25,484.2401 (>1000.0)   40,995.9340 (620.30)    27,238.3079 (>1000.0)   2,740.6273 (>1000.0)   26,479.8598 (>1000.0)     897.0209 (>1000.0)       3;4       36.7130 (0.00)         35           1
-test_XmlWrite_large_XHTML_doc            32,379.7818 (>1000.0)   79,111.7516 (>1000.0)   40,205.0592 (>1000.0)  11,287.6896 (>1000.0)   33,773.3161 (>1000.0)  12,658.6971 (>1000.0)       5;1       24.8725 (0.00)         29           1
-test_cXmlWrite_very_large_XHTML_doc     348,854.7760 (>1000.0)  358,303.2009 (>1000.0)  353,562.9081 (>1000.0)   4,434.5642 (>1000.0)  351,852.7462 (>1000.0)   8,141.6880 (>1000.0)       3;0        2.8284 (0.00)          5           1
-test_XmlWrite_very_large_XHTML_doc      438,965.4738 (>1000.0)  468,747.6489 (>1000.0)  445,983.4165 (>1000.0)  12,760.6729 (>1000.0)  440,929.3109 (>1000.0)   8,593.7604 (>1000.0)       1;1        2.2422 (0.00)          5           1
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-```
+As Ewan Higgs pointed out having checked this code with ``callgrind`` it shows a very large number of calls to ``XmlStream::_encode()`` (which translates certain characters to entities).
+This function was also implemented rather inefficiently with poor locality of reference and many small mallocs.
+
+``XmlStream::_encode()`` was initially reimplemented to use a switch/case statement, this gave a 14% speedup.
+A further optimisation was added to lazily evaluate the input string and only create a new string if there was any character that needed expanding to an entity, this gave an extra 30 % speed up.
+Finally a perfomance test was done where ``XmlStream::_encode()`` was not used at all which establishes a baseline performance for the CPython implementation.
+
+NOTE: Time in milliseconds for clarity.
+
+| Implementation                | Write 14.5 Mb XHTML document (ms)     | Factor (Original pybind11 is x1)      |
+| ----------------------------- | ------------------------------------: | ------------------------------------: |
+| Python                        | 441                                   | 1.25                                  |
+| Original pybind11 and C++     | 352                                   | 1.0                                   |
+| Use a switch/case statememt   | 304                                   | 0.864                                 |
+| Lazily evaluate entities      | 234                                   | 0.665                                 |
+| No entity encoding at all     | 209                                   | 0.594                                 |
+
+To get an understanding of the overhead I implemented some tests in [main.cpp](https://github.com/paulross/xmlwriter/blob/master/xmlwriter/cpp/main.cpp) that reproduces the ``write_..._XHTML_document()`` tests in [test_XmlWrite.py](https://github.com/paulross/xmlwriter/blob/master/tests/unit/test_cXmlWrite.py) but using the C++ code directly. These can be compared with the latest, optimised, pybind11 code.
+
+| Implementation                | Write 14.5 Mb XHTML document (ms)     | Factor (Original pybind11 is x1)      |
+| ----------------------------- | ------------------------------------: | ------------------------------------: |
+| Current best pybind11/C++     | 234                                   | 1.0                                   |
+| Pure C++                      | 119                                   | 0.509                                 |
+| Pure C++, no entity encoding  | 103                                   | 0.440                                 |
+
+So it looks like the encoding costs 16 ms and the cost of going through pybind11 is 115 ms.
+
+To summarise, the current state of play is:
+
+| Implementation                | Write 14.5 Mb XHTML document (ms)     | Factor (Python is x1)                             |
+| ----------------------------- | ------------------------------------: | :------------------------------------------------ |
+| Python                        | 441                                   | ``|-------------------------------------->`` 1.0  |
+| Current best pybind11/C++     | 234                                   | ``|------------------->`` 0.531                   |
+| Pure C++                      | 119                                   | ``|--------->`` 0.270                             |
+
+Of course these figures are only reflective of *this particular* problem.
+I still suspect that the many small objects problem is not allowing pybind11 to shine more brightly.
 
 <a name="Documentation"></a>
 ## Documentation

@@ -74,9 +74,12 @@ public:
     void _indent(size_t offset=0);
     void _closeElemIfOpen();
 //    std::string _encode(const std::string &theStr) const;
+    // Returns true if output contains the encode string otherwise use
+    // input.
     bool _encode(const std::string &input, std::string &output) const;
     XmlStream &_enter();
     bool _exit(py::args args);
+    void _close();
 protected:
     void _write_to_output(const std::string &input,
                           std::string &output,
@@ -84,7 +87,7 @@ protected:
                           size_t &index_start,
                           size_t index_current,
                           bool &use_original
-                          );
+                          ) const;
 protected:
     std::ostringstream output;
 public:
@@ -140,8 +143,11 @@ public:
         return *this;
     }
     bool _exit(py::args args) {
-        _stream.endElement(_name);
+        _close();
         return false;
+    }
+    void _close() {
+        _stream.endElement(_name);
     }
 private:
     XmlStream &_stream;

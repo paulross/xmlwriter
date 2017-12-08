@@ -111,7 +111,13 @@ void XmlStream::startElement(const std::string &name, const tAttrs &attrs) {
 
 void XmlStream::characters(const std::string &theString) {
     _closeElemIfOpen();
-    output << _encode(theString);
+    std::string encoded;
+    if (_encode(theString, encoded)) {
+        output << encoded;
+    } else {
+        output << theString;
+    }
+    output << theString;
     // mixed content - don't indent
     _flipIndent(false);
 }
@@ -128,12 +134,22 @@ void XmlStream::comment(const std::string &theS, bool newLine) {
     if (newLine) {
         _indent();
     }
-    output << "<!--" << _encode(theS) << "-->";
+    std::string encoded;
+    if (_encode(theS, encoded)) {
+        output << "<!--" << encoded << "-->";
+    } else {
+        output << "<!--" << theS << "-->";
+    }
 }
 
 void XmlStream::pI(const std::string &theS) {
     _closeElemIfOpen();
-    output << "<?" << _encode(theS) << "?>";
+    std::string encoded;
+    if (_encode(theS, encoded)) {
+        output << "<?" << encoded << "?>";
+    } else {
+        output << "<?" << theS << "?>";
+    }
     // mixed content - don't indent
     _flipIndent(false);
 }
@@ -214,48 +230,6 @@ void XmlStream::_closeElemIfOpen() {
     }
 }
 
-//std::string XmlStream::_encode(const std::string &theStr) const {
-//    std::string result;
-////    result.reserve(theStr.size());
-//    for (auto chr: theStr) {
-//        auto iter = ENTITY_MAP.find(chr);
-//        if (iter != ENTITY_MAP.end()) {
-//            result.append(iter->second);
-//        } else {
-//            result.push_back(chr);
-//        }
-//    }
-//    return result;
-//}
-
-//std::string XmlStream::_encode(const std::string &theStr) const {
-//    std::string result;
-//    result.reserve(theStr.size());
-//    for (auto chr: theStr) {
-//        switch (chr) {
-//            case '<':
-//                result.append("&lt;");
-//                break;
-//            case '>':
-//                result.append("&gt;");
-//                break;
-//            case '&':
-//                result.append("&amp;");
-//                break;
-//            case '\'':
-//                result.append("&apos;");
-//                break;
-//            case '"':
-//                result.append("&quot;");
-//                break;
-//            default:
-//                result.push_back(chr);
-//                break;
-//        }
-//    }
-//    return result;
-//}
-
 void XmlStream::_write_to_output(const std::string &input,
                                  std::string &output,
                                  const std::string &subst,
@@ -318,11 +292,15 @@ XmlStream &XmlStream::_enter() {
 }
 
 bool XmlStream::_exit(py::args args) {
+    _close();
+    return false; // Propogate any exception
+}
+
+void XmlStream::_close() {
     while (_elemStk.size()) {
         endElement(_elemStk[_elemStk.size() - 1]);
     }
     output << '\n';
-    return false; // Propogate any exception
 }
 
 /*************** XhtmlStream **************/
