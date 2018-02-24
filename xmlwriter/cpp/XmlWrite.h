@@ -133,7 +133,7 @@ class Element {
 public:
     Element(XmlStream &theXmlStream,
             const std::string &theElemName,
-            const tAttrs &theAttrs={}) : \
+            const tAttrs &theAttrs=tAttrs()) : \
                 _stream(theXmlStream),
                 _name(theElemName),
                 _attrs(theAttrs) {

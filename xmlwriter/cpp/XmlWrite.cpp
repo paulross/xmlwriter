@@ -330,7 +330,7 @@ void XhtmlStream::charactersWithBr(const std::string &sIn) {
         if (found != std::string::npos) {
             std::string slice(sIn, index, found - index);
             characters(slice);
-            startElement("br", {});
+            startElement("br", tAttrs());
             endElement("br");
             index = found + 1;
         } else {
