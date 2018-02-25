@@ -204,8 +204,8 @@ I still suspect that the many small objects problem is not allowing pybind11 to 
 
 I got this started with commit [b41afc0](https://github.com/paulross/xmlwriter/commit/b41afc0414a7157c1dbc42819181b1cb9b9b0fad).
 It is a bit fiddly to set up and is not entirely complete yet, it does illustrate what is possible however.
-Migrating the documentation across from Python strings to C strings is a bit tedious but perhaps this could be automated.
-Possibly the C documentation strings should go in their own header file to reduce the clutter.
+~~Migrating the documentation across from Python strings to C strings is a bit tedious but perhaps this could be automated.
+Possibly the C documentation strings should go in their own header file to reduce the clutter.~~ Now done with the `pydoc2cppdoc.py` script.
 
 The nice thing is that type annotations are generated in the documentation automatically from the C++ code.
 
