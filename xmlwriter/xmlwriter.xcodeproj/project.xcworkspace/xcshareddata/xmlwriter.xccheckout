@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>160EA2B1-DE62-4609-95F0-E97E1EAE31BD</string>
+	<key>IDESourceControlProjectName</key>
+	<string>xmlwriter</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>CA35CF11A3970BED3F63AD67D2F5F0FAA6986140</key>
+		<string>https://github.com/paulross/xmlwriter.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>xmlwriter/xmlwriter.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>CA35CF11A3970BED3F63AD67D2F5F0FAA6986140</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/paulross/xmlwriter.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>CA35CF11A3970BED3F63AD67D2F5F0FAA6986140</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CA35CF11A3970BED3F63AD67D2F5F0FAA6986140</string>
+			<key>IDESourceControlWCCName</key>
+			<string>xmlwriter</string>
+		</dict>
+	</array>
+</dict>
+</plist>

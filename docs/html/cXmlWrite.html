@@ -1,0 +1,637 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>cXmlWrite Reference &#8212; xmlwriter 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cXmlWrite.ExceptionXml" href="_generate/cXmlWrite.ExceptionXml.html" />
+    <link rel="prev" title="xmlwriter Documentation" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_generate/cXmlWrite.ExceptionXml.html" title="cXmlWrite.ExceptionXml"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="xmlwriter Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">xmlwriter 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-cXmlWrite">
+<span id="cxmlwrite-reference"></span><h1>cXmlWrite Reference<a class="headerlink" href="#module-cXmlWrite" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="xmlwriter-with-pybind11">
+<h2>XmlWriter with Pybind11<a class="headerlink" href="#xmlwriter-with-pybind11" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="_generate/cXmlWrite.ExceptionXml.html#cXmlWrite.ExceptionXml" title="cXmlWrite.ExceptionXml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExceptionXml</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="_generate/cXmlWrite.ExceptionXmlEndElement.html#cXmlWrite.ExceptionXmlEndElement" title="cXmlWrite.ExceptionXmlEndElement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExceptionXmlEndElement</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="_generate/cXmlWrite.encodeString.html#cXmlWrite.encodeString" title="cXmlWrite.encodeString"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encodeString</span></code></a>(theS,&nbsp;theCharPrefix)</td>
+<td>Returns a string that is the argument encoded.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="_generate/cXmlWrite.decodeString.html#cXmlWrite.decodeString" title="cXmlWrite.decodeString"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decodeString</span></code></a>(arg0)</td>
+<td>Returns a string that is the argument decoded.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="_generate/cXmlWrite.nameFromString.html#cXmlWrite.nameFromString" title="cXmlWrite.nameFromString"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nameFromString</span></code></a>(arg0)</td>
+<td>Returns a name from a string.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#cXmlWrite.XmlStream" title="cXmlWrite.XmlStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XmlStream</span></code></a></td>
+<td>Creates and maintains an XML output stream.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#cXmlWrite.XhtmlStream" title="cXmlWrite.XhtmlStream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XhtmlStream</span></code></a></td>
+<td>Specialisation of an XmlStream to handle XHTML.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#cXmlWrite.Element" title="cXmlWrite.Element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Element</span></code></a></td>
+<td>Represents an element in a markup stream.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="class">
+<dt id="cXmlWrite.XmlStream">
+<em class="property">class </em><code class="descclassname">cXmlWrite.</code><code class="descname">XmlStream</code><a class="headerlink" href="#cXmlWrite.XmlStream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and maintains an XML output stream.</p>
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.__enter__">
+<code class="descname">__enter__</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em><span class="sig-paren">)</span> &#x2192; cXmlWrite.XmlStream<a class="headerlink" href="#cXmlWrite.XmlStream.__enter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager support.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">cpip.plot.SVGWriter.SVGWriter,cpip.util.XmlWrite.XhtmlStream</span></code> – self</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.__exit__">
+<code class="descname">__exit__</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>*args</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#cXmlWrite.XmlStream.__exit__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager support.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param excType:</th><td class="field-body">Exception type, if raised.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param excValue:</th><td class="field-body">Exception, if raised.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param tb:</th><td class="field-body">Traceback, if raised.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>theEnc: str='utf-8'</em>, <em>theDtdLocal: str=''</em>, <em>theId: int=0</em>, <em>mustIndent: bool=True</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise with an encoding.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param theEnc:</th><td class="field-body">The encoding to be used.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">param theDtdLocal:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Any local DTD as a string.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param theId:</th><td class="field-body">An integer value to use as an ID string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">param mustIndent:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Flag, if True the elements will be indented (pretty printed).</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="cXmlWrite.XmlStream._canIndent">
+<code class="descname">_canIndent</code><a class="headerlink" href="#cXmlWrite.XmlStream._canIndent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if indentation is possible (no mixed content etc.).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream._closeElemIfOpen">
+<code class="descname">_closeElemIfOpen</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream._closeElemIfOpen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the element if open.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream._encode">
+<code class="descname">_encode</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>arg0: str</em>, <em>arg1: str</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#cXmlWrite.XmlStream._encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>“Apply the XML encoding such as <code class="docutils literal notranslate"><span class="pre">'&lt;'</span></code> to <code class="docutils literal notranslate"><span class="pre">'&amp;lt;'</span></code></p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param theStr:</th><td class="field-body">String to encode.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">str</span></code> – Encoded string.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream._flipIndent">
+<code class="descname">_flipIndent</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>arg0: bool</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream._flipIndent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value at the tip of the indent stack to the given value.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param theBool:</th><td class="field-body">Flag for indenting.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream._indent">
+<code class="descname">_indent</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>arg0: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream._indent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write out the indent string.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param offset:</th><td class="field-body">The offset.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.characters">
+<code class="descname">characters</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>arg0: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream.characters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes the string and writes it to the output.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param theString:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.comment">
+<code class="descname">comment</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>theS: str</em>, <em>newLine: bool=False</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream.comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a comment to the output stream.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param theS:</th><td class="field-body">The comment.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param newLine:</th><td class="field-body">If True the comment is written on a new line, if False it is written inline.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.endElement">
+<code class="descname">endElement</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>arg0: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream.endElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ends an element.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">Element name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.getvalue">
+<code class="descname">getvalue</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#cXmlWrite.XmlStream.getvalue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the XML document suitable for writing to a file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="cXmlWrite.XmlStream.id">
+<code class="descname">id</code><a class="headerlink" href="#cXmlWrite.XmlStream.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unique ID in this stream. The ID is incremented on each call.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.literal">
+<code class="descname">literal</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>arg0: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream.literal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes theString to the output without encoding.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param theString:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.pI">
+<code class="descname">pI</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>arg0: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream.pI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a Processing Instruction to the output stream.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.startElement">
+<code class="descname">startElement</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream, arg0: str, arg1: Dict[str, str]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream.startElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens a named element with attributes.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param name:</th><td class="field-body">Element name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param attrs:</th><td class="field-body">Element attributes.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.writeCDATA">
+<code class="descname">writeCDATA</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>arg0: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream.writeCDATA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a CDATA section.</p>
+<blockquote>
+<div><p>Example:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;![CDATA[</span>
+<span class="cp">...</span>
+<span class="cp">]]&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param theData:</th><td class="field-body">The CDATA content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.writeCSS">
+<code class="descname">writeCSS</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>arg0: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream.writeCSS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a style sheet as a CDATA section. Expects a dict of dicts.</p>
+<blockquote>
+<div><p>Example:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">style</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/css&quot;</span><span class="p">&gt;</span><span class="o">&lt;![</span><span class="nt">CDATA</span><span class="o">[</span>
+    <span class="o">...</span>
+<span class="o">]]&gt;</span><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param theCSSMap:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Map of CSS elements.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.writeECMAScript">
+<code class="descname">writeECMAScript</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em>, <em>arg0: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream.writeECMAScript" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the ECMA script.</p>
+<blockquote>
+<div><p>Example:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/ecmascript&quot;</span><span class="p">&gt;</span>
+<span class="c1">//&lt;![CDATA[</span>
+<span class="p">...</span>
+<span class="c1">// ]]&gt;</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param theData:</th><td class="field-body">The ECMA script content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XmlStream.xmlSpacePreserve">
+<code class="descname">xmlSpacePreserve</code><span class="sig-paren">(</span><em>self: cXmlWrite.XmlStream</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XmlStream.xmlSpacePreserve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suspends indentation for this element and its descendants.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cXmlWrite.XhtmlStream">
+<em class="property">class </em><code class="descclassname">cXmlWrite.</code><code class="descname">XhtmlStream</code><a class="headerlink" href="#cXmlWrite.XhtmlStream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specialisation of an XmlStream to handle XHTML.</p>
+<dl class="method">
+<dt id="cXmlWrite.XhtmlStream.__enter__">
+<code class="descname">__enter__</code><span class="sig-paren">(</span><em>self: cXmlWrite.XhtmlStream</em><span class="sig-paren">)</span> &#x2192; cXmlWrite.XhtmlStream<a class="headerlink" href="#cXmlWrite.XhtmlStream.__enter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager support.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">cpip.util.XmlWrite.XhtmlStream</span></code> – self</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XhtmlStream.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self: cXmlWrite.XhtmlStream</em>, <em>theEnc: str='utf-8'</em>, <em>theDtdLocal: str=''</em>, <em>theId: int=0</em>, <em>mustIndent: bool=True</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XhtmlStream.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise with an encoding.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param theEnc:</th><td class="field-body">The encoding to be used.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">param theDtdLocal:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Any local DTD as a string.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param theId:</th><td class="field-body">An integer value to use as an ID string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">param mustIndent:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Flag, if True the elements will be indented (pretty printed).</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.XhtmlStream.charactersWithBr">
+<code class="descname">charactersWithBr</code><span class="sig-paren">(</span><em>self: cXmlWrite.XhtmlStream</em>, <em>arg0: str</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.XhtmlStream.charactersWithBr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the string replacing any <code class="docutils literal notranslate"><span class="pre">\n</span></code> characters with <code class="docutils literal notranslate"><span class="pre">&lt;br/&gt;</span></code> elements.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param sIn:</th><td class="field-body">The string to write.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cXmlWrite.Element">
+<em class="property">class </em><code class="descclassname">cXmlWrite.</code><code class="descname">Element</code><a class="headerlink" href="#cXmlWrite.Element" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents an element in a markup stream.</p>
+<dl class="method">
+<dt id="cXmlWrite.Element.__enter__">
+<code class="descname">__enter__</code><span class="sig-paren">(</span><em>self: cXmlWrite.Element</em><span class="sig-paren">)</span> &#x2192; cXmlWrite.Element<a class="headerlink" href="#cXmlWrite.Element.__enter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager support.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">cpip.plot.SVGWriter.SVGGroup,cpip.plot.SVGWriter.SVGLine,cpip.plot.SVGWriter.SVGRect,cpip.plot.SVGWriter.SVGText,cpip.util.XmlWrite.Element</span></code> – self</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.Element.__exit__">
+<code class="descname">__exit__</code><span class="sig-paren">(</span><em>self: cXmlWrite.Element</em>, <em>*args</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#cXmlWrite.Element.__exit__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Context manager support.</dt>
+<dd><p class="first">TODO: Should respect RAISE_ON_ERROR here if excType is not None.</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param excType:</th><td class="field-body">Exception type, if raised.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param excValue:</th><td class="field-body">Exception, if raised.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param tb:</th><td class="field-body">Traceback, if raised.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cXmlWrite.Element.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self: cXmlWrite.Element</em>, <em>theXmlStream: cXmlWrite.XmlStream</em>, <em>theName: str</em>, <em>theAttrs: Dict[str</em>, <em>str]={}</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#cXmlWrite.Element.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param theXmlStream:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The XML stream.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">param theElemName:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Element name.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param theAttrs:</th><td class="field-body">Element attributes</td>
+</tr>
+<tr class="field-even field"><th class="field-name">returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">NoneType</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">cXmlWrite Reference</a><ul>
+<li><a class="reference internal" href="#xmlwriter-with-pybind11">XmlWriter with Pybind11</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">xmlwriter Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="_generate/cXmlWrite.ExceptionXml.html"
+                        title="next chapter">cXmlWrite.ExceptionXml</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/cXmlWrite.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="_generate/cXmlWrite.ExceptionXml.html" title="cXmlWrite.ExceptionXml"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="xmlwriter Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">xmlwriter 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Paul Ross.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+    </div>
+  </body>
+</html>

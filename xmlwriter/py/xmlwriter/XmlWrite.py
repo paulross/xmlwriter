@@ -80,10 +80,8 @@ def encodeString(theS, theCharPrefix='_'):
     See section 3 of : http://www.faqs.org/rfcs/rfc3548.html
 
     :param theS: The string to be encoded.
-    :type theS: ``str``
 
     :param theCharPrefix: A character to prefix the string.
-    :type theCharPrefix: ``str``
 
     :returns: ``str`` -- Encoded string.
     """
@@ -136,7 +134,6 @@ def nameFromString(theStr):
     This also works for in namespaces as ':' is not used in the encoding.
 
     :param theStr: The string to be encoded.
-    :type theStr: ``str``
 
     :returns: ``str`` -- Encoded string."""
     return encodeString(theStr, 'Z')
@@ -161,16 +158,12 @@ class XmlStream(object):
         """Initialise with an encoding.
         
         :param theEnc: The encoding to be used.
-        :type theEnc: ``str``
 
         :param theDtdLocal: Any local DTD as a string.
-        :type theDtdLocal: ``NoneType``, ``str``
 
         :param theId: An integer value to use as an ID string.
-        :type theId: ``int``
 
         :param mustIndent: Flag, if True the elements will be indented (pretty printed).
-        :type mustIndent: ``bool``
 
         :returns: ``NoneType``
         """
@@ -211,7 +204,6 @@ class XmlStream(object):
         """Set the value at the tip of the indent stack to the given value.
 
         :param theBool: Flag for indenting.
-        :type theBool: ``bool``
 
         :returns: ``NoneType``
         """
@@ -234,10 +226,8 @@ class XmlStream(object):
         """Opens a named element with attributes.
 
         :param name: Element name.
-        :type name: ``str``
 
         :param attrs: Element attributes.
-        :type attrs: ``dict({str : [str]}), dict({})``
 
         :returns: ``NoneType``"""
         self._closeElemIfOpen()
@@ -254,7 +244,6 @@ class XmlStream(object):
         """Encodes the string and writes it to the output.
 
         :param theString: The content.
-        :type theString: ``str``
 
         :returns: ``NoneType``
         """
@@ -268,7 +257,6 @@ class XmlStream(object):
         """Writes theString to the output without encoding.
 
         :param theString: The content.
-        :type theString: ``str``
 
         :returns: ``NoneType``
         """
@@ -281,10 +269,8 @@ class XmlStream(object):
         """Writes a comment to the output stream.
 
         :param theS: The comment.
-        :type theS: ``str``
 
         :param newLine: If True the comment is written on a new line, if False it is written inline.
-        :type newLine: ``bool``
 
         :returns: ``NoneType``
         """
@@ -305,7 +291,6 @@ class XmlStream(object):
         """Ends an element.
 
         :param name: Element name.
-        :type name: ``str``
 
         :returns: ``NoneType``
         """
@@ -343,7 +328,6 @@ class XmlStream(object):
             </script>
 
         :param theData: The ECMA script content.
-        :type theData: ``str``
 
         :returns: ``NoneType``
         """
@@ -363,7 +347,6 @@ class XmlStream(object):
             ]]>
 
         :param theData: The CDATA content.
-        :type theData: ``str``
 
         :returns: ``NoneType``
         """
@@ -386,7 +369,6 @@ class XmlStream(object):
             ]]></style>
 
         :param theCSSMap: Map of CSS elements.
-        :type theCSSMap: ``dict({str : [dict({str : [str]}), dict({str : [str]})]})``
 
         :returns: ``NoneType``
         """
@@ -404,7 +386,6 @@ class XmlStream(object):
         """Write out the indent string.
 
         :param offset: The offset.
-        :type offset: ``int``
 
         :returns: ``NoneType``
         """
@@ -425,7 +406,6 @@ class XmlStream(object):
         """"Apply the XML encoding such as ``'<'`` to ``'&lt;'``
 
         :param theStr: String to encode.
-        :type theStr: ``str``
 
         :returns: ``str`` -- Encoded string.
         """
@@ -454,13 +434,10 @@ class XmlStream(object):
         """Context manager support.
 
         :param excType: Exception type, if raised.
-        :type excType: ``NoneType``
 
         :param excValue: Exception, if raised.
-        :type excValue: ``NoneType``
 
         :param tb: Traceback, if raised.
-        :type tb: ``NoneType``
 
         :returns: ``NoneType``
         """
@@ -498,7 +475,6 @@ class XhtmlStream(XmlStream):
         """Writes the string replacing any ``\\n`` characters with ``<br/>`` elements.
 
         :param sIn: The string to write.
-        :type sIn: ``str``
 
         :returns: ``NoneType``
         """
@@ -525,13 +501,10 @@ class Element(object):
         """Constructor.
 
         :param theXmlStream: The XML stream.
-        :type theXmlStream: ``cpip.plot.SVGWriter.SVGWriter, cpip.util.XmlWrite.XhtmlStream``
 
         :param theElemName: Element name.
-        :type theElemName: ``str``
 
         :param theAttrs: Element attributes
-        :type theAttrs: ``NoneType, dict({str : [str]}), dict({})``
 
         :returns: ``NoneType``
         """
@@ -553,13 +526,10 @@ class Element(object):
         TODO: Should respect RAISE_ON_ERROR here if excType is not None.
 
         :param excType: Exception type, if raised.
-        :type excType: ``NoneType``
 
         :param excValue: Exception, if raised.
-        :type excValue: ``NoneType``
 
         :param tb: Traceback, if raised.
-        :type tb: ``NoneType``
 
         :returns: ``NoneType``
         """
