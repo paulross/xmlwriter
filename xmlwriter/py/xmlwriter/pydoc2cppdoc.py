@@ -63,7 +63,7 @@ def main(module_path):
         print_doc(doc, module_name)
         doc_count += 1
     doc_count += print_member_doc(module_name, module)
-    print('// Completed {:d} documentation strings from modue {}'.format(doc_count, module_name))
+    print('// Completed {:d} documentation strings from module {}'.format(doc_count, module_name))
     return 0
 
 if __name__ == '__main__':
