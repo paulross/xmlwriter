@@ -1,17 +1,17 @@
 #include <pybind11/pybind11.h>
 
 #include "XmlWrite.h"
-#include "cXmlWrite_docs.h"
+#include "pbXmlWrite_docs.h"
 
 namespace py = pybind11;
 
 
-PYBIND11_MODULE(cXmlWrite, m) {
+PYBIND11_MODULE(pbXmlWrite, m) {
     m.doc() = R"pbdoc(
         XmlWriter with Pybind11
         -----------------------
 
-        .. currentmodule:: cXmlWrite
+        .. currentmodule:: pbXmlWrite
 
         .. autosummary::
             :toctree: _generate

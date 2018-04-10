@@ -24,9 +24,9 @@ class get_pybind_include(object):
 
 ext_modules = [
     Extension(
-        'cXmlWrite',
+        'pbXmlWrite',
         [
-            'xmlwriter/cpy/cXmlWrite.cpp',
+            'xmlwriter/cpy/pbXmlWrite.cpp',
             'xmlwriter/cpp/XmlWrite.cpp',
             'xmlwriter/cpp/base64.cpp',
         ],

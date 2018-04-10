@@ -47,7 +47,7 @@ std::string decodeString(const std::string &theS) {
     }
     result = base64_decode(result);
 //    std::cout << "Decode was: \"" << theS << "\" now \"" << result << "\"" << std::endl;
-    // This does not work, see the cXmlWrite.cpp decodeString for the solution.
+    // This does not work, see the pbXmlWrite.cpp decodeString for the solution.
     // return py::bytes(result);
     return result;
 }
