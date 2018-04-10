@@ -36,6 +36,7 @@
 		C3770D561FD084F300315387 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
 		C382E6DE204096A7003C4C49 /* Python */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = Python; path = ../../../../../../../../../Library/Frameworks/Python.framework/Versions/3.6/Python; sourceTree = "<group>"; };
 		C382E6E02041829F003C4C49 /* cXmlWrite_docs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cXmlWrite_docs.h; sourceTree = "<group>"; };
+		C3A411F0207D2C5D00A6C2C1 /* setup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = setup.py; path = ../setup.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				C382E6DE204096A7003C4C49 /* Python */,
+				C3A411F0207D2C5D00A6C2C1 /* setup.py */,
 				C3770D491FCC134700315387 /* cpp */,
 				C3770D511FCEE73B00315387 /* cpy */,
 				C3770D401FCC12FD00315387 /* Products */,
