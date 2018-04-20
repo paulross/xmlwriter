@@ -1,10 +1,55 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include "XmlWrite.h"
-#include "pbXmlWrite_docs.h"
+#include "XmlWrite_docs.h"
 
 namespace py = pybind11;
 
+#if 0
+/**
+ * Specialise the underlying C++ code for supporting Python context manager
+ * __exit__ calls with pybind11 techniques.
+ * This keeps the seperation of pure C++ and pybind11 clean.
+ */
+class PybXmlStream : public XmlStream {
+public:
+    PybXmlStream(const std::string &theEnc/* ='utf-8'*/,
+                 const std::string &theDtdLocal /* =None */,
+                 int theId /* =0 */,
+                 bool mustIndent /* =True */) : XmlStream(theEnc, theDtdLocal, theId, mustIndent) {}
+    bool _exit(py::args args) {
+        _close();
+        return false; // Propogate any exception
+    }
+};
+
+class PybXhtmlStream : public XhtmlStream {
+public:
+    PybXhtmlStream(const std::string &theEnc/* ='utf-8'*/,
+                   const std::string &theDtdLocal /* =None */,
+                   int theId /* =0 */,
+                   bool mustIndent /* =True */) : XhtmlStream(theEnc, theDtdLocal, theId, mustIndent) {}
+    bool _exit(py::args args) {
+        _close();
+        return false; // Propogate any exception
+    }
+};
+
+class PybElement : public Element {
+public:
+    PybElement(XmlStream &theXmlStream,
+               const std::string &theElemName,
+               const tAttrs &theAttrs=tAttrs()) : Element(theXmlStream,
+                                                          theElemName,
+                                                          theAttrs) {}
+    bool _exit(py::args args) {
+        _close();
+        return false; // Propogate any exception
+    }
+};
+
+#endif
 
 PYBIND11_MODULE(pbXmlWrite, m) {
     m.doc() = R"pbdoc(
@@ -47,7 +92,7 @@ PYBIND11_MODULE(pbXmlWrite, m) {
           );
     m.def("nameFromString", &nameFromString, DOCSTRING_XmlWrite_nameFromString);
     
-    // The XmlStream class
+    // The XmlStream class but masquerading as a PybXmlStream
     py::class_<XmlStream>(m, "XmlStream", DOCSTRING_XmlWrite_XmlStream)
         .def(py::init<const std::string &, const std::string &, int, bool>(),
              DOCSTRING_XmlWrite_XmlStream___init__,
@@ -55,31 +100,46 @@ PYBIND11_MODULE(pbXmlWrite, m) {
              py::arg("theDtdLocal")="",
              py::arg("theId")=0,
              py::arg("mustIndent")=true)
-        .def("getvalue", &XmlStream::getvalue, DOCSTRING_XmlWrite_XmlStream_getvalue)
+        .def("getvalue", &XmlStream::getvalue,
+             DOCSTRING_XmlWrite_XmlStream_getvalue)
         .def_property_readonly("id", &XmlStream::id,
                                "A unique ID in this stream. The ID is incremented on each call.")
         .def_property_readonly("_canIndent", &XmlStream::_canIndent,
                                "Returns True if indentation is possible (no mixed content etc.).")
-        .def("_flipIndent", &XmlStream::_flipIndent, DOCSTRING_XmlWrite_XmlStream__flipIndent)
-        .def("xmlSpacePreserve", &XmlStream::xmlSpacePreserve, DOCSTRING_XmlWrite_XmlStream_xmlSpacePreserve)
-        .def("startElement", &XmlStream::startElement, DOCSTRING_XmlWrite_XmlStream_startElement)
-        .def("characters", &XmlStream::characters, DOCSTRING_XmlWrite_XmlStream_characters)
-        .def("literal", &XmlStream::literal, DOCSTRING_XmlWrite_XmlStream_literal)
-        .def("comment", &XmlStream::comment, DOCSTRING_XmlWrite_XmlStream_comment,
+        .def("_flipIndent", &XmlStream::_flipIndent,
+             DOCSTRING_XmlWrite_XmlStream__flipIndent)
+        .def("xmlSpacePreserve", &XmlStream::xmlSpacePreserve,
+             DOCSTRING_XmlWrite_XmlStream_xmlSpacePreserve)
+        .def("startElement", &XmlStream::startElement,
+             DOCSTRING_XmlWrite_XmlStream_startElement)
+        .def("characters", &XmlStream::characters,
+             DOCSTRING_XmlWrite_XmlStream_characters)
+        .def("literal", &XmlStream::literal,
+             DOCSTRING_XmlWrite_XmlStream_literal)
+        .def("comment", &XmlStream::comment,
+             DOCSTRING_XmlWrite_XmlStream_comment,
              py::arg("theS"),
              py::arg("newLine")=false
              )
         .def("pI", &XmlStream::pI, DOCSTRING_XmlWrite_XmlStream_pI)
-        .def("endElement", &XmlStream::endElement, DOCSTRING_XmlWrite_XmlStream_endElement)
-        .def("writeECMAScript", &XmlStream::writeECMAScript, DOCSTRING_XmlWrite_XmlStream_writeECMAScript)
-        .def("writeCDATA", &XmlStream::writeCDATA, DOCSTRING_XmlWrite_XmlStream_writeCDATA)
-        .def("writeCSS", &XmlStream::writeCDATA, DOCSTRING_XmlWrite_XmlStream_writeCSS)
-
-        .def("_indent", &XmlStream::_indent, DOCSTRING_XmlWrite_XmlStream__indent)
-        .def("_closeElemIfOpen", &XmlStream::_closeElemIfOpen, DOCSTRING_XmlWrite_XmlStream__closeElemIfOpen)
-        .def("_encode", &XmlStream::_encode, DOCSTRING_XmlWrite_XmlStream__encode)
-        .def("__enter__", &XmlStream::_enter, DOCSTRING_XmlWrite_XmlStream___enter__)//, py::return_value_policy::reference_internal)
-        .def("__exit__", &XmlStream::_exit, DOCSTRING_XmlWrite_XmlStream___exit__)
+        .def("endElement", &XmlStream::endElement,
+             DOCSTRING_XmlWrite_XmlStream_endElement)
+        .def("writeECMAScript", &XmlStream::writeECMAScript,
+             DOCSTRING_XmlWrite_XmlStream_writeECMAScript)
+        .def("writeCDATA", &XmlStream::writeCDATA,
+             DOCSTRING_XmlWrite_XmlStream_writeCDATA)
+        .def("writeCSS", &XmlStream::writeCDATA,
+             DOCSTRING_XmlWrite_XmlStream_writeCSS)
+        .def("_indent", &XmlStream::_indent,
+             DOCSTRING_XmlWrite_XmlStream__indent)
+        .def("_closeElemIfOpen", &XmlStream::_closeElemIfOpen,
+             DOCSTRING_XmlWrite_XmlStream__closeElemIfOpen)
+        .def("_encode", &XmlStream::_encode,
+             DOCSTRING_XmlWrite_XmlStream__encode)
+        .def("__enter__", &XmlStream::_enter,
+             DOCSTRING_XmlWrite_XmlStream___enter__)
+//        .def("__exit__", &XmlStream::_exit,
+//             DOCSTRING_XmlWrite_XmlStream___exit__)
         ;
 
     // The XhtmlStream class
@@ -101,8 +161,9 @@ PYBIND11_MODULE(pbXmlWrite, m) {
              py::arg("theXmlStream"),
              py::arg("theName"),
              py::arg("theAttrs")=tAttrs())
-        .def("__enter__", &Element::_enter, DOCSTRING_XmlWrite_Element___enter__)//, py::return_value_policy::reference_internal)
-        .def("__exit__", &Element::_exit, DOCSTRING_XmlWrite_Element___exit__)
+        .def("__enter__", &Element::_enter,
+             DOCSTRING_XmlWrite_Element___enter__)
+//        .def("__exit__", &Element::_exit, DOCSTRING_XmlWrite_Element___exit__)
     ;
     
 #ifdef VERSION_INFO

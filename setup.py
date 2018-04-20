@@ -6,6 +6,18 @@ import setuptools
 __version__ = '0.0.1'
 
 # from setuptools import setup, find_packages
+DEBUG = True
+
+EXTRA_COMPILE_ARGS = [
+    '-Wall',
+    '-Wextra',
+#     '-Werror',
+#     '-Wfatal-errors',
+#     '-pedantic',
+]
+if DEBUG:
+    # Pybind11 in debug mode #if !defined(NDEBUG)
+    EXTRA_COMPILE_ARGS += ['-DDEBUG', '-O0', '-g', '-UNDEBUG']
 
 class get_pybind_include(object):
     """Helper class to determine the pybind11 include path
@@ -23,10 +35,12 @@ class get_pybind_include(object):
 
 
 ext_modules = [
+    # Pybind11 wrapper to the C++ XmlStream
     Extension(
-        'pbXmlWrite',
-        [
+        "pbXmlWrite",
+        sources=[
             'xmlwriter/cpy/pbXmlWrite.cpp',
+            'xmlwriter/cpy/XmlWrite_docs.cpp',
             'xmlwriter/cpp/XmlWrite.cpp',
             'xmlwriter/cpp/base64.cpp',
         ],
@@ -36,6 +50,23 @@ ext_modules = [
             get_pybind_include(),
             get_pybind_include(user=True)
         ],
+        language='c++'
+    ),
+    # CPython wrapper to the C++ XmlStream
+    Extension(
+        "cXmlWrite",
+        sources=[
+            'xmlwriter/cpy/cXmlWrite.cpp',
+            'xmlwriter/cpy/XmlWrite_docs.cpp',
+            'xmlwriter/cpp/XmlWrite.cpp',
+            'xmlwriter/cpp/base64.cpp',
+        ],
+        include_dirs = [
+            'xmlwriter/cpp',
+            'xmlwriter/cpy',
+        ],
+        library_dirs = [],
+#         extra_compile_args=[],
         language='c++'
     ),
 ]
@@ -60,8 +91,10 @@ def has_flag(compiler, flagname):
 def cpp_flag(compiler):
     """Return the -std=c++[11/14] compiler flag.
 
-    The c++14 is prefered over c++11 (when it is available).
+    The c++14 is preferred over c++11 (when it is available).
     """
+    # Hack, won't build on mac os x otherwise
+    return '-std=c++11'
     if has_flag(compiler, '-std=c++14'):
         return '-std=c++14'
     elif has_flag(compiler, '-std=c++11'):
@@ -92,7 +125,7 @@ class BuildExt(build_ext):
         elif ct == 'msvc':
             opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
         for ext in self.extensions:
-            ext.extra_compile_args = opts
+            ext.extra_compile_args = opts + EXTRA_COMPILE_ARGS
         build_ext.build_extensions(self)
 
 test_requirements = [
