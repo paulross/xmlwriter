@@ -13,6 +13,7 @@
         2. [Optimisation](#Performance_Optimisation)
         3. [Summary](#Performance_Summary)
     6. [Documentation](#Documentation)
+    7. [Miscellaneous](#Miscellaneous)
 4. [Conclusions](#Conclusions)
 5. [History](#History)
 6. [Boilerplate Footnotes](#Boilerplate_Footnotes)
@@ -221,6 +222,13 @@ Capture the output of `python pydoc2cppdoc.py XmlWrite.py` to a header file such
 The nice thing is that type annotations are generated in the documentation automatically from the C++ code.
 
 One noticeable thing was the slow turnaround when editing the documentation, you have to edit in C++, build the project (which takes several seconds) and then ``make html``.
+
+<a name="Miscellaneous"></a>
+## Miscellaneous
+
+### Debug Builds
+
+Pybind11 uses `#if !defined(NDEBUG)` for debug code so un-defining `NDEBUG` can be useful for creating a debug build and getting better error messages.
 
 <a name="Conclusions"></a>
 # Conclusions

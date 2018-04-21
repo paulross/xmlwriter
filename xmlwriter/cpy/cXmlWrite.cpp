@@ -1164,7 +1164,8 @@ static PyModuleDef cXmlWritemodule = {
 static PyObject *Py_ExceptionXml;
 static PyObject *Py_ExceptionXmlEndElement;
 
-__attribute__((visibility("default"))) PyMODINIT_FUNC
+__attribute__((visibility("default")))
+PyMODINIT_FUNC
 PyInit_cXmlWrite(void) {
     PyObject* m = PyModule_Create(&cXmlWritemodule);
     if (m == NULL) {

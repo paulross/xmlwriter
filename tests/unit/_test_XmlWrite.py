@@ -34,7 +34,6 @@ import io
 # except ImportError:
 #     from xmlwriter import XmlWrite
 
-from xmlwriter import XmlWrite
 
 ######################
 # Section: Unit tests.

@@ -5,8 +5,11 @@ import setuptools
 
 __version__ = '0.0.1'
 
+# Building: MACOSX_DEPLOYMENT_TARGET=10.9 python setup.py build_ext -f --inplace
+# Testing: PYTHONPATH=. pytest -vs --benchmark-name=long tests/unit/
+
 # from setuptools import setup, find_packages
-DEBUG = True
+DEBUG = False
 
 EXTRA_COMPILE_ARGS = [
     '-Wall',
