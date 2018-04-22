@@ -52,6 +52,14 @@ std::string text_requires_encoding{
     "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.>"
 };
 
+tAttrs BENCHMARK_ATTRIBUTES = {
+    { "id",  "ZaHR0cDovL3d3dy53My5vcmcvVFIvMTk5OS9SRUMtaHRtbDQwMS0xOTk5MTIyNC90eXBlcy5odG1sI3R5cGUtY2RhdGE_" },
+    { "foo", "bar" },
+    { "baz", "long_attribute_that_goes_on_and_on_and_on_and_on_and_on_and_on_and_on" },
+    { "name", "George \"Shotgun\" Ziegler" },
+};
+
+
 // Test performance of entity encoding - used for profiling
 void test_XmlWrite__encode_no_encoding() {
     XmlStream xs { "utf-8", "", 0, true };
@@ -62,7 +70,7 @@ void test_XmlWrite__encode_no_encoding() {
     for (size_t i = 0; i < COUNT; ++i) {
         xs._encode(text_no_encoding, output);
     }
-    std::cout << std::setw(40) <<__FUNCTION__ << " time: ";
+    std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << clk.us() / COUNT << " (us)";
     std::cout << std::endl;
@@ -78,7 +86,7 @@ void test_XmlWrite__encode_with_encoding() {
     for (size_t i = 0; i < COUNT; ++i) {
         xs._encode(text_requires_encoding, output);
     }
-    std::cout << std::setw(40) <<__FUNCTION__ << " time: ";
+    std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << clk.us() / COUNT << " (us)";
     std::cout << std::endl;
@@ -92,7 +100,7 @@ void test_XmlWrite_encodeString() {
     for (size_t i = 0; i < COUNT; ++i) {
         encodeString(text_no_encoding);
     }
-    std::cout << std::setw(40) <<__FUNCTION__ << " time: ";
+    std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << clk.us() / COUNT << " (us)";
     std::cout << std::endl;
@@ -107,7 +115,7 @@ void test_XmlWrite_decodeString() {
     for (size_t i = 0; i < COUNT; ++i) {
         decodeString(encoded);
     }
-    std::cout << std::setw(40) <<__FUNCTION__ << " time: ";
+    std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << clk.us() / COUNT << " (us)";
     std::cout << std::endl;
@@ -115,22 +123,22 @@ void test_XmlWrite_decodeString() {
 
 // Simulate writing an XHTML document
 double _test_write_XHTML_document(size_t headings, size_t paragraphs,
-                                  size_t &size) {
+                                  size_t &size, const tAttrs &attributes) {
     XhtmlStream xs { "utf-8", "", 0, true };
     ExecClock clk;
     
     xs._enter();
     for (size_t i_h1 = 0; i_h1 < headings; ++i_h1) {
-        Element h1 = Element(xs, "h1");
+        Element h1 = Element(xs, "h1", attributes);
         h1._enter();
         for (size_t i_h2 = 0; i_h2 < headings; ++i_h2) {
-            Element h2 = Element(xs, "h2");
+            Element h2 = Element(xs, "h2", attributes);
             h2._enter();
             for (size_t i_h3 = 0; i_h3 < headings; ++i_h3) {
-                Element h3 = Element(xs, "h3");
+                Element h3 = Element(xs, "h3", attributes);
                 h3._enter();
                 for (size_t t = 0; t < paragraphs; ++t) {
-                    Element p = Element(xs, "p");
+                    Element p = Element(xs, "p", attributes);
                     p._enter();
                     xs.characters(text_no_encoding);
                     p._close();
@@ -149,8 +157,9 @@ double _test_write_XHTML_document(size_t headings, size_t paragraphs,
 
 void test_write_small_XHTML_document() {
     size_t size;
-    auto exec = _test_write_XHTML_document(4, 2, size);
-    std::cout << std::setw(40) <<__FUNCTION__ << " time: ";
+    tAttrs attributes;
+    auto exec = _test_write_XHTML_document(4, 2, size, attributes);
+    std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
     std::cout << " result: " << (size == 61069);
@@ -159,8 +168,9 @@ void test_write_small_XHTML_document() {
 
 void test_write_large_XHTML_document() {
     size_t size;
-    auto exec = _test_write_XHTML_document(8, 5, size);
-    std::cout << std::setw(40) <<__FUNCTION__ << " time: ";
+    tAttrs attributes;
+    auto exec = _test_write_XHTML_document(8, 5, size, attributes);
+    std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
     std::cout << " result: " << (size == 1193497);
@@ -169,25 +179,79 @@ void test_write_large_XHTML_document() {
 
 void test_write_very_large_XHTML_document() {
     size_t size;
-    auto exec = _test_write_XHTML_document(16, 8, size);
-    std::cout << std::setw(40) <<__FUNCTION__ << " time: ";
+    tAttrs attributes;
+    auto exec = _test_write_XHTML_document(16, 8, size, attributes);
+    std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
     std::cout << " result: " << (size == 15205585);
     std::cout << std::endl;
 }
 
+void test_write_small_XHTML_document_attributes() {
+    size_t size;
+    auto exec = _test_write_XHTML_document(4, 2, size, BENCHMARK_ATTRIBUTES);
+    std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
+    std::cout << std::setw(12) << std::fixed << std::setprecision(3);
+    std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
+    std::cout << " result: " << (size == 61069);
+    std::cout << std::endl;
+}
+
+void test_write_large_XHTML_document_attributes() {
+    size_t size;
+    auto exec = _test_write_XHTML_document(8, 5, size, BENCHMARK_ATTRIBUTES);
+    std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
+    std::cout << std::setw(12) << std::fixed << std::setprecision(3);
+    std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
+    std::cout << " result: " << (size == 1193497);
+    std::cout << std::endl;
+}
+
+void test_write_very_large_XHTML_document_attributes() {
+    size_t size;
+    auto exec = _test_write_XHTML_document(16, 8, size, BENCHMARK_ATTRIBUTES);
+    std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
+    std::cout << std::setw(12) << std::fixed << std::setprecision(3);
+    std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
+    std::cout << " result: " << (size == 15205585);
+    std::cout << std::endl;
+}
+
+void debug_function() {
+    XhtmlStream xs { "utf-8", "", 0, true };
+    //std::string input { "George \"Shotgun\" Ziegler" };
+//    std::string input { "A\"bc\"D" };
+    std::string inputs[] = {
+        "AbcD",
+        "A\"bc\"D",
+        "George \"Shotgun\" Ziegler"
+    };
+    for (auto & input: inputs) {
+        std::string output;
+        bool use_output = xs._encode(input, output);
+        std::cout << "Input: \"" << input << "\"";
+        std::cout << " use_output: " << use_output;
+        std::cout << " Output: \"" << output << "\"" << std::endl;
+    }
+}
+
 int main(int /* argc */, const char *[] /* argv[] */) {
     std::cout << "Hello world" << std::endl;
-    
+//    debug_function();
+
     test_XmlWrite__encode_no_encoding();
     test_XmlWrite__encode_with_encoding();
     test_XmlWrite_encodeString();
     test_XmlWrite_decodeString();
+
     test_write_small_XHTML_document();
     test_write_large_XHTML_document();
     test_write_very_large_XHTML_document();
-    
+
+    test_write_small_XHTML_document_attributes();
+    test_write_large_XHTML_document_attributes();
+    test_write_very_large_XHTML_document_attributes();
     std::cout << "Bye, bye!\n";
     return 0;
 }

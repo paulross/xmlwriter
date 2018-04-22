@@ -257,7 +257,27 @@ class TestXhtmlWrite(unittest.TestCase):
   </body>
 </html>
 """)
-        
+
+    def test_02(self):
+        attrs = {
+            'id' : 'ZaHR0cDovL3d3dy53My5vcmcvVFIvMTk5OS9SRUMtaHRtbDQwMS0xOTk5MTIyNC90eXBlcy5odG1sI3R5cGUtY2RhdGE_',
+            'foo' : 'bar',
+            'baz' : 'long_attribute_that_goes_on_and_on_and_on_and_on_and_on_and_on_and_on',
+            'name' : 'George "Shotgun" Ziegler',
+        }
+        with XmlWrite.XhtmlStream() as xS:
+            with XmlWrite.Element(xS, 'head', attrs):
+                pass
+#         print()
+#         print(xS.getvalue())
+        expected = """<?xml version='1.0' encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head baz="long_attribute_that_goes_on_and_on_and_on_and_on_and_on_and_on_and_on" foo="bar" id="ZaHR0cDovL3d3dy53My5vcmcvVFIvMTk5OS9SRUMtaHRtbDQwMS0xOTk5MTIyNC90eXBlcy5odG1sI3R5cGUtY2RhdGE_" name="George &quot;Shotgun&quot; Ziegler" />
+</html>
+"""
+        assert xS.getvalue() == expected
+       
     def test_charactersWithBr_00(self):
         """TestXhtmlWrite.test_00(): simple example."""
         with XmlWrite.XhtmlStream() as xS:
@@ -297,22 +317,27 @@ this line.""")
 def _encode_text(text):
     XmlWrite.encodeString(text)
 
-def test_XmlWrite_encode_text(benchmark):
-    text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+BENCHMARK_TEXT = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
-    benchmark(_encode_text, text)
+
+BENCHMARK_ATTRIBUTES = {
+    'id' : 'ZaHR0cDovL3d3dy53My5vcmcvVFIvMTk5OS9SRUMtaHRtbDQwMS0xOTk5MTIyNC90eXBlcy5odG1sI3R5cGUtY2RhdGE_',
+    'foo' : 'bar',
+    'baz' : 'long_attribute_that_goes_on_and_on_and_on_and_on_and_on_and_on_and_on',
+    'name' : 'George "Shotgun" Ziegler'
+}
+
+def test_XmlWrite_encode_text(benchmark):
+    benchmark(_encode_text, BENCHMARK_TEXT)
 
 def _decode_text(text):
     XmlWrite.decodeString(text)
 
 def test_XmlWrite_decode_text(benchmark):
-    text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
-    encoded = XmlWrite.encodeString(text)
+    encoded = XmlWrite.encodeString(BENCHMARK_TEXT)
     benchmark(_encode_text, encoded)
 
 def create_XML_stream():
@@ -331,83 +356,93 @@ def create_XML_stream_write_two_elements():
 def test_XmlWrite_two_elements(benchmark):
     benchmark(create_XML_stream_write_two_elements)
 
-def write_small_XHTML_document():
-    text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
+def write_small_XHTML_document(attributes):
+    # Number of elements: 4*4*4*2 = 128
     headings = 4
     with XmlWrite.XhtmlStream() as xS:
         for i in range(headings):
-            with XmlWrite.Element(xS, 'h1', {}):
+            with XmlWrite.Element(xS, 'h1', attributes):
                 for j in range(headings):
-                    with XmlWrite.Element(xS, 'h2', {}):
+                    with XmlWrite.Element(xS, 'h2', attributes):
                         for k in range(headings):
-                            with XmlWrite.Element(xS, 'h3', {}):
+                            with XmlWrite.Element(xS, 'h3', attributes):
                                 for l in range(2):
-                                    with XmlWrite.Element(xS, 'p', {}):
-                                        xS.characters(text)
+                                    with XmlWrite.Element(xS, 'p', attributes):
+                                        xS.characters(BENCHMARK_TEXT)
     result = xS.getvalue()
     return result
 
 def test_XmlWrite_small_XHTML_doc(benchmark):
     # About 60kb
-    result = benchmark(write_small_XHTML_document)
+    result = benchmark(write_small_XHTML_document, {})
     # print()
     # print(result)
     assert len(result) == 61069
 
-def write_large_XHTML_document():
-    text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
+def write_large_XHTML_document(attributes):
+    # Number of elements: 8*8*8*5 = 2560
     headings = 8
     with XmlWrite.XhtmlStream() as xS:
         for i in range(headings):
-            with XmlWrite.Element(xS, 'h1', {}):
+            with XmlWrite.Element(xS, 'h1', attributes):
                 for j in range(headings):
-                    with XmlWrite.Element(xS, 'h2', {}):
+                    with XmlWrite.Element(xS, 'h2', attributes):
                         for k in range(headings):
-                            with XmlWrite.Element(xS, 'h3', {}):
+                            with XmlWrite.Element(xS, 'h3', attributes):
                                 for l in range(5):
-                                    with XmlWrite.Element(xS, 'p', {}):
-                                        xS.characters(text)
+                                    with XmlWrite.Element(xS, 'p', attributes):
+                                        xS.characters(BENCHMARK_TEXT)
     result = xS.getvalue()
     return result
 
 def test_XmlWrite_large_XHTML_doc(benchmark):
     # About 1Mb
-    result = benchmark(write_large_XHTML_document)
+    result = benchmark(write_large_XHTML_document, {})
     # print()
     # print(result)
     assert len(result) == 1193497
 
-def write_very_large_XHTML_document():
-    text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
+def write_very_large_XHTML_document(attributes):
+    # Number of elements: 16*16*16*8 = 32768
     headings = 16
     with XmlWrite.XhtmlStream() as xS:
         for i in range(headings):
-            with XmlWrite.Element(xS, 'h1', {}):
+            with XmlWrite.Element(xS, 'h1', attributes):
                 for j in range(headings):
-                    with XmlWrite.Element(xS, 'h2', {}):
+                    with XmlWrite.Element(xS, 'h2', attributes):
                         for k in range(headings):
-                            with XmlWrite.Element(xS, 'h3', {}):
+                            with XmlWrite.Element(xS, 'h3', attributes):
                                 for l in range(8):
-                                    with XmlWrite.Element(xS, 'p', {}):
-                                        xS.characters(text)
+                                    with XmlWrite.Element(xS, 'p', attributes):
+                                        xS.characters(BENCHMARK_TEXT)
     result = xS.getvalue()
     return result
 
 def test_XmlWrite_very_large_XHTML_doc(benchmark):
     # About 15Mb
-    result = benchmark(write_very_large_XHTML_document)
-    # print()
-    # print(result)
+    result = benchmark(write_very_large_XHTML_document, {})
+#     print()
+#     print(len(result))
     assert len(result) == 15205585
+
+def test_XmlWrite_small_XHTML_doc_attrs(benchmark):
+    # About 100kb
+    result = benchmark(write_small_XHTML_document, BENCHMARK_ATTRIBUTES)
+#     print()
+#     print(len(result))
+    assert len(result) == 109193
+
+def test_XmlWrite_large_XHTML_doc_attrs(benchmark):
+    # About 2Mb
+    result = benchmark(write_large_XHTML_document, BENCHMARK_ATTRIBUTES)
+#     print()
+#     print(len(result))
+    assert len(result) == 1907185
+
+def test_XmlWrite_very_large_XHTML_doc_attrs(benchmark):
+    # About 23Mb
+    result = benchmark(write_very_large_XHTML_document, BENCHMARK_ATTRIBUTES)
+    assert len(result) == 23635457
 
 # ---------- END: Benchmarks -----------------
 

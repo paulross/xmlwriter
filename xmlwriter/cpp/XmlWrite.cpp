@@ -106,8 +106,17 @@ void XmlStream::startElement(const std::string &name, const tAttrs &attrs) {
     _indent();
 //    std::cout << "Help XmlStream::startElement: m_output" << std::endl;
     m_output << '<' << name;
+    std::string attribute_value;
+    bool use_attribute_value;
     for (auto iter: attrs) {
-        m_output << ' ' << iter.first << '=' << "\"" << iter.second << "\"";
+        m_output << ' ' << iter.first << '=' << "\"";
+        use_attribute_value = _encode(iter.second, attribute_value);
+        if (use_attribute_value) {
+            m_output << attribute_value;
+        } else {
+            m_output << iter.second;
+        }
+        m_output << "\"";
     }
     _inElem = true;
     _canIndentStk.push_back(_mustIndent);
@@ -248,6 +257,8 @@ void XmlStream::_write_to_output(const std::string &input,
     index_start = index_current + 1;
 }
 
+// Encode the input to the output
+// Returns true if output must be used else the input can be used directly.
 bool XmlStream::_encode(const std::string &input,
                         std::string &output) const {
     output.clear();
@@ -285,6 +296,7 @@ bool XmlStream::_encode(const std::string &input,
             default:
                 if (! use_original) {
                     output.push_back(chr);
+                    ++index_start;
                 }
                 break;
         }
