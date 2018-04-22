@@ -1202,16 +1202,15 @@ PyInit_cXmlWrite(void) {
     }
 
     // Prepare and add types
+    // cXmlStreamType
     if (PyType_Ready(&cXmlStreamType) < 0) {
         return NULL;
     }
     Py_INCREF(&cXmlStreamType);
     PyModule_AddObject(m, "XmlStream", (PyObject *)&cXmlStreamType);
-    if (PyType_Ready(&cXmlStreamType) < 0) {
-        return NULL;
-    }
 
-    // Assign base object
+    // cXhtmlStreamType
+    // Assign base object first.
     cXhtmlStreamType.tp_base = &cXmlStreamType;
     if (PyType_Ready(&cXhtmlStreamType) < 0) {
         return NULL;
@@ -1221,7 +1220,7 @@ PyInit_cXmlWrite(void) {
     if (PyType_Ready(&cXhtmlStreamType) < 0) {
         return NULL;
     }
-
+    // cElementType
     if (PyType_Ready(&cElementType) < 0) {
         return NULL;
     }
