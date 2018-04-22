@@ -21,7 +21,13 @@ __author__  = 'Paul Ross'
 __date__    = '2009-09-15'
 __rights__  = 'Copyright (c) Paul Ross'
 
-"""Tests XmlWrite."""
+"""Tests XmlWrite.
+
+Usage, from project root:
+
+MACOSX_DEPLOYMENT_TARGET=10.9 python setup.py build_ext -f --inplace
+PYTHONPATH=. pytest -vs --benchmark-name=long --benchmark-sort=name tests/unit/
+"""
 
 import os
 import sys
