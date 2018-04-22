@@ -216,12 +216,15 @@ class TestXhtmlWrite(unittest.TestCase):
         """TestXhtmlWrite.test_00(): construction."""
         with XmlWrite.XhtmlStream() as xS:
             pass
-#        print()
-#        print(myF.getvalue())
-        self.assertEqual(xS.getvalue(), """<?xml version='1.0' encoding="utf-8"?>
+        result = xS.getvalue()
+        expected = """<?xml version='1.0' encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" />
-""")
+"""
+#         print()
+#         print(result)
+#         print(expected)
+        self.assertEqual(result, expected)
         
     def test_01(self):
         """TestXhtmlWrite.test_01(): simple example."""

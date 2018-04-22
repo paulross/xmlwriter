@@ -92,8 +92,7 @@ protected:
                           std::string &output,
                           const std::string &subst,
                           size_t &index_start,
-                          size_t index_current,
-                          bool &use_original
+                          size_t index_current
                           ) const;
 protected:
     std::ostringstream m_output;

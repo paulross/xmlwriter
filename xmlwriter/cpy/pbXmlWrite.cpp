@@ -35,6 +35,9 @@ public:
                    bool mustIndent /* =True */) : PybXmlStream(theEnc, theDtdLocal, theId, mustIndent) {}
     PybXhtmlStream &_enter() {
         PybXmlStream::_enter();
+        m_output << "\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"";
+        m_output << " \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">";
+        startElement("html", ROOT_ATTRIBUTES);
         return *this;
     }
     bool _exit(py::args /* args */) {
@@ -60,6 +63,12 @@ public:
             }
         }
     }
+protected:
+    const tAttrs ROOT_ATTRIBUTES = {
+        { "xmlns", "http://www.w3.org/1999/xhtml"},
+        { "xml:lang", "en" },
+        { "lang" , "en" },
+    };
 };
 
 class PybElement : public Element {
@@ -116,7 +125,7 @@ PYBIND11_MODULE(pbXmlWrite, m) {
     // base64 encoding and decoding
     m.def("encodeString", &encodeString, DOCSTRING_XmlWrite_encodeString,
           py::arg("theS"),
-          py::arg("theCharPrefix")='_'
+          py::arg("theCharPrefix")="_"
           );
     // NOTE: The way we have to return bytes by creating a lambda wrapper.
     m.def("decodeString",

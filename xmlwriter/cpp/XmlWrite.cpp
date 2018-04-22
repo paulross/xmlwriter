@@ -13,7 +13,12 @@ std::string encodeString(const std::string &theS,
         err <<theCharPrefix << "\"";
         throw ExceptionXml(err.str());
     }
-    std::string base64 = base64_encode(theS);
+    // Threee steps:
+    // * Base64 encoding of theS
+    // * Character substitution of the base64 sting.
+    // * Prepend prefix.
+    std::string base64;
+    base64_encode(theS, base64);
     for (size_t i = 0; i < base64.size(); ++i) {
         switch (base64[i]) {
             case '+':
@@ -29,7 +34,7 @@ std::string encodeString(const std::string &theS,
                 break;
         }
     }
-    return base64;
+    return theCharPrefix + base64;
 }
 
 std::string decodeString(const std::string &theS) {
@@ -117,7 +122,6 @@ void XmlStream::characters(const std::string &theString) {
     } else {
         m_output << theString;
     }
-    m_output << theString;
     // mixed content - don't indent
     _flipIndent(false);
 }
@@ -234,8 +238,7 @@ void XmlStream::_write_to_output(const std::string &input,
                                  std::string &output,
                                  const std::string &subst,
                                  size_t &index_start,
-                                 size_t index_current,
-                                 bool &use_original
+                                 size_t index_current
                                  ) const {
     if (output.size() == 0) {
         output.reserve(input.size() * 2);
@@ -243,7 +246,6 @@ void XmlStream::_write_to_output(const std::string &input,
     output.append(input, index_start, index_current - index_start);
     output.append(subst);
     index_start = index_current + 1;
-    use_original = false;
 }
 
 bool XmlStream::_encode(const std::string &input,
@@ -257,23 +259,28 @@ bool XmlStream::_encode(const std::string &input,
         switch (chr) {
             case '<':
                 _write_to_output(input, output, "&lt;",
-                                 index_start, index_current, use_original);
+                                 index_start, index_current);
+                use_original = false;
                 break;
             case '>':
                 _write_to_output(input, output, "&gt;",
-                                 index_start, index_current, use_original);
+                                 index_start, index_current);
+                use_original = false;
                 break;
             case '&':
                 _write_to_output(input, output, "&amp;",
-                                 index_start, index_current, use_original);
+                                 index_start, index_current);
+                use_original = false;
                 break;
             case '\'':
                 _write_to_output(input, output, "&apos;",
-                                 index_start, index_current, use_original);
+                                 index_start, index_current);
+                use_original = false;
                 break;
             case '"':
                 _write_to_output(input, output, "&quot;",
-                                 index_start, index_current, use_original);
+                                 index_start, index_current);
+                use_original = false;
                 break;
             default:
                 if (! use_original) {
