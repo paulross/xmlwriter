@@ -18,6 +18,9 @@
 static PyObject *Py_ExceptionXml;
 static PyObject *Py_ExceptionXmlEndElement;
 
+#pragma mark -
+#pragma mark Utilities
+
 #define XML_WRITE_DEBUG_TRACE 0
 
 // Macros for default arguments
@@ -78,7 +81,7 @@ public:
     }
     // Allow setting of the (optional) argument with
     // PyArg_ParseTupleAndKeywords
-    PyObject **operator&() { return &m_arg; }
+    PyObject **operator&() { m_arg = NULL; return &m_arg; }
     // Access the argument or the default if default.
     operator PyObject*() const {
         return m_arg ? m_arg : m_default;
@@ -95,54 +98,56 @@ protected:
  * If py_str is Unicode than treat it as UTF-8.
  * This works with Python 2.7 and Python 3.4 onwards.
  */
-//static int
-//py_str_to_string(const PyObject *py_str,
-//                 std::string &result,
-//                 bool utf8_only=true) {
-//    result.clear();
-//    if (PyBytes_Check(py_str)) {
-//        result = std::string(PyBytes_AS_STRING(py_str));
-//        return 0;
-//    }
-//    if (PyByteArray_Check(py_str)) {
-//        result = std::string(PyByteArray_AS_STRING(py_str));
-//        return 0;
-//    }
-//    // Must be unicode then.
-//    if (! PyUnicode_Check(py_str)) {
-//        PyErr_Format(PyExc_ValueError,
-//                     "In %s \"py_str\" failed PyUnicode_Check()",
-//                     __FUNCTION__);
-//        return -1;
-//    }
-//    if (PyUnicode_READY(py_str)) {
-//        PyErr_Format(PyExc_ValueError,
-//                     "In %s \"py_str\" failed PyUnicode_READY()",
-//                     __FUNCTION__);
-//        return -2;
-//    }
-//    if (utf8_only && PyUnicode_KIND(py_str) != PyUnicode_1BYTE_KIND) {
-//        PyErr_Format(PyExc_ValueError,
-//                     "In %s \"py_str\" not utf-8",
-//                     __FUNCTION__);
-//        return -3;
-//    }
-//    // Python 3 and its minor versions (they vary)
-//    //    const Py_UCS1 *pChrs = PyUnicode_1BYTE_DATA(pyStr);
-//    //    result = std::string(reinterpret_cast<const char*>(pChrs));
-//#if PY_MAJOR_VERSION >= 3
-//    result = std::string((char*)PyUnicode_1BYTE_DATA(py_str));
-//#else
-//    // Nasty cast away constness because PyString_AsString takes non-const in Py2
-//    result = std::string((char*)PyString_AsString(const_cast<PyObject *>(py_str)));
-//#endif
-//    return 0;
-//}
+static int
+py_str_to_string(const PyObject *py_str,
+                 std::string &result,
+                 bool utf8_only=true) {
+    result.clear();
+    if (PyBytes_Check(py_str)) {
+        result = std::string(PyBytes_AS_STRING(py_str));
+        return 0;
+    }
+    if (PyByteArray_Check(py_str)) {
+        result = std::string(PyByteArray_AS_STRING(py_str));
+        return 0;
+    }
+    // Must be unicode then.
+    if (! PyUnicode_Check(py_str)) {
+        PyErr_Format(PyExc_ValueError,
+                     "In %s \"py_str\" failed PyUnicode_Check()",
+                     __FUNCTION__);
+        return -1;
+    }
+    if (PyUnicode_READY(py_str)) {
+        PyErr_Format(PyExc_ValueError,
+                     "In %s \"py_str\" failed PyUnicode_READY()",
+                     __FUNCTION__);
+        return -2;
+    }
+    if (utf8_only && PyUnicode_KIND(py_str) != PyUnicode_1BYTE_KIND) {
+        PyErr_Format(PyExc_ValueError,
+                     "In %s \"py_str\" not utf-8",
+                     __FUNCTION__);
+        return -3;
+    }
+    // Python 3 and its minor versions (they vary)
+    //    const Py_UCS1 *pChrs = PyUnicode_1BYTE_DATA(pyStr);
+    //    result = std::string(reinterpret_cast<const char*>(pChrs));
+#if PY_MAJOR_VERSION >= 3
+    result = std::string((char*)PyUnicode_1BYTE_DATA(py_str));
+#else
+    // Nasty cast away constness because PyString_AsString takes non-const in Py2
+    result = std::string((char*)PyString_AsString(const_cast<PyObject *>(py_str)));
+#endif
+    return 0;
+}
 
 /* As above but returns a new string. On error the string will be empty
  * and an error set. */
 static std::string
-py_str_to_string(const PyObject *py_str, bool utf8_only=true) {
+py_str_to_string(PyObject *py_str, bool utf8_only=true) {
+    assert(py_str);
+
     if (PyBytes_Check(py_str)) {
         return std::string(PyBytes_AS_STRING(py_str));
     }
@@ -179,22 +184,43 @@ py_str_to_string(const PyObject *py_str, bool utf8_only=true) {
 #endif
 }
 
-//static PyObject *
-//std_string_to_py_bytes(const std::string &str) {
-//    return PyBytes_FromStringAndSize(str.c_str(), str.size());
-//}
-//
-//static PyObject *
-//std_string_to_py_bytearray(const std::string &str) {
-//    return PyByteArray_FromStringAndSize(str.c_str(), str.size());
-//}
-//
-//static PyObject *
-//std_string_to_py_utf8(const std::string &str) {
-//    // Equivelent to:
-//    // PyUnicode_FromKindAndData(PyUnicode_1BYTE_KIND, str.c_str(), str.size());
-//    return PyUnicode_FromStringAndSize(str.c_str(), str.size());
-//}
+static PyObject *
+std_string_to_py_bytes(const std::string &str) {
+    return PyBytes_FromStringAndSize(str.c_str(), str.size());
+}
+
+static PyObject *
+std_string_to_py_bytearray(const std::string &str) {
+    return PyByteArray_FromStringAndSize(str.c_str(), str.size());
+}
+
+static PyObject *
+std_string_to_py_utf8(const std::string &str) {
+    // Equivelent to:
+    // PyUnicode_FromKindAndData(PyUnicode_1BYTE_KIND, str.c_str(), str.size());
+    return PyUnicode_FromStringAndSize(str.c_str(), str.size());
+}
+
+/** The mirror of py_str_to_string()
+ * This expects an original object of bytes, bytearray or str or
+ * sub-type and and converts a std::string into the same type.
+ */
+PyObject *
+std_string_to_py_string(PyObject *original, const std::string &result) {
+    PyObject *ret = NULL;
+    if (PyBytes_Check(original)) {
+        ret = std_string_to_py_bytes(result);
+    } else if (PyByteArray_Check(original)) {
+        ret = std_string_to_py_bytearray(result);
+    } else if (PyUnicode_Check(original)) {
+        ret = std_string_to_py_utf8(result);
+    } else {
+        PyErr_Format(PyExc_TypeError,
+                     "Argument %s must be str, bytes or bytearray not \"%s\"",
+                     __FUNCTION__, Py_TYPE(original)->tp_name);
+    }
+    return ret;
+}
 
 /* Takes a dict[str : str] and returns a std::map<std::string, std::string>
  * On error this seta an error and returns an empty map;.
@@ -232,28 +258,23 @@ dict_to_attributes(PyObject *arg) {
 static PyObject*
 encode_string(PyObject */* module */, PyObject *args, PyObject *kwargs) {
     PyObject *ret = NULL;
-    PyObject *py_bytes = NULL;
-    PyObject *py_prefix = NULL;
+    const char *str = NULL;
+    const char *prefix = NULL;
     std::string result;
 
     static const char *kwlist[] = {
         "theS", "theCharPrefix", NULL
     };
-    if (! PyArg_ParseTupleAndKeywords(args, kwargs, "S|S",
+    if (! PyArg_ParseTupleAndKeywords(args, kwargs, "s|s",
                                       const_cast<char**>(kwlist),
-                                      &py_bytes, &py_prefix)) {
+                                      &str, &prefix)) {
         return NULL;
     }
-    Py_INCREF(py_bytes);
-    if (py_prefix) {
-        Py_INCREF(py_prefix);
-    }
     try {
-        if (py_prefix) {
-            result = encodeString(PyBytes_AsString(py_bytes),
-                                  PyBytes_AsString(py_prefix));
+        if (prefix) {
+            result = encodeString(str, prefix);
         } else {
-            result = encodeString(PyBytes_AsString(py_bytes));
+            result = encodeString(str);
         }
     } catch (ExceptionXml &err) {
         PyErr_Format(Py_ExceptionXml,
@@ -261,7 +282,7 @@ encode_string(PyObject */* module */, PyObject *args, PyObject *kwargs) {
                      __FUNCTION__, err.what());
         goto except;
     }
-    ret = PyBytes_FromStringAndSize(result.c_str(), result.size());
+    ret = PyUnicode_FromStringAndSize(result.c_str(), result.size());
     if (! ret) {
         goto except;
     }
@@ -273,8 +294,6 @@ except:
     assert(PyErr_Occurred());
     ret = NULL;
 finally:
-    Py_DECREF(py_bytes);
-    Py_XDECREF(py_prefix);
     return ret;
 }
 
@@ -284,22 +303,19 @@ decode_string(PyObject */* module */, PyObject *encoded) {
     PyObject *ret = NULL;
     std::string result;
 
-    Py_INCREF(encoded);
-    if (! PyBytes_Check(encoded)) {
-        PyErr_Format(PyExc_TypeError,
-                     "Argument \"theS\" to %s must be bytes not \"%s\"",
-                     __FUNCTION__, Py_TYPE(encoded)->tp_name);
+    std::string encoded_str = py_str_to_string(encoded);
+    if (PyErr_Occurred()) {
         goto except;
     }
     try {
-        result = decodeString(PyBytes_AsString(encoded));
+        result = decodeString(encoded_str);
     } catch (ExceptionXml &err) {
         PyErr_Format(PyExc_RuntimeError,
                      "In %s \"decodeString\" failed with error %s",
                      __FUNCTION__, err.what());
         goto except;
     }
-    ret = PyBytes_FromStringAndSize(result.c_str(), result.size());
+    ret = std_string_to_py_bytes(result);
     if (! ret) {
         goto except;
     }
@@ -307,11 +323,10 @@ decode_string(PyObject */* module */, PyObject *encoded) {
     assert(ret);
     goto finally;
 except:
-    Py_XDECREF(ret);
     assert(PyErr_Occurred());
+    Py_XDECREF(ret);
     ret = NULL;
 finally:
-    Py_DECREF(encoded);
     return ret;
 }
 
@@ -321,22 +336,21 @@ name_from_string(PyObject */* module */, PyObject *py_string) {
     PyObject *ret = NULL;
     std::string result;
 
-    Py_INCREF(py_string);
-    if (! PyBytes_Check(py_string)) {
+    if (! PyUnicode_Check(py_string)) {
         PyErr_Format(PyExc_TypeError,
-                     "Argument \"theS\" to %s must be bytes not \"%s\"",
+                     "Argument \"theS\" to %s must be str not \"%s\"",
                      __FUNCTION__, Py_TYPE(py_string)->tp_name);
         goto except;
     }
     try {
-        result = nameFromString(PyBytes_AsString(py_string));
+        result = nameFromString(py_str_to_string(py_string));
     } catch (ExceptionXml &err) {
         PyErr_Format(PyExc_RuntimeError,
                      "In %s \"nameFromString\" failed with error %s",
                      __FUNCTION__, err.what());
         goto except;
     }
-    ret = PyBytes_FromStringAndSize(result.c_str(), result.size());
+    ret = PyUnicode_FromStringAndSize(result.c_str(), result.size());
     if (! ret) {
         goto except;
     }
@@ -348,9 +362,11 @@ except:
     assert(PyErr_Occurred());
     ret = NULL;
 finally:
-    Py_DECREF(py_string);
     return ret;
 }
+
+#pragma mark -
+#pragma mark Generic init for XmlStream and XhtmlStream
 
 // Some template magic to create a constructor used by both
 // XmlStream and XhtmlStream
@@ -377,8 +393,8 @@ Generic_Stream_init(PyType *self, PyObject *args, PyObject *kwds) {
         return -1;
     }
     self->p_stream = new CppType(
-        std::string(PyUnicode_AS_DATA((PyObject*)theEnc)),
-        std::string(PyUnicode_AS_DATA((PyObject*)theDtdLocal)),
+        py_str_to_string((PyObject*)theEnc),
+        py_str_to_string((PyObject*)theDtdLocal),
         static_cast<int>(PyLong_AsLong(theId)),
         mustIndent == Py_True ? true : false
     );
@@ -424,54 +440,6 @@ cXmlStream_new(PyTypeObject *type, PyObject */* args */, PyObject */* kwds */)
     return (PyObject *)self;
 }
 
-//static int
-//cXmlStream_init(cXmlStream *self, PyObject *args, PyObject *kwds) {
-//    int ret = 0;
-//    // Default arguments
-////    PY_DEFAULT_ARGUMENT_INIT(theEnc, PyUnicode_FromString("utf-8"), -1);
-////    PY_DEFAULT_ARGUMENT_INIT(theDtdLocal, PyUnicode_FromString(""), -1);
-////    PY_DEFAULT_ARGUMENT_INIT(theId, PyLong_FromLong(0L), -1);
-////    PY_DEFAULT_ARGUMENT_INIT(mustIndent, PyBool_FromLong(1L), -1);
-//
-//    static DefaultArg theEnc { PyUnicode_FromString("utf-8") };
-//    static DefaultArg theDtdLocal { PyUnicode_FromString("") };
-//    static DefaultArg theId { PyLong_FromLong(0L) };
-//    static DefaultArg mustIndent { PyBool_FromLong(1L) };
-//
-//    if (!theEnc || !theDtdLocal || !theId || !mustIndent) {
-//        return -1;
-//    }
-//    static const char *kwlist[] = {
-//        "theEnc", "theDtdLocal", "theId", "mustIndent", NULL
-//    };
-//
-//    if (! PyArg_ParseTupleAndKeywords(args, kwds, "|OOip",
-//                                      const_cast<char**>(kwlist),
-//                                      &theEnc, &theDtdLocal,
-//                                      &theId, &mustIndent)) {
-//        return -1;
-//    }
-////    // Assign absent arguments to defaults
-////    PY_DEFAULT_ARGUMENT_SET(theEnc);
-////    PY_DEFAULT_ARGUMENT_SET(theDtdLocal);
-////    PY_DEFAULT_ARGUMENT_SET(theId);
-////    PY_DEFAULT_ARGUMENT_SET(mustIndent);
-//    self->p_stream = new XmlStream(
-//        std::string(PyUnicode_AS_DATA((PyObject*)theEnc)),
-//        std::string(PyUnicode_AS_DATA((PyObject*)theDtdLocal)),
-//        static_cast<int>(PyLong_AsLong(theId)),
-//        mustIndent == Py_True ? true : false
-//    );
-//    if (! self->p_stream) {
-//        ret =  -1;
-//    }
-////    Py_DECREF(theEnc);
-////    Py_DECREF(theDtdLocal);
-////    Py_DECREF(theId);
-////    Py_DECREF(mustIndent);
-//    return ret;
-//}
-
 static PyObject *
 cXmlStream_getvalue(cXmlStream* self) {
 #if XML_WRITE_DEBUG_TRACE
@@ -479,7 +447,7 @@ cXmlStream_getvalue(cXmlStream* self) {
     std::cout << " p_stream: " << self->p_stream << std::endl;
 #endif
     std::string value = self->p_stream->getvalue();
-    return PyBytes_FromStringAndSize(value.c_str(), value.size());
+    return std_string_to_py_utf8(value);
 }
 
 static PyObject *
@@ -519,10 +487,7 @@ cXmlStream_startElement(cXmlStream *self, PyObject *args, PyObject *kwds) {
     PyObject *name = NULL;
     PyObject *attrs = NULL;
     PyObject *ret = NULL;
-//     Used for iterating across the dict
-//    PyObject *key, *value;
     std::string cpp_name;
-//    Py_ssize_t pos = 0;
     tAttrs cpp_attrs;
 
     static const char *kwlist[] = { "name", "attrs", NULL };
@@ -655,9 +620,8 @@ static PyObject *
 cXmlStream_writeCSS(cXmlStream *self, PyObject *arg) {
     PyObject *ret = NULL;
     // Used for iterating across the dict
-    PyObject *key, *value;//, *sub_key, *sub_value;
+    PyObject *key, *value;
     Py_ssize_t pos = 0;
-//    Py_ssize_t sub_pos = 0;
     std::map<std::string, tAttrs> theCSSMap;
 
     if (! PyDict_Check(arg)) {
@@ -748,13 +712,6 @@ finally:
     return ret;
 }
 
-//PyObject*
-//cXmlStream__close(cXmlStream *self) {
-//    self->p_stream->_close();
-//    Py_INCREF(Py_None);
-//    return Py_None;
-//}
-
 static PyObject*
 cXmlStream___enter__(cXmlStream *self) {
 #if XML_WRITE_DEBUG_TRACE
@@ -762,8 +719,6 @@ cXmlStream___enter__(cXmlStream *self) {
     std::cout << " p_stream: " << self->p_stream << std::endl;
 #endif
     self->p_stream->_enter();
-//    self->p_stream->output() << "<?xml version='1.0' encoding=\"";
-//    self->p_stream->output() << self->p_stream->encodeing << "\"?>";
     Py_INCREF(self);
     return (PyObject *)self;
 }
@@ -771,8 +726,8 @@ cXmlStream___enter__(cXmlStream *self) {
 static PyObject*
 cXmlStream___exit__(cXmlStream *self, PyObject */* args */) {
 #if XML_WRITE_DEBUG_TRACE
-    //    std::cout << "cXmlStream___exit__() self: " << self;
-    //    std::cout << " p_stream: " << self->p_stream << std::endl;
+//    std::cout << "cXmlStream___exit__() self: " << self;
+//    std::cout << " p_stream: " << self->p_stream << std::endl;
     fprintf(stdout, "cXmlStream___exit__() self: %p", self);
     fprintf(stdout, " p_stream: %p", self->p_stream);
     fprintf(stdout, " args: ");
@@ -780,9 +735,7 @@ cXmlStream___exit__(cXmlStream *self, PyObject */* args */) {
     fprintf(stdout, "\n");
 #endif
     self->p_stream->_close();
-//    Py_RETURN_TRUE;
     Py_RETURN_FALSE;
-//    return PyBool_FromLong(0L);
 }
 
 #define CXMLSTREAM_METHOD(name,flags) { \
@@ -906,62 +859,6 @@ typedef struct : cXmlStream {
 //    cXmlStream xmlstream;
 } cXhtmlStream;
 
-//static void
-//cXhtmlStream_dealloc(cXhtmlStream* self) {
-//    delete self->p_stream;
-//    Py_TYPE(self)->tp_free((PyObject*)self);
-//}
-
-//static PyObject *
-//cXhtmlStream_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-//{
-//    cXhtmlStream *self = (cXhtmlStream *)type->tp_alloc(type, 0);
-//    if (self != NULL) {
-//        self->p_stream = nullptr;
-//    }
-//    return (PyObject *)self;
-//}
-
-//static int
-//cXhtmlStream_init(cXhtmlStream *self, PyObject *args, PyObject *kwds) {
-//    if (cXmlStreamType.tp_init((PyObject *)self, args, kwds) < 0)
-//        return -1;
-//    int ret = 0;
-//    static DefaultArg theEnc { PyUnicode_FromString("utf-8") };
-//    static DefaultArg theDtdLocal { PyUnicode_FromString("") };
-//    static DefaultArg theId { PyLong_FromLong(0L) };
-//    static DefaultArg mustIndent { PyBool_FromLong(1L) };
-//
-//    if (!theEnc || !theDtdLocal || !theId || !mustIndent) {
-//        return -1;
-//    }
-//    static const char *kwlist[] = {
-//        "theEnc", "theDtdLocal", "theId", "mustIndent", NULL
-//    };
-//
-//    if (! PyArg_ParseTupleAndKeywords(args, kwds, "|OOip",
-//                                      const_cast<char**>(kwlist),
-//                                      &theEnc, &theDtdLocal,
-//                                      &theId, &mustIndent)) {
-//        return -1;
-//    }
-//    //    // Assign absent arguments to defaults
-//    //    PY_DEFAULT_ARGUMENT_SET(theEnc);
-//    //    PY_DEFAULT_ARGUMENT_SET(theDtdLocal);
-//    //    PY_DEFAULT_ARGUMENT_SET(theId);
-//    //    PY_DEFAULT_ARGUMENT_SET(mustIndent);
-//    self->p_stream = new XmlStream(
-//                                   std::string(PyUnicode_AS_DATA((PyObject*)theEnc)),
-//                                   std::string(PyUnicode_AS_DATA((PyObject*)theDtdLocal)),
-//                                   static_cast<int>(PyLong_AsLong(theId)),
-//                                   mustIndent == Py_True ? true : false
-//                                   );
-//    if (! self->p_stream) {
-//        ret =  -1;
-//    }
-//    return ret;
-//}
-
 static PyObject *
 cXhtmlStream_charactersWithBr(cXhtmlStream *self, PyObject *arg) {
     PyObject *ret = NULL;
@@ -984,7 +881,7 @@ finally:
 
 static PyObject*
 cXhtmlStream__enter(cXhtmlStream *self) {
-    self->p_stream->_enter();
+    ((XhtmlStream*)self->p_stream)->_enter();
     Py_INCREF(self);
     return (PyObject *)self;
 }
@@ -1283,9 +1180,6 @@ PyInit_cXmlWrite(void) {
     } else {
         PyModule_AddObject(m, "ExceptionXmlEndElement", Py_ExceptionXmlEndElement);
     }
-    // TODO: Need to catch and map exceptions, in this case:
-    // catch C++ ExceptionXmlEndElement -> raise Python Py_ExceptionXmlEndElement
-    // catch C++ ExceptionXml -> raise Python Py_ExceptionXml
 
     // Module globals
     if (PyModule_AddIntConstant(m, "RAISE_ON_ERROR", RAISE_ON_ERROR ? 1 : 0)) {

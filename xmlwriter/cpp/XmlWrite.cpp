@@ -68,8 +68,7 @@ XmlStream::XmlStream(const std::string &theEnc/* ='utf-8'*/,
                                              dtdLocal(theDtdLocal),
                                              _mustIndent(mustIndent),
                                              _intId(theId),
-                                             _inElem(false) {
-}
+                                             _inElem(false) {}
 
 std::string XmlStream::getvalue() const {
     return m_output.str();

@@ -31,8 +31,8 @@ set output "XhtmlWriteRate.svg"   # choose the output device
 #set key title "Window Length"
 
 #  lw 2 pointsize 2
-#plot "XhtmlWriteTime.dat" using 1:(Rate($1,$2)) t "C++, No attributes" with linespoints, \
-    "XhtmlWriteTime.dat" using 1:(Rate($1,$3)) t "C++, with attributes" with linespoints, \
+#plot "XhtmlWriteTime.dat" using 1:(Rate($1,$2)) t "C++ Baseline, No attributes" with linespoints, \
+    "XhtmlWriteTime.dat" using 1:(Rate($1,$3)) t "C++ Baseline, with attributes" with linespoints, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$4)) t "Python, No attributes" with linespoints, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$5)) t "Python, with attributes" with linespoints, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$6)) t "Pybind, No attributes" with linespoints, \
@@ -41,13 +41,13 @@ set output "XhtmlWriteRate.svg"   # choose the output device
     "XhtmlWriteTime.dat" using 1:(Rate($1,$9)) t "CPython, with attributes" with linespoints
 
 # No attributes
-plot "XhtmlWriteTime.dat" using 1:(Rate($1,$2)) t "C++" with linespoints lw 2, \
+plot "XhtmlWriteTime.dat" using 1:(Rate($1,$2)) t "C++ Baseline" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$4)) t "Python" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$6)) t "Pybind" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$8)) t "CPython" with linespoints lw 2 lt 7
 
 # With Attributes only
-#plot "XhtmlWriteTime.dat" using 1:(Rate($1,$3)) t "C++, with attributes" with linespoints lw 2, \
+#plot "XhtmlWriteTime.dat" using 1:(Rate($1,$3)) t "C++ Baseline, with attributes" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$5)) t "Python, with attributes" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$7)) t "Pybind, with attributes" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$9)) t "CPython, with attributes" with linespoints lw 2 lt 7

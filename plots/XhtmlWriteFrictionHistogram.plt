@@ -1,8 +1,8 @@
-set logscale x
+#set logscale x
 set grid
 set title "Write Time in Excess of Baseline (C++) (Microseconds/element)."
-set xlabel "Number of XML Elements."
-set xtics
+set xlabel "Small, large and very large documents."
+# set xtics
 #set format x ""
 
 #set logscale y
@@ -28,26 +28,29 @@ set datafile missing "NaN"
 Friction(num_elements, datum, actual) = 1e6 * (actual - datum) / num_elements
 
 set terminal svg size 750,550           # choose the file format
-set output "XhtmlWriteFriction.svg"   # choose the output device
+set output "XhtmlWriteFrictionHistogram.svg"   # choose the output device
 
 #set key title "Window Length"
 
-#  lw 2 pointsize 2
+set style fill pattern 3
+set style histogram clustered
+
+# No Attributes
+#plot "XhtmlWriteTime.dat" using (Friction($1,$2,$4)) t "Python" w histograms, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$6)) t "Pybind" w histograms, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$8)) t "CPython" w histograms
+    
+# With Attributes
+plot "XhtmlWriteTime.dat" using (Friction($1,$3,$5)) t "Python, with attributes" w histograms, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$7)) t "Pybind, with attributes" w histograms, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$9)) t "CPython, with attributes" w histograms
+
+
 #plot "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$4)) t "Python" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$5)) t "Python+attributes" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$6)) t "Pybind" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$7)) t "Pybind+attributes" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$8)) t "CPython" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$9)) t "CPython+attributes" with linespoints lw 2
-    
-# No attributes
-plot "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$4)) t "Python" with linespoints lw 2, \
-    "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$6)) t "Pybind" with linespoints lw 2, \
-    "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$8)) t "CPython" with linespoints lw 2 lt 7
-
-# With Attributes only
-#plot "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$5)) t "Python+attributes" with linespoints lw 2, \
-    "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$7)) t "Pybind+attributes" with linespoints lw 2, \
-    "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$9)) t "CPython+attributes" with linespoints lw 2 lt 7
 
 reset

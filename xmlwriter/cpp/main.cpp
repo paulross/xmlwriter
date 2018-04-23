@@ -123,42 +123,43 @@ void test_XmlWrite_decodeString() {
 
 // Simulate writing an XHTML document
 double _test_write_XHTML_document(size_t headings, size_t paragraphs,
-                                  size_t &size, const tAttrs &attributes) {
-    XhtmlStream xs { "utf-8", "", 0, true };
+                                  size_t &size, size_t repeat, const tAttrs &attributes) {
     ExecClock clk;
-    
-    xs._enter();
-    for (size_t i_h1 = 0; i_h1 < headings; ++i_h1) {
-        Element h1 = Element(xs, "h1", attributes);
-        h1._enter();
-        for (size_t i_h2 = 0; i_h2 < headings; ++i_h2) {
-            Element h2 = Element(xs, "h2", attributes);
-            h2._enter();
-            for (size_t i_h3 = 0; i_h3 < headings; ++i_h3) {
-                Element h3 = Element(xs, "h3", attributes);
-                h3._enter();
-                for (size_t t = 0; t < paragraphs; ++t) {
-                    Element p = Element(xs, "p", attributes);
-                    p._enter();
-                    xs.characters(text_no_encoding);
-                    p._close();
+    for (size_t i = 0; i < repeat; ++i) {
+        XhtmlStream xs { "utf-8", "", 0, true };
+        xs._enter();
+        for (size_t i_h1 = 0; i_h1 < headings; ++i_h1) {
+            Element h1 = Element(xs, "h1", attributes);
+            h1._enter();
+            for (size_t i_h2 = 0; i_h2 < headings; ++i_h2) {
+                Element h2 = Element(xs, "h2", attributes);
+                h2._enter();
+                for (size_t i_h3 = 0; i_h3 < headings; ++i_h3) {
+                    Element h3 = Element(xs, "h3", attributes);
+                    h3._enter();
+                    for (size_t t = 0; t < paragraphs; ++t) {
+                        Element p = Element(xs, "p", attributes);
+                        p._enter();
+                        xs.characters(text_no_encoding);
+                        p._close();
+                    }
+                    h3._close();
                 }
-                h3._close();
+                h2._close();
             }
-            h2._close();
+            h1._close();
         }
-        h1._close();
+        xs._close();
+        std::string result = xs.getvalue();
+        size = result.size();
     }
-    xs._close();
-    std::string result = xs.getvalue();
-    size = result.size();
-    return clk.us();
+    return clk.us() / repeat;
 }
 
 void test_write_small_XHTML_document() {
     size_t size;
     tAttrs attributes;
-    auto exec = _test_write_XHTML_document(4, 2, size, attributes);
+    auto exec = _test_write_XHTML_document(4, 2, size, 100, attributes);
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
@@ -169,7 +170,7 @@ void test_write_small_XHTML_document() {
 void test_write_large_XHTML_document() {
     size_t size;
     tAttrs attributes;
-    auto exec = _test_write_XHTML_document(8, 5, size, attributes);
+    auto exec = _test_write_XHTML_document(8, 5, size, 10, attributes);
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
@@ -180,7 +181,7 @@ void test_write_large_XHTML_document() {
 void test_write_very_large_XHTML_document() {
     size_t size;
     tAttrs attributes;
-    auto exec = _test_write_XHTML_document(16, 8, size, attributes);
+    auto exec = _test_write_XHTML_document(16, 8, size, 4, attributes);
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
@@ -190,7 +191,7 @@ void test_write_very_large_XHTML_document() {
 
 void test_write_small_XHTML_document_attributes() {
     size_t size;
-    auto exec = _test_write_XHTML_document(4, 2, size, BENCHMARK_ATTRIBUTES);
+    auto exec = _test_write_XHTML_document(4, 2, size, 100, BENCHMARK_ATTRIBUTES);
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
@@ -200,7 +201,7 @@ void test_write_small_XHTML_document_attributes() {
 
 void test_write_large_XHTML_document_attributes() {
     size_t size;
-    auto exec = _test_write_XHTML_document(8, 5, size, BENCHMARK_ATTRIBUTES);
+    auto exec = _test_write_XHTML_document(8, 5, size, 10, BENCHMARK_ATTRIBUTES);
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
@@ -210,7 +211,7 @@ void test_write_large_XHTML_document_attributes() {
 
 void test_write_very_large_XHTML_document_attributes() {
     size_t size;
-    auto exec = _test_write_XHTML_document(16, 8, size, BENCHMARK_ATTRIBUTES);
+    auto exec = _test_write_XHTML_document(16, 8, size, 4, BENCHMARK_ATTRIBUTES);
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
