@@ -194,7 +194,7 @@ void test_write_small_XHTML_document_attributes() {
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
-    std::cout << " result: " << (size == 61069);
+    std::cout << " result: " << (size == 109193);
     std::cout << std::endl;
 }
 
@@ -204,7 +204,7 @@ void test_write_large_XHTML_document_attributes() {
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
-    std::cout << " result: " << (size == 1193497);
+    std::cout << " result: " << (size == 1907185);
     std::cout << std::endl;
 }
 
@@ -214,7 +214,7 @@ void test_write_very_large_XHTML_document_attributes() {
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
     std::cout << exec << " (us)" << " size: " << std::setw(12) << size;
-    std::cout << " result: " << (size == 15205585);
+    std::cout << " result: " << (size == 23635457);
     std::cout << std::endl;
 }
 

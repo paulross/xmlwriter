@@ -14,6 +14,12 @@
 #include "XmlWrite.h"
 #include "XmlWrite_docs.h"
 
+// Exception specialisation
+static PyObject *Py_ExceptionXml;
+static PyObject *Py_ExceptionXmlEndElement;
+
+#define XML_WRITE_DEBUG_TRACE 0
+
 // Macros for default arguments
 #define PY_DEFAULT_ARGUMENT_INIT(name, value, ret) \
     PyObject *name = NULL; \
@@ -36,7 +42,7 @@
  *
  * static DefaultArg arg_0(PyLong_FromLong(1L));
  * static DefaultArg arg_1(PyUnicode_FromString("Default string."));
- * if (! arg_0 || !arg_1) {
+ * if (! arg_0 || ! arg_1) {
  *      return NULL;
  * }
  *
@@ -48,25 +54,37 @@
  *
  * Then just use arg_0, arg_1 as if they were a PyObject*
  *
+ * WARN: This class is designed to be statically allocated. If allocated
+ * on the heap or stack it will leak memory. That could be fixed by
+ * implementing:
+ *
+ * ~DefaultArg() { Py_XDECREF(m_default); }
+ *
+ * But this will be highly dangerous when statically allocated as the
+ * destructor will be invoked with the Python interpreter in an
+ * uncertain state and will, most likely, segfault:
+ * "Python(39158,0x7fff78b66310) malloc: *** error for object 0x100511300: pointer being freed was not allocated"
  */
 class DefaultArg {
 public:
     DefaultArg(PyObject *new_ref) : m_arg { NULL }, m_default { new_ref } {
-#if 1
-        fprintf(stdout, "Creating DefaultArg of ");
+#if XML_WRITE_DEBUG_TRACE
+        fprintf(stdout, "DefaultArg at ");
+        fprintf(stdout, "%p", m_default);
+        fprintf(stdout, " value: ");
         PyObject_Print(m_default, stdout, 0);
         fprintf(stdout, "\n");
 #endif
     }
+    // Allow setting of the (optional) argument with
+    // PyArg_ParseTupleAndKeywords
     PyObject **operator&() { return &m_arg; }
+    // Access the argument or the default if default.
     operator PyObject*() const {
         return m_arg ? m_arg : m_default;
     }
+    // Test ig constructed successfully.
     explicit operator bool() { return m_default != NULL; }
-    // Prevent leak if this class is non-static.
-    ~DefaultArg() {
-        Py_XDECREF(m_default);
-    }
 protected:
     PyObject *m_arg;
     PyObject *m_default;
@@ -238,7 +256,7 @@ encode_string(PyObject */* module */, PyObject *args, PyObject *kwargs) {
             result = encodeString(PyBytes_AsString(py_bytes));
         }
     } catch (ExceptionXml &err) {
-        PyErr_Format(PyExc_RuntimeError,
+        PyErr_Format(Py_ExceptionXml,
                      "In %s \"encodeString\" failed with error %s",
                      __FUNCTION__, err.what());
         goto except;
@@ -364,6 +382,10 @@ Generic_Stream_init(PyType *self, PyObject *args, PyObject *kwds) {
         static_cast<int>(PyLong_AsLong(theId)),
         mustIndent == Py_True ? true : false
     );
+#if XML_WRITE_DEBUG_TRACE
+    std::cout << "Generic_Stream_init() self: " << self;
+    std::cout << " p_stream: " << self->p_stream << std::endl;
+#endif
     if (! self->p_stream) {
         ret =  -1;
     }
@@ -380,6 +402,10 @@ typedef struct {
 
 static void
 cXmlStream_dealloc(cXmlStream* self) {
+#if XML_WRITE_DEBUG_TRACE
+    std::cout << "cXmlStream_dealloc() self: " << self;
+    std::cout << " p_stream: " << self->p_stream << std::endl;
+#endif
     delete self->p_stream;
     Py_TYPE(self)->tp_free((PyObject*)self);
 }
@@ -391,6 +417,10 @@ cXmlStream_new(PyTypeObject *type, PyObject */* args */, PyObject */* kwds */)
     if (self != NULL) {
         self->p_stream = nullptr;
     }
+#if XML_WRITE_DEBUG_TRACE
+    std::cout << "cXmlStream_new() type: " << type;
+    std::cout << " self: " << self << std::endl;
+#endif
     return (PyObject *)self;
 }
 
@@ -444,6 +474,10 @@ cXmlStream_new(PyTypeObject *type, PyObject */* args */, PyObject */* kwds */)
 
 static PyObject *
 cXmlStream_getvalue(cXmlStream* self) {
+#if XML_WRITE_DEBUG_TRACE
+    std::cout << "cXmlStream_getvalue() self: " << self;
+    std::cout << " p_stream: " << self->p_stream << std::endl;
+#endif
     std::string value = self->p_stream->getvalue();
     return PyBytes_FromStringAndSize(value.c_str(), value.size());
 }
@@ -590,9 +624,16 @@ cXmlStream_pI(cXmlStream *self, PyObject *arg) {
 
 static PyObject *
 cXmlStream_endElement(cXmlStream *self, PyObject *arg) {
-    return cXmlStream_generic_string(*self->p_stream,
-                                     &XmlStream::endElement,
-                                     arg);
+    try {
+        return cXmlStream_generic_string(*self->p_stream,
+                                         &XmlStream::endElement,
+                                         arg);
+    } catch(ExceptionXmlEndElement &err) {
+        PyErr_Format(Py_ExceptionXmlEndElement,
+                     "%s",
+                     err.message().c_str());
+    }
+    return NULL;
 }
 
 static PyObject *
@@ -716,16 +757,32 @@ finally:
 
 static PyObject*
 cXmlStream___enter__(cXmlStream *self) {
+#if XML_WRITE_DEBUG_TRACE
+    std::cout << "cXmlStream___enter__() self: " << self;
+    std::cout << " p_stream: " << self->p_stream << std::endl;
+#endif
     self->p_stream->_enter();
 //    self->p_stream->output() << "<?xml version='1.0' encoding=\"";
 //    self->p_stream->output() << self->p_stream->encodeing << "\"?>";
+    Py_INCREF(self);
     return (PyObject *)self;
 }
 
 static PyObject*
 cXmlStream___exit__(cXmlStream *self, PyObject */* args */) {
+#if XML_WRITE_DEBUG_TRACE
+    //    std::cout << "cXmlStream___exit__() self: " << self;
+    //    std::cout << " p_stream: " << self->p_stream << std::endl;
+    fprintf(stdout, "cXmlStream___exit__() self: %p", self);
+    fprintf(stdout, " p_stream: %p", self->p_stream);
+    fprintf(stdout, " args: ");
+    PyObject_Print(args, stdout, 0);
+    fprintf(stdout, "\n");
+#endif
     self->p_stream->_close();
-    return PyBool_FromLong(0L);
+//    Py_RETURN_TRUE;
+    Py_RETURN_FALSE;
+//    return PyBool_FromLong(0L);
 }
 
 #define CXMLSTREAM_METHOD(name,flags) { \
@@ -928,6 +985,7 @@ finally:
 static PyObject*
 cXhtmlStream__enter(cXhtmlStream *self) {
     self->p_stream->_enter();
+    Py_INCREF(self);
     return (PyObject *)self;
 }
 
@@ -1043,17 +1101,23 @@ cElement_init(cElement *self, PyObject *args, PyObject *kwds) {
                                       &stream, &name, &attributes)) {
         return -1;
     }
-    if (! Py_cXmlStreamType_CheckExact(stream)) {
+    assert(self->p_element == nullptr);
+    if (Py_cXmlStreamType_CheckExact(stream)) {
+        cXmlStream *xml_stream = (cXmlStream*)stream;
+        self->p_element = new Element(*xml_stream->p_stream,
+                                      std::string(name),
+                                      dict_to_attributes(attributes));
+    } else if (Py_cXhtmlStreamType_CheckExact(stream)) {
+        cXhtmlStream *xml_stream = (cXhtmlStream*)stream;
+        self->p_element = new Element(*xml_stream->p_stream,
+                                      std::string(name),
+                                      dict_to_attributes(attributes));
+    } else {
         PyErr_Format(PyExc_TypeError,
                      "Value of \"theXmlStream\" to %s must be cXmlStream not \"%s\"",
                      __FUNCTION__, Py_TYPE(stream)->tp_name);
-
         return -1;
     }
-    cXmlStream *xml_stream = (cXmlStream*)stream;
-    self->p_element = new Element(*xml_stream->p_stream,
-                                  std::string(name),
-                                  dict_to_attributes(attributes));
     if (PyErr_Occurred()) {
         return -1;
     }
@@ -1069,9 +1133,40 @@ cElement__close(cElement *self) {
     Py_INCREF(Py_None);
     return Py_None;
 }
+
+static PyObject*
+cElement___enter__(cElement *self) {
+#if XML_WRITE_DEBUG_TRACE
+    std::cout << "cElement___enter__() self: " << self;
+    std::cout << " p_stream: " << self->p_element << std::endl;
+#endif
+    self->p_element->_enter();
+    Py_INCREF(self);
+    return (PyObject *)self;
+}
+
+static PyObject*
+cElement___exit__(cElement *self, PyObject */* args */) {
+#if XML_WRITE_DEBUG_TRACE
+    fprintf(stdout, "cElement___exit__() self: %p", self);
+    fprintf(stdout, " p_element: %p", self->p_element);
+    fprintf(stdout, " args: ");
+    PyObject_Print(args, stdout, 0);
+    fprintf(stdout, "\n");
+#endif
+    self->p_element->_close();
+    Py_RETURN_FALSE;
+}
+
 static PyMethodDef cElement_methods[] = {
     {"_close", (PyCFunction)cElement__close, METH_NOARGS,
         "Close the element."
+    },
+    {"__enter__", (PyCFunction)cElement___enter__, METH_NOARGS,
+        "Enter the element."
+    },
+    {"__exit__", (PyCFunction)cElement___exit__, METH_VARARGS,
+        "Exit the element."
     },
     { NULL, NULL, 0, NULL }  /* Sentinel */
 };
@@ -1160,10 +1255,6 @@ static PyModuleDef cXmlWritemodule = {
     NULL, NULL, NULL, NULL
 };
 
-// Exception specialisation
-static PyObject *Py_ExceptionXml;
-static PyObject *Py_ExceptionXmlEndElement;
-
 __attribute__((visibility("default")))
 PyMODINIT_FUNC
 PyInit_cXmlWrite(void) {
@@ -1225,7 +1316,7 @@ PyInit_cXmlWrite(void) {
         return NULL;
     }
     Py_INCREF(&cElementType);
-    PyModule_AddObject(m, "XmlElement", (PyObject *)&cElementType);
+    PyModule_AddObject(m, "Element", (PyObject *)&cElementType);
 
     return m;
 }
