@@ -10,7 +10,6 @@
 
 #include <memory>
 
-//#include "cXmlWrite.h"
 #include "XmlWrite.h"
 #include "XmlWrite_docs.h"
 
@@ -55,7 +54,8 @@ static PyObject *Py_ExceptionXmlEndElement;
         return NULL;
     }
  *
- * Then just use arg_0, arg_1 as if they were a PyObject*
+ * Then just use arg_0, arg_1 as if they were a PyObject* (possibly
+ * might need to be cast to some specific PyObject*).
  *
  * WARN: This class is designed to be statically allocated. If allocated
  * on the heap or stack it will leak memory. That could be fixed by
@@ -131,8 +131,6 @@ py_str_to_string(const PyObject *py_str,
         return -3;
     }
     // Python 3 and its minor versions (they vary)
-    //    const Py_UCS1 *pChrs = PyUnicode_1BYTE_DATA(pyStr);
-    //    result = std::string(reinterpret_cast<const char*>(pChrs));
 #if PY_MAJOR_VERSION >= 3
     result = std::string((char*)PyUnicode_1BYTE_DATA(py_str));
 #else
@@ -205,7 +203,7 @@ std_string_to_py_utf8(const std::string &str) {
  * This expects an original object of bytes, bytearray or str or
  * sub-type and and converts a std::string into the same type.
  */
-PyObject *
+static PyObject *
 std_string_to_py_string(PyObject *original, const std::string &result) {
     PyObject *ret = NULL;
     if (PyBytes_Check(original)) {
@@ -239,6 +237,7 @@ dict_to_attributes(PyObject *arg) {
                 cpp_attrs[py_str_to_string(key)] = py_str_to_string(value);
                 if (PyErr_Occurred()) {
                     cpp_attrs.clear();
+                    break;
                 }
             }
         } else {
@@ -498,7 +497,7 @@ cXmlStream_startElement(cXmlStream *self, PyObject *args, PyObject *kwds) {
     }
     if (attrs) {
         cpp_attrs = dict_to_attributes(attrs);
-        if (! PyErr_Occurred()) {
+        if (PyErr_Occurred()) {
             goto except;
         }
     }
@@ -522,12 +521,11 @@ finally:
 typedef void (XmlStream::*type_str_fn)(const std::string &);
 #define CALL_MEMBER_FN(object, ptrToMember) ((object).*(ptrToMember))
 
-/* Call a function on XmlStream with a single Python argument that is expected
- * to be convertible to a std::string.
+/* Call a function on XmlStream with a function pointer in XmlStream:: and
+ * a single Python argument that is expected to be convertible to a std::string.
  */
 static PyObject *
 cXmlStream_generic_string(XmlStream &stream, type_str_fn fn, PyObject *arg) {
-    Py_INCREF(arg);
     PyObject *ret = NULL;
     std::string chars { py_str_to_string(arg) };
     if (PyErr_Occurred()) {
@@ -543,7 +541,6 @@ except:
     assert(PyErr_Occurred());
     ret = NULL;
 finally:
-    Py_DECREF(arg);
     return ret;
 }
 
@@ -683,35 +680,6 @@ cXmlStream__closeElemIfOpen(cXmlStream *self) {
     return Py_None;
 }
 
-static PyObject *
-cXmlStream__encode(cXmlStream *self, PyObject *args) {
-    PyObject *ret = NULL;
-    const char *input = NULL;
-    const char *output = NULL;
-    bool result;
-    std::string cpp_input;
-    std::string cpp_output;
-
-    if (! PyArg_ParseTuple(args, "ss", &input, &output)) {
-        goto except;
-    }
-    cpp_input = input;
-    cpp_output = output;
-    result = self->p_stream->_encode(cpp_input, cpp_output);
-    ret = PyBool_FromLong(result ? 1L : 0L);
-    if (! ret) {
-        goto except;
-    }
-    assert(! PyErr_Occurred());
-    goto finally;
-except:
-    Py_XDECREF(ret);
-    assert(PyErr_Occurred());
-    ret = NULL;
-finally:
-    return ret;
-}
-
 static PyObject*
 cXmlStream___enter__(cXmlStream *self) {
 #if XML_WRITE_DEBUG_TRACE
@@ -738,6 +706,7 @@ cXmlStream___exit__(cXmlStream *self, PyObject */* args */) {
     Py_RETURN_FALSE;
 }
 
+// Defines a macro that will reduce C&P errors.
 #define CXMLSTREAM_METHOD(name,flags) { \
     #name, \
     (PyCFunction)cXmlStream_##name, flags, \
@@ -759,9 +728,6 @@ static PyMethodDef cXmlStream_methods[] = {
     CXMLSTREAM_METHOD(writeCSS, METH_O),
     CXMLSTREAM_METHOD(_indent, METH_VARARGS),
     CXMLSTREAM_METHOD(_closeElemIfOpen, METH_NOARGS),
-//    {"_close", (PyCFunction)cXmlStream__close, METH_NOARGS,
-//        DOCSTRING_XmlWrite_XmlStream__close},
-    CXMLSTREAM_METHOD(_encode, METH_VARARGS),
     CXMLSTREAM_METHOD(__enter__, METH_NOARGS),
     CXMLSTREAM_METHOD(__exit__, METH_VARARGS),
     { NULL, NULL, 0, NULL }  /* Sentinel */
@@ -782,7 +748,6 @@ static PyObject*
 cXmlStream_get__canIndent(cXmlStream* self, void * /* closure */) {
     return PyBool_FromLong(self->p_stream->_canIndent() ? 1L : 0L);
 }
-
 
 
 static PyGetSetDef cXmlStream_properties[] = {
@@ -886,9 +851,9 @@ cXhtmlStream__enter(cXhtmlStream *self) {
     return (PyObject *)self;
 }
 
-//static PyMemberDef cXhtmlStream_members[] = {
-//    { NULL, NULL, 0, 0, NULL }  /* Sentinel */
-//};
+static PyMemberDef cXhtmlStream_members[] = {
+    { NULL, 0, 0, 0, NULL }  /* Sentinel */
+};
 
 static PyMethodDef cXhtmlStream_methods[] = {
     {"charactersWithBr", (PyCFunction)cXhtmlStream_charactersWithBr, METH_O,
@@ -897,7 +862,6 @@ static PyMethodDef cXhtmlStream_methods[] = {
         DOCSTRING_XmlWrite_XhtmlStream___enter__},
     {NULL, NULL, 0, NULL},
 };
-
 
 static PyTypeObject cXhtmlStreamType = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -929,8 +893,8 @@ static PyTypeObject cXhtmlStreamType = {
     0,                         /* tp_iter */
     0,                         /* tp_iternext */
     cXhtmlStream_methods,      /* tp_methods */
-    0,        /* tp_members */
-    0,     /* tp_getset */
+    cXhtmlStream_members,      /* tp_members */
+    0,                         /* tp_getset */
     /* Assign at module initialisation time. */
     0,                         /* tp_base */
     0,                         /* tp_dict */
