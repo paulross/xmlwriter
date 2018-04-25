@@ -27,12 +27,12 @@ paulross@L071183 /cygdrive/d/wip/small_projects/PlotTree/src/python
 $ python c:/Python26/Lib/site-packages/coverage.py -x test/TestCoord.py
 """
 
-#import os
+import os
 import sys
 import logging
 #import StringIO
 
-#sys.path.append(os.path.join(os.pardir + os.sep))
+sys.path.append(os.path.join(os.pardir + os.sep))
 from xmlwriter import Coord
 
 ######################

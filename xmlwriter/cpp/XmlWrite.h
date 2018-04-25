@@ -16,10 +16,13 @@
 
 #include <iostream>
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
+/**
+ * This is pure C++ code but is designed to be specialised for a Python
+ * interface. As such this has no dependencies on pybind11 or Python.h
+ * Interfaces to those framworks will need to implement at least _enter()
+ * which takes a number of specific arguments.
+ */
 
-namespace py = pybind11;
 
 // """Exception specialisation for the XML writer."""
 class ExceptionXml : public std::exception {
@@ -78,18 +81,21 @@ public:
     // input.
     bool _encode(const std::string &input, std::string &output) const;
     XmlStream &_enter();
-    bool _exit(py::args args);
+    bool _exit() {
+        _close();
+        return false; // Propogate any exception
+    }
     void _close();
+    std::ostringstream &output() { return m_output; }
 protected:
     void _write_to_output(const std::string &input,
                           std::string &output,
                           const std::string &subst,
                           size_t &index_start,
-                          size_t index_current,
-                          bool &use_original
+                          size_t index_current
                           ) const;
 protected:
-    std::ostringstream output;
+    std::ostringstream m_output;
 public:
     std::string encodeing;
     std::string dtdLocal;
@@ -120,7 +126,7 @@ public:
                 bool mustIndent /* =True */);
     XhtmlStream &_enter();
     void charactersWithBr(const std::string & sIn);
-private:
+protected:
     const tAttrs ROOT_ATTRIBUTES = {
         { "xmlns", "http://www.w3.org/1999/xhtml"},
         { "xml:lang", "en" },
@@ -142,14 +148,14 @@ public:
         _stream.startElement(_name, _attrs);
         return *this;
     }
-    bool _exit(py::args args) {
+    bool _exit() {
         _close();
         return false;
     }
     void _close() {
         _stream.endElement(_name);
     }
-private:
+protected:
     XmlStream &_stream;
     // Making these const references causes a segfault
     const std::string _name;

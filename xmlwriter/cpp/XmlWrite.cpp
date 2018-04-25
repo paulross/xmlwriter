@@ -13,23 +13,28 @@ std::string encodeString(const std::string &theS,
         err <<theCharPrefix << "\"";
         throw ExceptionXml(err.str());
     }
-    std::string result(theCharPrefix);
-//    result.push_back(theCharPrefix);
-    std::string base64 = base64_encode(theS);
-//    std::cout << "Encode: \"" << theS << "\" base64 \"" << base64 << "\"" << std::endl;
+    // Threee steps:
+    // * Base64 encoding of theS
+    // * Character substitution of the base64 sting.
+    // * Prepend prefix.
+    std::string base64;
+    base64_encode(theS, base64);
     for (size_t i = 0; i < base64.size(); ++i) {
-        if (base64[i] == '+') {
-            result.push_back('-');
-        } else if (base64[i] == '/') {
-            result.push_back('.');
-        } else if (base64[i] == '=') {
-            result.push_back('_');
-        } else {
-            result.push_back(base64[i]);
+        switch (base64[i]) {
+            case '+':
+                base64[i] = '-';
+                break;
+            case '/':
+                base64[i] = '.';
+                break;
+            case '=':
+                base64[i] = '_';
+                break;
+            default:
+                break;
         }
     }
-//    std::cout << "Encode was: \"" << theS << "\" now \"" << result << "\"" << std::endl;
-    return result;
+    return theCharPrefix + base64;
 }
 
 std::string decodeString(const std::string &theS) {
@@ -47,7 +52,7 @@ std::string decodeString(const std::string &theS) {
     }
     result = base64_decode(result);
 //    std::cout << "Decode was: \"" << theS << "\" now \"" << result << "\"" << std::endl;
-    // This does not work, see the cXmlWrite.cpp decodeString for the solution.
+    // This does not work, see the pbXmlWrite.cpp decodeString for the solution.
     // return py::bytes(result);
     return result;
 }
@@ -63,11 +68,10 @@ XmlStream::XmlStream(const std::string &theEnc/* ='utf-8'*/,
                                              dtdLocal(theDtdLocal),
                                              _mustIndent(mustIndent),
                                              _intId(theId),
-                                             _inElem(false) {
-}
+                                             _inElem(false) {}
 
 std::string XmlStream::getvalue() const {
-    return output.str();
+    return m_output.str();
 }
 
 std::string XmlStream::id() {
@@ -99,10 +103,19 @@ void XmlStream::startElement(const std::string &name, const tAttrs &attrs) {
     _closeElemIfOpen();
 //    std::cout << "Help XmlStream::startElement: _indent()" << std::endl;
     _indent();
-//    std::cout << "Help XmlStream::startElement: output" << std::endl;
-    output << '<' << name;
+//    std::cout << "Help XmlStream::startElement: m_output" << std::endl;
+    m_output << '<' << name;
+    std::string attribute_value;
+    bool use_attribute_value;
     for (auto iter: attrs) {
-        output << ' ' << iter.first << '=' << "\"" << iter.second << "\"";
+        m_output << ' ' << iter.first << '=' << "\"";
+        use_attribute_value = _encode(iter.second, attribute_value);
+        if (use_attribute_value) {
+            m_output << attribute_value;
+        } else {
+            m_output << iter.second;
+        }
+        m_output << "\"";
     }
     _inElem = true;
     _canIndentStk.push_back(_mustIndent);
@@ -113,18 +126,17 @@ void XmlStream::characters(const std::string &theString) {
     _closeElemIfOpen();
     std::string encoded;
     if (_encode(theString, encoded)) {
-        output << encoded;
+        m_output << encoded;
     } else {
-        output << theString;
+        m_output << theString;
     }
-    output << theString;
     // mixed content - don't indent
     _flipIndent(false);
 }
 
 void XmlStream::literal(const std::string &theString) {
     _closeElemIfOpen();
-    output << theString;
+    m_output << theString;
     // mixed content - don't indent
     _flipIndent(false);
 }
@@ -136,9 +148,9 @@ void XmlStream::comment(const std::string &theS, bool newLine) {
     }
     std::string encoded;
     if (_encode(theS, encoded)) {
-        output << "<!--" << encoded << "-->";
+        m_output << "<!--" << encoded << "-->";
     } else {
-        output << "<!--" << theS << "-->";
+        m_output << "<!--" << theS << "-->";
     }
 }
 
@@ -146,9 +158,9 @@ void XmlStream::pI(const std::string &theS) {
     _closeElemIfOpen();
     std::string encoded;
     if (_encode(theS, encoded)) {
-        output << "<?" << encoded << "?>";
+        m_output << "<?" << encoded << "?>";
     } else {
-        output << "<?" << theS << "?>";
+        m_output << "<?" << theS << "?>";
     }
     // mixed content - don't indent
     _flipIndent(false);
@@ -167,11 +179,11 @@ void XmlStream::endElement(const std::string &name) {
     }
     _elemStk.pop_back();
     if (_inElem) {
-        output << " />";
+        m_output << " />";
         _inElem = false;
     } else {
         _indent();
-        output << "</" << name << '>';
+        m_output << "</" << name << '>';
     }
     _canIndentStk.pop_back();
 }
@@ -191,10 +203,10 @@ void XmlStream::writeECMAScript(const std::string &theScript) {
 void XmlStream::writeCDATA(const std::string &theData) {
     _closeElemIfOpen();
     xmlSpacePreserve();
-//    output << '';
-    output << "\n<![CDATA[\n";
-    output << theData;
-    output << "\n]]>\n";
+//    m_output << '';
+    m_output << "\n<![CDATA[\n";
+    m_output << theData;
+    m_output << "\n]]>\n";
 }
 
 void XmlStream::writeCSS(const std::map<std::string, tAttrs> &theCSSMap) {
@@ -204,20 +216,20 @@ void XmlStream::writeCSS(const std::map<std::string, tAttrs> &theCSSMap) {
                      std::pair<std::string, std::string>("type", "text/css")
                  });
     for(auto style_map: theCSSMap) {
-        output << style_map.first << " {\n";
+        m_output << style_map.first << " {\n";
         for (auto attr_value: style_map.second) {
-            output << attr_value.first << " : " << attr_value.second << ";\n";
+            m_output << attr_value.first << " : " << attr_value.second << ";\n";
         }
-        output << "}\n";
+        m_output << "}\n";
     }
     endElement("style");
 }
 
 void XmlStream::_indent(size_t offset) {
     if (_canIndent()) {
-        output << '\n';
+        m_output << '\n';
         while(offset < _elemStk.size()) {
-            output << INDENT_STR;
+            m_output << INDENT_STR;
             ++offset;
         }
     }
@@ -225,7 +237,7 @@ void XmlStream::_indent(size_t offset) {
 
 void XmlStream::_closeElemIfOpen() {
     if (_inElem) {
-        output << '>';
+        m_output << '>';
         _inElem = false;
     }
 }
@@ -234,8 +246,7 @@ void XmlStream::_write_to_output(const std::string &input,
                                  std::string &output,
                                  const std::string &subst,
                                  size_t &index_start,
-                                 size_t index_current,
-                                 bool &use_original
+                                 size_t index_current
                                  ) const {
     if (output.size() == 0) {
         output.reserve(input.size() * 2);
@@ -243,9 +254,10 @@ void XmlStream::_write_to_output(const std::string &input,
     output.append(input, index_start, index_current - index_start);
     output.append(subst);
     index_start = index_current + 1;
-    use_original = false;
 }
 
+// Encode the input to the output
+// Returns true if output must be used else the input can be used directly.
 bool XmlStream::_encode(const std::string &input,
                         std::string &output) const {
     output.clear();
@@ -257,27 +269,33 @@ bool XmlStream::_encode(const std::string &input,
         switch (chr) {
             case '<':
                 _write_to_output(input, output, "&lt;",
-                                 index_start, index_current, use_original);
+                                 index_start, index_current);
+                use_original = false;
                 break;
             case '>':
                 _write_to_output(input, output, "&gt;",
-                                 index_start, index_current, use_original);
+                                 index_start, index_current);
+                use_original = false;
                 break;
             case '&':
                 _write_to_output(input, output, "&amp;",
-                                 index_start, index_current, use_original);
+                                 index_start, index_current);
+                use_original = false;
                 break;
             case '\'':
                 _write_to_output(input, output, "&apos;",
-                                 index_start, index_current, use_original);
+                                 index_start, index_current);
+                use_original = false;
                 break;
             case '"':
                 _write_to_output(input, output, "&quot;",
-                                 index_start, index_current, use_original);
+                                 index_start, index_current);
+                use_original = false;
                 break;
             default:
                 if (! use_original) {
                     output.push_back(chr);
+                    ++index_start;
                 }
                 break;
         }
@@ -287,20 +305,20 @@ bool XmlStream::_encode(const std::string &input,
 }
 
 XmlStream &XmlStream::_enter() {
-    output << "<?xml version='1.0' encoding=\"" << encodeing << "\"?>";
+    m_output << "<?xml version='1.0' encoding=\"" << encodeing << "\"?>";
     return *this;
 }
 
-bool XmlStream::_exit(py::args args) {
-    _close();
-    return false; // Propogate any exception
-}
+//bool XmlStream::_exit(py::args args) {
+//    _close();
+//    return false; // Propogate any exception
+//}
 
 void XmlStream::_close() {
     while (_elemStk.size()) {
         endElement(_elemStk[_elemStk.size() - 1]);
     }
-    output << '\n';
+    m_output << '\n';
 }
 
 /*************** XhtmlStream **************/
@@ -316,8 +334,8 @@ XhtmlStream::XhtmlStream(const std::string &theEnc/* ='utf-8'*/,
 
 XhtmlStream &XhtmlStream::_enter() {
     XmlStream::_enter();
-    output << "\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"";
-    output << " \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">";
+    m_output << "\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"";
+    m_output << " \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">";
     startElement("html", ROOT_ATTRIBUTES);
     return *this;
 }

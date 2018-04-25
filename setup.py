@@ -5,7 +5,24 @@ import setuptools
 
 __version__ = '0.0.1'
 
+# Building: MACOSX_DEPLOYMENT_TARGET=10.9 python setup.py build_ext -f --inplace
+# Testing: PYTHONPATH=. pytest --benchmark-name=long --benchmark-sort=name --benchmark-save=benchmark_00 --benchmark-warmup=on tests/unit/
+# --benchmark-warmup=on is slow as it does about 10000 warmup iterations.
+# Benchmark data in .benchmarks
+
 # from setuptools import setup, find_packages
+DEBUG = False
+
+EXTRA_COMPILE_ARGS = [
+    '-Wall',
+    '-Wextra',
+#     '-Werror',
+#     '-Wfatal-errors',
+#     '-pedantic',
+]
+if DEBUG:
+    # Pybind11 in debug mode #if !defined(NDEBUG)
+    EXTRA_COMPILE_ARGS += ['-DDEBUG', '-O0', '-g', '-UNDEBUG']
 
 class get_pybind_include(object):
     """Helper class to determine the pybind11 include path
@@ -23,10 +40,12 @@ class get_pybind_include(object):
 
 
 ext_modules = [
+    # Pybind11 wrapper to the C++ XmlStream
     Extension(
-        'cXmlWrite',
-        [
-            'xmlwriter/cpy/cXmlWrite.cpp',
+        "pbXmlWrite",
+        sources=[
+            'xmlwriter/cpy/pbXmlWrite.cpp',
+            'xmlwriter/cpy/XmlWrite_docs.cpp',
             'xmlwriter/cpp/XmlWrite.cpp',
             'xmlwriter/cpp/base64.cpp',
         ],
@@ -36,6 +55,23 @@ ext_modules = [
             get_pybind_include(),
             get_pybind_include(user=True)
         ],
+        language='c++'
+    ),
+    # CPython wrapper to the C++ XmlStream
+    Extension(
+        "cXmlWrite",
+        sources=[
+            'xmlwriter/cpy/cXmlWrite.cpp',
+            'xmlwriter/cpy/XmlWrite_docs.cpp',
+            'xmlwriter/cpp/XmlWrite.cpp',
+            'xmlwriter/cpp/base64.cpp',
+        ],
+        include_dirs = [
+            'xmlwriter/cpp',
+            'xmlwriter/cpy',
+        ],
+        library_dirs = [],
+#         extra_compile_args=[],
         language='c++'
     ),
 ]
@@ -60,8 +96,10 @@ def has_flag(compiler, flagname):
 def cpp_flag(compiler):
     """Return the -std=c++[11/14] compiler flag.
 
-    The c++14 is prefered over c++11 (when it is available).
+    The c++14 is preferred over c++11 (when it is available).
     """
+    # Hack, won't build on mac os x otherwise
+    return '-std=c++11'
     if has_flag(compiler, '-std=c++14'):
         return '-std=c++14'
     elif has_flag(compiler, '-std=c++11'):
@@ -92,7 +130,7 @@ class BuildExt(build_ext):
         elif ct == 'msvc':
             opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
         for ext in self.extensions:
-            ext.extra_compile_args = opts
+            ext.extra_compile_args = opts + EXTRA_COMPILE_ARGS
         build_ext.build_extensions(self)
 
 test_requirements = [
@@ -106,8 +144,8 @@ setup(
     author='Paul Ross',
     author_email='apaulross@gmail.com',
     url='https://github.com/paulross/xmlwriter',
-    packages=setuptools.find_packages('xmlwriter/py'),# include=['xmlwriter']),
-    package_dir={'' : 'xmlwriter/py'},
+    packages=setuptools.find_packages('.'), #'xmlwriter/py'),# include=['xmlwriter']),
+    package_dir={'' : '.'}, #'xmlwriter/py'},
     description='An XML/HTML/SVG writer project using pybind11',
     long_description='',
     ext_modules=ext_modules,

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"  standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg 
+ width="750" height="550" 
+ viewBox="0 0 750 550"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+
+<title>Gnuplot</title>
+<desc>Produced by GNUPLOT 4.6 patchlevel 4 </desc>
+
+<g id="gnuplot_canvas">
+
+<rect x="0" y="0" width="750" height="550" fill="none"/>
+<defs>
+
+	<circle id='gpDot' r='0.5' stroke-width='0.5'/>
+	<path id='gpPt0' stroke-width='0.222' stroke='currentColor' d='M-1,0 h2 M0,-1 v2'/>
+	<path id='gpPt1' stroke-width='0.222' stroke='currentColor' d='M-1,-1 L1,1 M1,-1 L-1,1'/>
+	<path id='gpPt2' stroke-width='0.222' stroke='currentColor' d='M-1,0 L1,0 M0,-1 L0,1 M-1,-1 L1,1 M-1,1 L1,-1'/>
+	<rect id='gpPt3' stroke-width='0.222' stroke='currentColor' x='-1' y='-1' width='2' height='2'/>
+	<rect id='gpPt4' stroke-width='0.222' stroke='currentColor' fill='currentColor' x='-1' y='-1' width='2' height='2'/>
+	<circle id='gpPt5' stroke-width='0.222' stroke='currentColor' cx='0' cy='0' r='1'/>
+	<use xlink:href='#gpPt5' id='gpPt6' fill='currentColor' stroke='none'/>
+	<path id='gpPt7' stroke-width='0.222' stroke='currentColor' d='M0,-1.33 L-1.33,0.67 L1.33,0.67 z'/>
+	<use xlink:href='#gpPt7' id='gpPt8' fill='currentColor' stroke='none'/>
+	<use xlink:href='#gpPt7' id='gpPt9' stroke='currentColor' transform='rotate(180)'/>
+	<use xlink:href='#gpPt9' id='gpPt10' fill='currentColor' stroke='none'/>
+	<use xlink:href='#gpPt3' id='gpPt11' stroke='currentColor' transform='rotate(45)'/>
+	<use xlink:href='#gpPt11' id='gpPt12' fill='currentColor' stroke='none'/>
+</defs>
+<g style="fill:none; color:white; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,519.4 L725.0,519.4  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M63.6,519.4 L72.6,519.4 M725.0,519.4 L716.0,519.4  h0.01'/>	<g transform="translate(55.3,523.9)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text> 0</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,467.7 L725.0,467.7  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M63.6,467.7 L72.6,467.7 M725.0,467.7 L716.0,467.7  h0.01'/>	<g transform="translate(55.3,472.2)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text> 2</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,416.0 L725.0,416.0  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M63.6,416.0 L72.6,416.0 M725.0,416.0 L716.0,416.0  h0.01'/>	<g transform="translate(55.3,420.5)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text> 4</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,364.3 L725.0,364.3  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M63.6,364.3 L72.6,364.3 M725.0,364.3 L716.0,364.3  h0.01'/>	<g transform="translate(55.3,368.8)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text> 6</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,312.6 L725.0,312.6  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M63.6,312.6 L72.6,312.6 M725.0,312.6 L716.0,312.6  h0.01'/>	<g transform="translate(55.3,317.1)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text> 8</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,260.9 L725.0,260.9  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M63.6,260.9 L72.6,260.9 M725.0,260.9 L716.0,260.9  h0.01'/>	<g transform="translate(55.3,265.4)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text> 10</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,209.2 L725.0,209.2  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M63.6,209.2 L72.6,209.2 M725.0,209.2 L716.0,209.2  h0.01'/>	<g transform="translate(55.3,213.7)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text> 12</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,157.5 L725.0,157.5  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M63.6,157.5 L72.6,157.5 M725.0,157.5 L716.0,157.5  h0.01'/>	<g transform="translate(55.3,162.0)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text> 14</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,105.8 L550.0,105.8 M716.7,105.8 L725.0,105.8  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M63.6,105.8 L72.6,105.8 M725.0,105.8 L716.0,105.8  h0.01'/>	<g transform="translate(55.3,110.3)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text> 16</text>
+	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,54.1 L725.0,54.1  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M63.6,54.1 L72.6,54.1 M725.0,54.1 L716.0,54.1  h0.01'/>	<g transform="translate(55.3,58.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text> 18</text>
+	</g>
+	<path stroke='black'  d='M63.6,54.1 L63.6,519.4 L725.0,519.4 L725.0,54.1 L63.6,54.1 Z  h0.01'/>	<g transform="translate(17.6,286.8) rotate(270)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text>Microseconds/Element.</text>
+	</g>
+	<g transform="translate(394.3,541.9)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text>Small, large and very large documents.</text>
+	</g>
+	<g transform="translate(394.3,31.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text>Xhtml Write Time (Microseconds/Element). Typically 0.5 kb/element, no attributes.</text>
+	</g>
+</g>
+	<g id="gnuplot_plot_1" ><title>gnuplot_plot_1</title>
+<g style="fill:none; color:#ABD600; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g transform="translate(657.9,76.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text>Pure Python</text>
+	</g>
+	<defs>
+		<pattern id='gpPat1' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style = 'stroke:none; fill:currentColor' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat1)' points = '666.2,76.6 708.4,76.6 708.4,67.6 666.2,67.6 '/>
+	</g>
+	<path  d='M666.2,76.6 L708.4,76.6 L708.4,67.6 L666.2,67.6 L666.2,76.6 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat1)' points = '187.6,519.4 215.3,519.4 215.3,66.2 187.6,66.2 '/>
+	</g>
+	<path  d='M187.6,519.4 L187.6,66.3 L215.2,66.3 L215.2,519.4 L187.6,519.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat1)' points = '353.0,519.4 380.6,519.4 380.6,151.7 353.0,151.7 '/>
+	</g>
+	<path  d='M353.0,519.4 L353.0,151.8 L380.5,151.8 L380.5,519.4 L353.0,519.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat1)' points = '518.3,519.4 546.0,519.4 546.0,137.1 518.3,137.1 '/>
+	</g>
+	<path  d='M518.3,519.4 L518.3,137.2 L545.9,137.2 L545.9,519.4 L518.3,519.4 Z  h0.01'/></g>
+	</g>
+	<g id="gnuplot_plot_2" ><title>gnuplot_plot_2</title>
+<g style="fill:none; color:#FF9900; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g transform="translate(657.9,94.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text>Pybind &amp; C++</text>
+	</g>
+	<defs>
+		<pattern id='gpPat2' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style = 'stroke:none; fill:currentColor' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat2)' points = '666.2,94.6 708.4,94.6 708.4,85.6 666.2,85.6 '/>
+	</g>
+	<path  d='M666.2,94.6 L708.4,94.6 L708.4,85.6 L666.2,85.6 L666.2,94.6 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat2)' points = '215.2,519.4 242.8,519.4 242.8,250.4 215.2,250.4 '/>
+	</g>
+	<path  d='M215.2,519.4 L215.2,250.5 L242.7,250.5 L242.7,519.4 L215.2,519.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat2)' points = '380.5,519.4 408.2,519.4 408.2,298.3 380.5,298.3 '/>
+	</g>
+	<path  d='M380.5,519.4 L380.5,298.4 L408.1,298.4 L408.1,519.4 L380.5,519.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat2)' points = '545.9,519.4 573.5,519.4 573.5,290.3 545.9,290.3 '/>
+	</g>
+	<path  d='M545.9,519.4 L545.9,290.4 L573.4,290.4 L573.4,519.4 L545.9,519.4 Z  h0.01'/></g>
+	</g>
+	<g id="gnuplot_plot_3" ><title>gnuplot_plot_3</title>
+<g style="fill:none; color:blue; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g transform="translate(657.9,112.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text>CPython &amp; C++</text>
+	</g>
+	<defs>
+		<pattern id='gpPat3' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style = 'stroke:none; fill:currentColor' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat3)' points = '666.2,112.6 708.4,112.6 708.4,103.6 666.2,103.6 '/>
+	</g>
+	<path  d='M666.2,112.6 L708.4,112.6 L708.4,103.6 L666.2,103.6 L666.2,112.6 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat3)' points = '242.7,519.4 270.4,519.4 270.4,385.3 242.7,385.3 '/>
+	</g>
+	<path  d='M242.7,519.4 L242.7,385.4 L270.3,385.4 L270.3,519.4 L242.7,519.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat3)' points = '408.1,519.4 435.7,519.4 435.7,401.3 408.1,401.3 '/>
+	</g>
+	<path  d='M408.1,519.4 L408.1,401.4 L435.6,401.4 L435.6,519.4 L408.1,519.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat3)' points = '573.4,519.4 601.1,519.4 601.1,384.9 573.4,384.9 '/>
+	</g>
+	<path  d='M573.4,519.4 L573.4,385.0 L601.0,385.0 L601.0,519.4 L573.4,519.4 Z  h0.01'/></g>
+	</g>
+	<g id="gnuplot_plot_4" ><title>gnuplot_plot_4</title>
+<g style="fill:none; color:red; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<g transform="translate(657.9,130.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
+		<text>C++ Baseline</text>
+	</g>
+	<defs>
+		<pattern id='gpPat4' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style = 'stroke:none; fill:currentColor' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat4)' points = '666.2,130.6 708.4,130.6 708.4,121.6 666.2,121.6 '/>
+	</g>
+	<path  d='M666.2,130.6 L708.4,130.6 L708.4,121.6 L666.2,121.6 L666.2,130.6 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat4)' points = '270.3,519.4 297.9,519.4 297.9,431.2 270.3,431.2 '/>
+	</g>
+	<path  d='M270.3,519.4 L270.3,431.3 L297.8,431.3 L297.8,519.4 L270.3,519.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat4)' points = '435.6,519.4 463.3,519.4 463.3,425.6 435.6,425.6 '/>
+	</g>
+	<path  d='M435.6,519.4 L435.6,425.7 L463.2,425.7 L463.2,519.4 L435.6,519.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon  fill = 'url(#gpPat4)' points = '601.0,519.4 628.6,519.4 628.6,408.4 601.0,408.4 '/>
+	</g>
+	<path  d='M601.0,519.4 L601.0,408.5 L628.5,408.5 L628.5,519.4 L601.0,519.4 Z  h0.01'/></g>
+	</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M63.6,54.1 L63.6,519.4 L725.0,519.4 L725.0,54.1 L63.6,54.1 Z  h0.01'/></g>
+</g>
+</svg>
+

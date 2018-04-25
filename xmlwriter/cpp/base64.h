@@ -16,6 +16,7 @@
 
 #include <string>
 
+void base64_encode(const std::string &bytes_to_encode, std::string &output);
 std::string base64_encode(const std::string &bytes_to_encode);
 std::string base64_decode(std::string const& s);
 

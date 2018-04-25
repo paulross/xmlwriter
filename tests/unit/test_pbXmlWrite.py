@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-"""Tests cXmlWrite."""
+"""Tests pbXmlWrite."""
 import os
 
 import pytest
 
-import cXmlWrite as XmlWrite
+import pbXmlWrite as XmlWrite
 
 
 with open(os.path.join(os.path.dirname(__file__), '_test_XmlWrite.py')) as f:
