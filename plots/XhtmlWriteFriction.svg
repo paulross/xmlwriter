@@ -85,7 +85,7 @@
 	</g>
 </g>
 <g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,108.9 L599.8,108.9 M716.7,108.9 L725.0,108.9  h0.01'/></g>
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,108.9 L550.0,108.9 M716.7,108.9 L725.0,108.9  h0.01'/></g>
 <g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<path stroke='black'  d='M63.6,108.9 L72.6,108.9 M725.0,108.9 L716.0,108.9  h0.01'/>	<g transform="translate(55.3,113.4)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
 		<text> 14</text>
@@ -152,7 +152,7 @@
 </g>
 <g style="fill:none; color:red; stroke:currentColor; stroke-width:2.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<g transform="translate(657.9,76.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text>Python</text>
+		<text>Pure Python</text>
 	</g>
 	<path  d='M666.2,72.1 L708.4,72.1 M87.2,105.6 L374.1,202.2 L618.2,204.9  h0.01'/>	<use xlink:href='#gpPt0' transform='translate(87.2,105.6) scale(4.50)'/>
 	<use xlink:href='#gpPt0' transform='translate(374.1,202.2) scale(4.50)'/>
@@ -163,7 +163,7 @@
 	<g id="gnuplot_plot_2" ><title>gnuplot_plot_2</title>
 <g style="fill:none; color:green; stroke:currentColor; stroke-width:2.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<g transform="translate(657.9,94.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text>Pybind</text>
+		<text>Pybind &amp; C++</text>
 	</g>
 	<path  d='M666.2,90.1 L708.4,90.1 M87.2,300.8 L374.1,357.5 L618.2,367.3  h0.01'/>	<use xlink:href='#gpPt1' transform='translate(87.2,300.8) scale(4.50)'/>
 	<use xlink:href='#gpPt1' transform='translate(374.1,357.5) scale(4.50)'/>
@@ -174,7 +174,7 @@
 	<g id="gnuplot_plot_3" ><title>gnuplot_plot_3</title>
 <g style="fill:none; color:#FF9900; stroke:currentColor; stroke-width:2.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<g transform="translate(657.9,112.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text>CPython</text>
+		<text>CPython &amp; C++</text>
 	</g>
 	<path  d='M666.2,108.1 L708.4,108.1 M87.2,443.7 L374.1,466.7 L618.2,467.5  h0.01'/>	<use xlink:href='#gpPt6' transform='translate(87.2,443.7) scale(4.50)'/>
 	<use xlink:href='#gpPt6' transform='translate(374.1,466.7) scale(4.50)'/>

@@ -35,24 +35,24 @@ set style fill pattern 3
 set style histogram clustered
 
 # No Attributes
-plot "XhtmlWriteTime.dat" using (Rate($1,$4)) t "Python" w histograms fill pattern 3 lt 13, \
-    "XhtmlWriteTime.dat" using (Rate($1,$6)) t "Pybind" w histograms fill pattern 3 lt 7, \
-    "XhtmlWriteTime.dat" using (Rate($1,$8)) t "CPython" w histograms fill pattern 3 lt 3, \
+plot "XhtmlWriteTime.dat" using (Rate($1,$4)) t "Pure Python" w histograms fill pattern 3 lt 13, \
+    "XhtmlWriteTime.dat" using (Rate($1,$6)) t "Pybind & C++" w histograms fill pattern 3 lt 7, \
+    "XhtmlWriteTime.dat" using (Rate($1,$8)) t "CPython & C++" w histograms fill pattern 3 lt 3, \
     "XhtmlWriteTime.dat" using (Rate($1,$2)) t "C++ Baseline" w histograms fill pattern 3 lt 1
     
 # With Attributes
-#plot "XhtmlWriteTime.dat" using (Rate($1,$5)) t "Python, with attributes" w histograms fill pattern 3 lt 13, \
-    "XhtmlWriteTime.dat" using (Rate($1,$7)) t "Pybind, with attributes" w histograms fill pattern 3 lt 7, \
-    "XhtmlWriteTime.dat" using (Rate($1,$9)) t "CPython, with attributes" w histograms fill pattern 3 lt 3, \
+#plot "XhtmlWriteTime.dat" using (Rate($1,$5)) t "Pure Python, with attributes" w histograms fill pattern 3 lt 13, \
+    "XhtmlWriteTime.dat" using (Rate($1,$7)) t "Pybind & C++, with attributes" w histograms fill pattern 3 lt 7, \
+    "XhtmlWriteTime.dat" using (Rate($1,$9)) t "CPython & C++, with attributes" w histograms fill pattern 3 lt 3, \
     "XhtmlWriteTime.dat" using (Rate($1,$3)) t "C++ Baseline, with attributes" w histograms fill pattern 3 lt 1
 
 # All
-#plot "XhtmlWriteTime.dat" using (Rate($1,$4)) t "Python" w histograms fill pattern 3 lt 13, \
-    "XhtmlWriteTime.dat" using (Rate($1,$5)) t "Python, with attributes" w histograms fill pattern 1 lt 13, \
-    "XhtmlWriteTime.dat" using (Rate($1,$6)) t "Pybind" w histograms fill pattern 3 lt 7, \
-    "XhtmlWriteTime.dat" using (Rate($1,$7)) t "Pybind, with attributes" w histograms fill pattern 1 lt 7, \
-    "XhtmlWriteTime.dat" using (Rate($1,$8)) t "CPython" w histograms fill pattern 3 lt 3, \
-    "XhtmlWriteTime.dat" using (Rate($1,$9)) t "CPython, with attributes" w histograms fill pattern 1 lt 3, \
+#plot "XhtmlWriteTime.dat" using (Rate($1,$4)) t "Pure Python" w histograms fill pattern 3 lt 13, \
+    "XhtmlWriteTime.dat" using (Rate($1,$5)) t "Pure Python, with attributes" w histograms fill pattern 1 lt 13, \
+    "XhtmlWriteTime.dat" using (Rate($1,$6)) t "Pybind & C++" w histograms fill pattern 3 lt 7, \
+    "XhtmlWriteTime.dat" using (Rate($1,$7)) t "Pybind & C++, with attributes" w histograms fill pattern 1 lt 7, \
+    "XhtmlWriteTime.dat" using (Rate($1,$8)) t "CPython & C++" w histograms fill pattern 3 lt 3, \
+    "XhtmlWriteTime.dat" using (Rate($1,$9)) t "CPython & C++, with attributes" w histograms fill pattern 1 lt 3, \
     "XhtmlWriteTime.dat" using (Rate($1,$2)) t "C++ Baseline" w histograms fill pattern 3 lt 1,\
     "XhtmlWriteTime.dat" using (Rate($1,$3)) t "C++ Baseline, with attributes" w histograms fill pattern 1 lt 1
     

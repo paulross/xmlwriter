@@ -92,7 +92,7 @@
 	</g>
 </g>
 <g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M55.3,105.8 L508.5,105.8 M716.7,105.8 L725.0,105.8  h0.01'/></g>
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M55.3,105.8 L408.9,105.8 M716.7,105.8 L725.0,105.8  h0.01'/></g>
 <g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<path stroke='black'  d='M55.3,105.8 L64.3,105.8 M725.0,105.8 L716.0,105.8  h0.01'/>	<g transform="translate(47.0,110.3)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
 		<text> 8</text>
@@ -117,7 +117,7 @@
 	<g id="gnuplot_plot_1" ><title>gnuplot_plot_1</title>
 <g style="fill:none; color:#FF9900; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<g transform="translate(657.9,76.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text>Pybind</text>
+		<text>Pybind &amp; C++</text>
 	</g>
 	<defs>
 		<pattern id='gpPat1' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
@@ -141,11 +141,11 @@
 	<g id="gnuplot_plot_2" ><title>gnuplot_plot_2</title>
 <g style="fill:none; color:#FF9900; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<g transform="translate(657.9,94.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text>Pybind+attributes</text>
+		<text>Pybind &amp; C++, with attributes</text>
 	</g>
 	<defs>
 		<pattern id='gpPat2' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
-			<path style = 'fill:none; stroke:currentColor' d='M0,0 L8,8 M0,8 L8,0'/>
+			<path style = 'fill:none; stroke:currentColor' d='M-4,8 L8,-4 M0,12 L12,0'/>
 		</pattern>
 	</defs>
 	<g style = 'stroke:none; shape-rendering:crispEdges'>
@@ -165,7 +165,7 @@
 	<g id="gnuplot_plot_3" ><title>gnuplot_plot_3</title>
 <g style="fill:none; color:blue; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<g transform="translate(657.9,112.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text>CPython</text>
+		<text>CPython &amp; C++</text>
 	</g>
 	<g style = 'stroke:none; shape-rendering:crispEdges'>
 		<polygon fill = 'currentColor' points = '666.2,112.6 708.4,112.6 708.4,103.6 666.2,103.6 '/>
@@ -184,11 +184,11 @@
 	<g id="gnuplot_plot_4" ><title>gnuplot_plot_4</title>
 <g style="fill:none; color:blue; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<g transform="translate(657.9,130.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text>CPython+attributes</text>
+		<text>CPython &amp; C++, with attributes</text>
 	</g>
 	<defs>
 		<pattern id='gpPat3' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
-			<path style = 'fill:none; stroke:currentColor' d='M0,0 L8,8 M0,8 L8,0'/>
+			<path style = 'fill:none; stroke:currentColor' d='M-4,8 L8,-4 M0,12 L12,0'/>
 		</pattern>
 	</defs>
 	<g style = 'stroke:none; shape-rendering:crispEdges'>

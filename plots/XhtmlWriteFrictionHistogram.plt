@@ -37,27 +37,27 @@ set output "XhtmlWriteFrictionHistogram.svg"   # choose the output device
 set style histogram clustered
 
 # No Attributes
-#plot "XhtmlWriteTime.dat" using (Friction($1,$2,$4)) t "Python" w histograms fill solid lt 7, \
-    "XhtmlWriteTime.dat" using (Friction($1,$2,$6)) t "Pybind" w histograms fill solid lt 2, \
-    "XhtmlWriteTime.dat" using (Friction($1,$2,$8)) t "CPython" w histograms fill solid lt 1
+#plot "XhtmlWriteTime.dat" using (Friction($1,$2,$4)) t "Pure Python" w histograms fill solid lt 7, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$6)) t "Pybind & C++" w histograms fill solid lt 2, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$8)) t "CPython & C++" w histograms fill solid lt 1
     
 # With Attributes
-#plot "XhtmlWriteTime.dat" using (Friction($1,$3,$5)) t "Python, with attributes" w histograms fill solid lt 7, \
-    "XhtmlWriteTime.dat" using (Friction($1,$3,$7)) t "Pybind, with attributes" w histograms fill solid lt 2, \
-    "XhtmlWriteTime.dat" using (Friction($1,$3,$9)) t "CPython, with attributes" w histograms fill solid lt 1
+#plot "XhtmlWriteTime.dat" using (Friction($1,$3,$5)) t "Pure Python, with attributes" w histograms fill solid lt 7, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$7)) t "Pybind & C++, with attributes" w histograms fill solid lt 2, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$9)) t "CPython & C++, with attributes" w histograms fill solid lt 1
 
 # With and without attributes
-#plot "XhtmlWriteTime.dat" using (Friction($1,$2,$4)) t "Python" w histograms fill solid lt 7, \
-    "XhtmlWriteTime.dat" using (Friction($1,$3,$5)) t "Python, with attributes" w histograms fill solid lt 8, \
-    "XhtmlWriteTime.dat" using (Friction($1,$2,$6)) t "Pybind" w histograms fill solid lt 2, \
-    "XhtmlWriteTime.dat" using (Friction($1,$3,$7)) t "Pybind, with attributes" w histograms fill solid lt 3, \
-    "XhtmlWriteTime.dat" using (Friction($1,$2,$8)) t "CPython" w histograms fill solid lt 1, \
-    "XhtmlWriteTime.dat" using (Friction($1,$3,$9)) t "CPython, with attributes" w histograms fill solid lt 4
+#plot "XhtmlWriteTime.dat" using (Friction($1,$2,$4)) t "Pure Python" w histograms fill solid lt 7, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$5)) t "Pure Python, with attributes" w histograms fill solid lt 8, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$6)) t "Pybind & C++" w histograms fill solid lt 2, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$7)) t "Pybind & C++, with attributes" w histograms fill solid lt 3, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$8)) t "CPython & C++" w histograms fill solid lt 1, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$9)) t "CPython & C++, with attributes" w histograms fill solid lt 4
 
 # With and without attributes, pybind and CPython only
-plot "XhtmlWriteTime.dat" using (Friction($1,$2,$6)) t "Pybind" w histograms fill pattern 3 lt 7, \
-    "XhtmlWriteTime.dat" using (Friction($1,$3,$7)) t "Pybind+attributes"  w histograms fill pattern 1 lt 7, \
-    "XhtmlWriteTime.dat" using (Friction($1,$2,$8)) t "CPython"  w histograms fill solid 3, \
-    "XhtmlWriteTime.dat" using (Friction($1,$3,$9)) t "CPython+attributes" w histograms fill pattern 1 lt 3
+plot "XhtmlWriteTime.dat" using (Friction($1,$2,$6)) t "Pybind & C++" w histograms fill pattern 3 lt 7, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$7)) t "Pybind & C++, with attributes"  w histograms fill pattern 5 lt 7, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$8)) t "CPython & C++"  w histograms fill solid 3, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$9)) t "CPython & C++, with attributes" w histograms fill pattern 5 lt 3
 
 reset

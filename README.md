@@ -38,16 +38,28 @@ Then `xS.getvalue()` gives this:
 The nature of this code is that many small objects are constructed that mostly have short lifetimes. If implemented in C/C++ then the cost of crossing the boundary from Python to C/C++ can be significant. For each element the Python interpreter makes at least five calls to a C/C++ implementation: `__new__`, `__init__`, `__enter__`, `__exit__`, `__del__`.
 
 
-This project is based on the [pybind11 example](https://github.com/pybind/python_example).
+This project is based on this [pybind11 example](https://github.com/pybind/python_example).
 
 
 <a name="Performance"></a>
 # Performance
 
+The main aim of this project was to establish the performance of:
+
+* The original pure Python implementation.
+* The new C++ baseline implementation.
+* The C++ baseline implementation with a pybind11 interface.
+* The C++ baseline implementation with a traditional CPython extension interface.
+
+`pytest-benchmark` was used to measure the Python test code. The C++ baseline implementation was benchmarked within a C++ executable.
+
+
 <a name="Performance_Selected_Benchmarks"></a>
 ## Selected Benchmarks
 
-This measured the cost of creating XHTML of varying sizes. There are two tests for each size as the document is created with no attributes on each element, then with some attributes (see `BENCHMARK_ATTRIBUTES` in `tests/unit/_test_XmlWrite.py`). The value of the second test is that a far bigger payload must be transported and converted between Python and C/C++. We reduce the execution time to μs per element written with these size of documents:
+This measured the cost of creating XHTML of varying sizes. There are two tests for each size as the document is created with no attributes on each element, then with some attributes (see `BENCHMARK_ATTRIBUTES` in `tests/unit/_test_XmlWrite.py`). The value of the second test is that a far bigger payload must be transported and converted between Python and C/C++.
+
+We reduce the execution time to μs per element written with these size of documents:
 
 * A "Small" document with 128 XML elements. About 61 kB without element attributes or 100 kB with attributes.
 * A "Large" document with 2560 XML elements. About 1 MB without element attributes or 2 MB with attributes.
@@ -69,17 +81,19 @@ Subtracting the execution time of the underlying C++ code gives the 'friction' c
 
 The C extension gives about 1/4 the friction of the pybnd11 one.
 
+## Development Time
+
+The pybind11 interface and the C++ code took about two to three days to write. The C Extension on top of the existing C++ code took about four to five days to write.
+
 <a name="Performance_Summary"></a>
-### Summary
+## Summary
 
 * The pure C++ implementation is about four times faster than the pure Python one.
 * pybind11 slows this C++ implementation down by a factor of two.
 * The C extension slows this C++ implementation down by a factor of aroung 1.2.
 * The 'friction' caused by the C extension is about 1/4 that of pybind11.
 
-
 Of course these figures are only reflective of *this particular* problem.
-
 
 <a name="History"></a>
 # History (latest at top)
