@@ -86,7 +86,7 @@ public:
     operator PyObject*() const {
         return m_arg ? m_arg : m_default;
     }
-    // Test ig constructed successfully.
+    // Test if constructed successfully from the new reference.
     explicit operator bool() { return m_default != NULL; }
 protected:
     PyObject *m_arg;

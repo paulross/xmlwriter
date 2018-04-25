@@ -1,6 +1,6 @@
 set logscale x
 set grid
-set title "Xhtml Write Time (Microseconds/Element). Typically 0.5 kb/element."
+set title "Xhtml Write Time (Microseconds/Element). Typically 0.7 kb/element."
 set xlabel "Number of XML Elements."
 set xtics
 #set format x ""
@@ -27,7 +27,7 @@ Rate(x,y) = 1e6 * y / x
 
 set terminal svg size 750,550           # choose the file format
 #set terminal svg size 600,400           # choose the file format
-set output "XhtmlWriteRate.svg"   # choose the output device
+set output "XhtmlWriteRateWithAttrs.svg"   # choose the output device
 
 #set key title "Window Length"
 
@@ -42,13 +42,13 @@ set output "XhtmlWriteRate.svg"   # choose the output device
     "XhtmlWriteTime.dat" using 1:(Rate($1,$9)) t "CPython, with attributes" with linespoints
 
 # No attributes
-plot "XhtmlWriteTime.dat" using 1:(Rate($1,$2)) t "C++ Baseline" with linespoints lw 2, \
+#plot "XhtmlWriteTime.dat" using 1:(Rate($1,$2)) t "C++ Baseline" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$4)) t "Python" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$6)) t "Pybind" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$8)) t "CPython" with linespoints lw 2 lt 7
 
 # With Attributes only
-#plot "XhtmlWriteTime.dat" using 1:(Rate($1,$3)) t "C++ Baseline, with attributes" with linespoints lw 2, \
+plot "XhtmlWriteTime.dat" using 1:(Rate($1,$3)) t "C++ Baseline, with attributes" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$5)) t "Python, with attributes" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$7)) t "Pybind, with attributes" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Rate($1,$9)) t "CPython, with attributes" with linespoints lw 2 lt 7
