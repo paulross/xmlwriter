@@ -12,6 +12,14 @@
 
 #include "XmlWrite.h"
 
+#include "TestCPythonUtils.h"
+
+int test_all() {
+    int result = 0;
+    result |= test_all_cpython_utils();
+    return result;
+}
+
 class ExecClock {
 public:
     typedef std::chrono::time_point<std::chrono::high_resolution_clock> tHiResTime;
@@ -237,10 +245,7 @@ void debug_function() {
     }
 }
 
-int main(int /* argc */, const char *[] /* argv[] */) {
-    std::cout << "Hello world" << std::endl;
-//    debug_function();
-
+void run_performance_tests() {
     test_XmlWrite__encode_no_encoding();
     test_XmlWrite__encode_with_encoding();
     test_XmlWrite_encodeString();
@@ -253,6 +258,21 @@ int main(int /* argc */, const char *[] /* argv[] */) {
     test_write_small_XHTML_document_attributes();
     test_write_large_XHTML_document_attributes();
     test_write_very_large_XHTML_document_attributes();
+}
+
+int main(int /* argc */, const char *[] /* argv[] */) {
+    std::cout << "Testing xmlwriter" << std::endl;
+//    debug_function();
+
+    int result = test_all();
+    if (result) {
+        std::cout << "Tests FAILED with result=" << result << std::endl;
+    } else {
+        std::cout << "All tests PASSED!" << std::endl;
+    }
+
+//    run_performance_tests();
+
     std::cout << "Bye, bye!\n";
     return 0;
 }

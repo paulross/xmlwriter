@@ -14,6 +14,8 @@
 		C382E6DF204096A7003C4C49 /* Python in Frameworks */ = {isa = PBXBuildFile; fileRef = C382E6DE204096A7003C4C49 /* Python */; };
 		C3A411F3207D2EE200A6C2C1 /* cXmlWrite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A411F1207D2EE200A6C2C1 /* cXmlWrite.cpp */; };
 		C3A412222087CA2500A6C2C1 /* XmlWrite_docs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A412202087CA2500A6C2C1 /* XmlWrite_docs.cpp */; };
+		C3A412252090AD4500A6C2C1 /* CPythonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A412232090AD4500A6C2C1 /* CPythonUtils.cpp */; };
+		C3A412282090FAAD00A6C2C1 /* TestCPythonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A412262090FAAD00A6C2C1 /* TestCPythonUtils.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +43,10 @@
 		C3A411F1207D2EE200A6C2C1 /* cXmlWrite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cXmlWrite.cpp; sourceTree = "<group>"; };
 		C3A412202087CA2500A6C2C1 /* XmlWrite_docs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XmlWrite_docs.cpp; sourceTree = "<group>"; };
 		C3A412212087CA2500A6C2C1 /* XmlWrite_docs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlWrite_docs.h; sourceTree = "<group>"; };
+		C3A412232090AD4500A6C2C1 /* CPythonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPythonUtils.cpp; sourceTree = "<group>"; };
+		C3A412242090AD4500A6C2C1 /* CPythonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPythonUtils.h; sourceTree = "<group>"; };
+		C3A412262090FAAD00A6C2C1 /* TestCPythonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestCPythonUtils.cpp; sourceTree = "<group>"; };
+		C3A412272090FAAD00A6C2C1 /* TestCPythonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCPythonUtils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +99,10 @@
 				C3A412212087CA2500A6C2C1 /* XmlWrite_docs.h */,
 				C3770D521FCEE73B00315387 /* pbXmlWrite.cpp */,
 				C3A411F1207D2EE200A6C2C1 /* cXmlWrite.cpp */,
+				C3A412232090AD4500A6C2C1 /* CPythonUtils.cpp */,
+				C3A412242090AD4500A6C2C1 /* CPythonUtils.h */,
+				C3A412262090FAAD00A6C2C1 /* TestCPythonUtils.cpp */,
+				C3A412272090FAAD00A6C2C1 /* TestCPythonUtils.h */,
 			);
 			path = cpy;
 			sourceTree = "<group>";
@@ -155,6 +165,8 @@
 			files = (
 				C3A412222087CA2500A6C2C1 /* XmlWrite_docs.cpp in Sources */,
 				C3770D571FD084F300315387 /* base64.cpp in Sources */,
+				C3A412252090AD4500A6C2C1 /* CPythonUtils.cpp in Sources */,
+				C3A412282090FAAD00A6C2C1 /* TestCPythonUtils.cpp in Sources */,
 				C3A411F3207D2EE200A6C2C1 /* cXmlWrite.cpp in Sources */,
 				C3770D4F1FCC162E00315387 /* main.cpp in Sources */,
 				C3770D531FCEE73B00315387 /* pbXmlWrite.cpp in Sources */,
