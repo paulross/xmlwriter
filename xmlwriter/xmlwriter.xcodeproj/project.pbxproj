@@ -14,8 +14,11 @@
 		C382E6DF204096A7003C4C49 /* Python in Frameworks */ = {isa = PBXBuildFile; fileRef = C382E6DE204096A7003C4C49 /* Python */; };
 		C3A411F3207D2EE200A6C2C1 /* cXmlWrite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A411F1207D2EE200A6C2C1 /* cXmlWrite.cpp */; };
 		C3A412222087CA2500A6C2C1 /* XmlWrite_docs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A412202087CA2500A6C2C1 /* XmlWrite_docs.cpp */; };
-		C3A412252090AD4500A6C2C1 /* CPythonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A412232090AD4500A6C2C1 /* CPythonUtils.cpp */; };
-		C3A412282090FAAD00A6C2C1 /* TestCPythonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A412262090FAAD00A6C2C1 /* TestCPythonUtils.cpp */; };
+		C3A4123A209C7E7F00A6C2C1 /* cpython_asserts.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A41238209C7E7F00A6C2C1 /* cpython_asserts.cpp */; };
+		C3A41243209DC03C00A6C2C1 /* ConvertPyStr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A41242209DC03C00A6C2C1 /* ConvertPyStr.cpp */; };
+		C3A41247209DC64C00A6C2C1 /* TestCPythonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A41245209DC64C00A6C2C1 /* TestCPythonUtils.cpp */; };
+		C3A4124A209DC6BB00A6C2C1 /* ConvertPyBytes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A41248209DC6BB00A6C2C1 /* ConvertPyBytes.cpp */; };
+		C3A4124D209DC8DA00A6C2C1 /* ConvertPyBytearray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3A4124B209DC8DA00A6C2C1 /* ConvertPyBytearray.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,10 +46,23 @@
 		C3A411F1207D2EE200A6C2C1 /* cXmlWrite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cXmlWrite.cpp; sourceTree = "<group>"; };
 		C3A412202087CA2500A6C2C1 /* XmlWrite_docs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XmlWrite_docs.cpp; sourceTree = "<group>"; };
 		C3A412212087CA2500A6C2C1 /* XmlWrite_docs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XmlWrite_docs.h; sourceTree = "<group>"; };
-		C3A412232090AD4500A6C2C1 /* CPythonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPythonUtils.cpp; sourceTree = "<group>"; };
-		C3A412242090AD4500A6C2C1 /* CPythonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPythonUtils.h; sourceTree = "<group>"; };
-		C3A412262090FAAD00A6C2C1 /* TestCPythonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestCPythonUtils.cpp; sourceTree = "<group>"; };
-		C3A412272090FAAD00A6C2C1 /* TestCPythonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCPythonUtils.h; sourceTree = "<group>"; };
+		C3A41238209C7E7F00A6C2C1 /* cpython_asserts.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cpython_asserts.cpp; path = utils/cpython_asserts.cpp; sourceTree = "<group>"; };
+		C3A41239209C7E7F00A6C2C1 /* cpython_asserts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cpython_asserts.h; path = utils/cpython_asserts.h; sourceTree = "<group>"; };
+		C3A4123B209C805200A6C2C1 /* RefWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RefWrapper.h; path = utils/RefWrapper.h; sourceTree = "<group>"; };
+		C3A4123C209C817500A6C2C1 /* DefaultArguments.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DefaultArguments.h; path = utils/DefaultArguments.h; sourceTree = "<group>"; };
+		C3A4123D209CD44E00A6C2C1 /* ConvertPyDict.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConvertPyDict.h; path = utils/ConvertPyDict.h; sourceTree = "<group>"; };
+		C3A4123E209DBA8A00A6C2C1 /* ConvertPySet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConvertPySet.h; path = utils/ConvertPySet.h; sourceTree = "<group>"; };
+		C3A4123F209DBBBA00A6C2C1 /* ConvertPyList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConvertPyList.h; path = utils/ConvertPyList.h; sourceTree = "<group>"; };
+		C3A41240209DBD8200A6C2C1 /* PyObjectWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PyObjectWrapper.h; path = utils/PyObjectWrapper.h; sourceTree = "<group>"; };
+		C3A41241209DBFEF00A6C2C1 /* ConvertPyStr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConvertPyStr.h; path = utils/ConvertPyStr.h; sourceTree = "<group>"; };
+		C3A41242209DC03C00A6C2C1 /* ConvertPyStr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConvertPyStr.cpp; path = utils/ConvertPyStr.cpp; sourceTree = "<group>"; };
+		C3A41244209DC64C00A6C2C1 /* CPythonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPythonUtils.h; path = utils/CPythonUtils.h; sourceTree = "<group>"; };
+		C3A41245209DC64C00A6C2C1 /* TestCPythonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestCPythonUtils.cpp; path = utils/TestCPythonUtils.cpp; sourceTree = "<group>"; };
+		C3A41246209DC64C00A6C2C1 /* TestCPythonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestCPythonUtils.h; path = utils/TestCPythonUtils.h; sourceTree = "<group>"; };
+		C3A41248209DC6BB00A6C2C1 /* ConvertPyBytes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConvertPyBytes.cpp; path = utils/ConvertPyBytes.cpp; sourceTree = "<group>"; };
+		C3A41249209DC6BB00A6C2C1 /* ConvertPyBytes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConvertPyBytes.h; path = utils/ConvertPyBytes.h; sourceTree = "<group>"; };
+		C3A4124B209DC8DA00A6C2C1 /* ConvertPyBytearray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConvertPyBytearray.cpp; path = utils/ConvertPyBytearray.cpp; sourceTree = "<group>"; };
+		C3A4124C209DC8DA00A6C2C1 /* ConvertPyBytearray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConvertPyBytearray.h; path = utils/ConvertPyBytearray.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,16 +111,37 @@
 		C3770D511FCEE73B00315387 /* cpy */ = {
 			isa = PBXGroup;
 			children = (
+				C3A41237209C7E5400A6C2C1 /* utils */,
 				C3A412202087CA2500A6C2C1 /* XmlWrite_docs.cpp */,
 				C3A412212087CA2500A6C2C1 /* XmlWrite_docs.h */,
 				C3770D521FCEE73B00315387 /* pbXmlWrite.cpp */,
 				C3A411F1207D2EE200A6C2C1 /* cXmlWrite.cpp */,
-				C3A412232090AD4500A6C2C1 /* CPythonUtils.cpp */,
-				C3A412242090AD4500A6C2C1 /* CPythonUtils.h */,
-				C3A412262090FAAD00A6C2C1 /* TestCPythonUtils.cpp */,
-				C3A412272090FAAD00A6C2C1 /* TestCPythonUtils.h */,
 			);
 			path = cpy;
+			sourceTree = "<group>";
+		};
+		C3A41237209C7E5400A6C2C1 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				C3A4124B209DC8DA00A6C2C1 /* ConvertPyBytearray.cpp */,
+				C3A4124C209DC8DA00A6C2C1 /* ConvertPyBytearray.h */,
+				C3A41248209DC6BB00A6C2C1 /* ConvertPyBytes.cpp */,
+				C3A41249209DC6BB00A6C2C1 /* ConvertPyBytes.h */,
+				C3A4123D209CD44E00A6C2C1 /* ConvertPyDict.h */,
+				C3A4123F209DBBBA00A6C2C1 /* ConvertPyList.h */,
+				C3A4123E209DBA8A00A6C2C1 /* ConvertPySet.h */,
+				C3A41242209DC03C00A6C2C1 /* ConvertPyStr.cpp */,
+				C3A41241209DBFEF00A6C2C1 /* ConvertPyStr.h */,
+				C3A41238209C7E7F00A6C2C1 /* cpython_asserts.cpp */,
+				C3A41239209C7E7F00A6C2C1 /* cpython_asserts.h */,
+				C3A41244209DC64C00A6C2C1 /* CPythonUtils.h */,
+				C3A4123C209C817500A6C2C1 /* DefaultArguments.h */,
+				C3A41240209DBD8200A6C2C1 /* PyObjectWrapper.h */,
+				C3A4123B209C805200A6C2C1 /* RefWrapper.h */,
+				C3A41245209DC64C00A6C2C1 /* TestCPythonUtils.cpp */,
+				C3A41246209DC64C00A6C2C1 /* TestCPythonUtils.h */,
+			);
+			name = utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,10 +201,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3A412222087CA2500A6C2C1 /* XmlWrite_docs.cpp in Sources */,
+				C3A41247209DC64C00A6C2C1 /* TestCPythonUtils.cpp in Sources */,
 				C3770D571FD084F300315387 /* base64.cpp in Sources */,
-				C3A412252090AD4500A6C2C1 /* CPythonUtils.cpp in Sources */,
-				C3A412282090FAAD00A6C2C1 /* TestCPythonUtils.cpp in Sources */,
+				C3A4123A209C7E7F00A6C2C1 /* cpython_asserts.cpp in Sources */,
+				C3A4124A209DC6BB00A6C2C1 /* ConvertPyBytes.cpp in Sources */,
 				C3A411F3207D2EE200A6C2C1 /* cXmlWrite.cpp in Sources */,
+				C3A4124D209DC8DA00A6C2C1 /* ConvertPyBytearray.cpp in Sources */,
+				C3A41243209DC03C00A6C2C1 /* ConvertPyStr.cpp in Sources */,
 				C3770D4F1FCC162E00315387 /* main.cpp in Sources */,
 				C3770D531FCEE73B00315387 /* pbXmlWrite.cpp in Sources */,
 				C3770D4B1FCC134700315387 /* XmlWrite.cpp in Sources */,

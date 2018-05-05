@@ -12,7 +12,10 @@
 
 #include "XmlWrite.h"
 #include "XmlWrite_docs.h"
-#include "CPythonUtils.h"
+#include "ConvertPyBytes.h"
+#include "ConvertPyDict.h"
+#include "ConvertPyStr.h"
+#include "DefaultArguments.h"
 
 
 // Exception specialisation
@@ -71,7 +74,7 @@ decode_string(PyObject */* module */, PyObject *encoded) {
     PyObject *ret = NULL;
     std::string result;
 
-    std::string encoded_str = py_utf8_to_std_string(encoded);
+    std::string encoded_str = CPythonCpp::py_utf8_to_std_string(encoded);
     if (PyErr_Occurred()) {
         goto except;
     }
@@ -83,7 +86,7 @@ decode_string(PyObject */* module */, PyObject *encoded) {
                      __FUNCTION__, err.what());
         goto except;
     }
-    ret = std_string_to_py_bytes(result);
+    ret = CPythonCpp::std_string_to_py_bytes(result);
     if (! ret) {
         goto except;
     }
@@ -111,7 +114,7 @@ name_from_string(PyObject */* module */, PyObject *py_string) {
         goto except;
     }
     try {
-        result = nameFromString(py_utf8_to_std_string(py_string));
+        result = nameFromString(CPythonCpp::py_utf8_to_std_string(py_string));
     } catch (ExceptionXml &err) {
         PyErr_Format(PyExc_RuntimeError,
                      "In %s \"nameFromString\" failed with error %s",
@@ -142,10 +145,10 @@ template <typename PyType, typename CppType>
 static int
 Generic_Stream_init(PyType *self, PyObject *args, PyObject *kwds) {
     int ret = 0;
-    static DefaultArg theEnc { PyUnicode_FromString("utf-8") };
-    static DefaultArg theDtdLocal { PyUnicode_FromString("") };
-    static DefaultArg theId { PyLong_FromLong(0L) };
-    static DefaultArg mustIndent { PyBool_FromLong(1L) };
+    static CPythonCpp::DefaultArg theEnc { PyUnicode_FromString("utf-8") };
+    static CPythonCpp::DefaultArg theDtdLocal { PyUnicode_FromString("") };
+    static CPythonCpp::DefaultArg theId { PyLong_FromLong(0L) };
+    static CPythonCpp::DefaultArg mustIndent { PyBool_FromLong(1L) };
 
     if (!theEnc || !theDtdLocal || !theId || !mustIndent) {
         return -1;
@@ -161,8 +164,8 @@ Generic_Stream_init(PyType *self, PyObject *args, PyObject *kwds) {
         return -1;
     }
     self->p_stream = new CppType(
-        py_utf8_to_std_string((PyObject*)theEnc),
-        py_utf8_to_std_string((PyObject*)theDtdLocal),
+        CPythonCpp::py_utf8_to_std_string((PyObject*)theEnc),
+        CPythonCpp::py_utf8_to_std_string((PyObject*)theDtdLocal),
         static_cast<int>(PyLong_AsLong(theId)),
         mustIndent == Py_True ? true : false
     );
@@ -215,7 +218,7 @@ cXmlStream_getvalue(cXmlStream* self) {
     std::cout << " p_stream: " << self->p_stream << std::endl;
 #endif
     std::string value = self->p_stream->getvalue();
-    return std_string_to_py_utf8(value);
+    return CPythonCpp::std_string_to_py_utf8(value);
 }
 
 static PyObject *
@@ -265,12 +268,14 @@ cXmlStream_startElement(cXmlStream *self, PyObject *args, PyObject *kwds) {
         goto except;
     }
     if (attrs) {
-        cpp_attrs = dict_to_map_str_str(attrs);
+        cpp_attrs = CPythonCpp::py_dict_to_std_map(attrs,
+                                                   &CPythonCpp::py_utf8_to_std_string,
+                                                   &CPythonCpp::py_utf8_to_std_string);
         if (PyErr_Occurred()) {
             goto except;
         }
     }
-    cpp_name = py_utf8_to_std_string(name);
+    cpp_name = CPythonCpp::py_utf8_to_std_string(name);
     if (PyErr_Occurred()) {
         goto except;
     }
@@ -296,7 +301,7 @@ typedef void (XmlStream::*type_str_fn)(const std::string &);
 static PyObject *
 cXmlStream_generic_string(XmlStream &stream, type_str_fn fn, PyObject *arg) {
     PyObject *ret = NULL;
-    std::string chars { py_utf8_to_std_string(arg) };
+    std::string chars { CPythonCpp::py_utf8_to_std_string(arg) };
     if (PyErr_Occurred()) {
         goto except;
     }
@@ -403,7 +408,10 @@ cXmlStream_writeCSS(cXmlStream *self, PyObject *arg) {
                          __FUNCTION__, Py_TYPE(value)->tp_name);
             goto except;
         }
-        theCSSMap[py_utf8_to_std_string(key)] = dict_to_map_str_str(value);
+        theCSSMap[CPythonCpp::py_utf8_to_std_string(key)] = \
+            CPythonCpp::py_dict_to_std_map(value,
+                                           &CPythonCpp::py_utf8_to_std_string,
+                                           &CPythonCpp::py_utf8_to_std_string);
         if (PyErr_Occurred()) {
             goto except;
         }
@@ -596,7 +604,7 @@ typedef struct : cXmlStream {
 static PyObject *
 cXhtmlStream_charactersWithBr(cXhtmlStream *self, PyObject *arg) {
     PyObject *ret = NULL;
-    std::string chars { py_utf8_to_std_string(arg) };
+    std::string chars { CPythonCpp::py_utf8_to_std_string(arg) };
     if (PyErr_Occurred()) {
         goto except;
     }
@@ -717,7 +725,7 @@ cElement_init(cElement *self, PyObject *args, PyObject *kwds) {
     int ret = 0;
     PyObject *stream = NULL;
     const char *name;
-    static DefaultArg attributes { PyDict_New() };
+    static CPythonCpp::DefaultArg attributes { PyDict_New() };
 
     if (!attributes) {
         return -1;
@@ -736,12 +744,20 @@ cElement_init(cElement *self, PyObject *args, PyObject *kwds) {
         cXmlStream *xml_stream = (cXmlStream*)stream;
         self->p_element = new Element(*xml_stream->p_stream,
                                       std::string(name),
-                                      dict_to_map_str_str(attributes));
+                                      CPythonCpp::py_dict_to_std_map(
+                                          attributes,
+                                          &CPythonCpp::py_utf8_to_std_string,
+                                          &CPythonCpp::py_utf8_to_std_string)
+                                      );
     } else if (Py_cXhtmlStreamType_CheckExact(stream)) {
         cXhtmlStream *xml_stream = (cXhtmlStream*)stream;
         self->p_element = new Element(*xml_stream->p_stream,
                                       std::string(name),
-                                      dict_to_map_str_str(attributes));
+                                      CPythonCpp::py_dict_to_std_map(
+                                          attributes,
+                                          &CPythonCpp::py_utf8_to_std_string,
+                                          &CPythonCpp::py_utf8_to_std_string)
+                                      );
     } else {
         PyErr_Format(PyExc_TypeError,
                      "Value of \"theXmlStream\" to %s must be cXmlStream not \"%s\"",
