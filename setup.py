@@ -38,6 +38,14 @@ class get_pybind_include(object):
         import pybind11
         return pybind11.get_include(self.user)
 
+CPY_UTILITY_SOURCES = [
+    'xmlwriter/cpy/utils/ConvertPyBytes.cpp',
+    'xmlwriter/cpy/utils/ConvertPyBytearray.cpp',
+    'xmlwriter/cpy/utils/ConvertPyStr.cpp',
+    'xmlwriter/cpy/utils/cpython_asserts.cpp',
+]
+
+CPY_UTILITY_HEADER_DIRS = ['xmlwriter/cpy/utils']
 
 ext_modules = [
     # Pybind11 wrapper to the C++ XmlStream
@@ -65,11 +73,11 @@ ext_modules = [
             'xmlwriter/cpy/XmlWrite_docs.cpp',
             'xmlwriter/cpp/XmlWrite.cpp',
             'xmlwriter/cpp/base64.cpp',
-        ],
+        ] + CPY_UTILITY_SOURCES,
         include_dirs = [
             'xmlwriter/cpp',
             'xmlwriter/cpy',
-        ],
+        ] + CPY_UTILITY_HEADER_DIRS,
         library_dirs = [],
 #         extra_compile_args=[],
         language='c++'
