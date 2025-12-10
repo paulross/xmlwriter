@@ -137,7 +137,7 @@ int test_py_list_to_std_vector() {
 
     std::vector<std::string> expected = {"Foo", "Bar", "Baz"};
     PyObject *py_list = PyList_New(3);
-    for (int i = 0; i < expected.size(); ++i) {
+    for (unsigned long i = 0; i < expected.size(); ++i) {
         PyList_SET_ITEM(py_list, i, CPythonCpp::std_string_to_py_utf8(expected[i]));
     }
     std::vector<std::string> result = \

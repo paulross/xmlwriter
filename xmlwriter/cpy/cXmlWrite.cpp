@@ -538,54 +538,17 @@ static PyGetSetDef cXmlStream_properties[] = {
 
 static PyTypeObject cXmlStreamType = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "cXmlWrite.XmlStream",    /* tp_name */
-    sizeof(cXmlStream),        /* tp_basicsize */
-    0,                         /* tp_itemsize */
-    (destructor)cXmlStream_dealloc, /* tp_dealloc */
-    0,                         /* tp_print */
-    0,                         /* tp_getattr */
-    0,                         /* tp_setattr */
-    0,                         /* tp_reserved */
-    0,                         /* tp_repr */
-    0,                         /* tp_as_number */
-    0,                         /* tp_as_sequence */
-    0,                         /* tp_as_mapping */
-    0,                         /* tp_hash  */
-    0,                         /* tp_call */
-    0,                         /* tp_str */
-    0,                         /* tp_getattro */
-    0,                         /* tp_setattro */
-    0,                         /* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT |
-        Py_TPFLAGS_BASETYPE,   /* tp_flags */
-    DOCSTRING_XmlWrite_XmlStream, /* tp_doc */
-    0,                         /* tp_traverse */
-    0,                         /* tp_clear */
-    0,                         /* tp_richcompare */
-    0,                         /* tp_weaklistoffset */
-    0,                         /* tp_iter */
-    0,                         /* tp_iternext */
-    cXmlStream_methods,        /* tp_methods */
-    cXmlStream_members,        /* tp_members */
-    cXmlStream_properties,     /* tp_getset */
-    0,                         /* tp_base */
-    0,                         /* tp_dict */
-    0,                         /* tp_descr_get */
-    0,                         /* tp_descr_set */
-    0,                         /* tp_dictoffset */
-    (initproc)Generic_Stream_init<cXmlStream, XmlStream>, /* tp_init */
-    0,                         /* tp_alloc */
-    cXmlStream_new,            /* tp_new */
-    0,                         /* tp_free */
-    0,                         /* tp_is_gc */
-    0,                         /* tp_bases */
-    0,                         /* tp_mro */
-    0,                         /* tp_cache */
-    0,                         /* tp_subclasses */
-    0,                         /* tp_weaklist */
-    0,                         /* tp_del */
-    0,                         /* tp_version_tag */
-    0,                         /* tp_finalise */
+    .tp_name = "cXmlWrite.XmlStream",
+    .tp_basicsize = sizeof(cXmlStream),
+    .tp_itemsize = 0,
+    .tp_dealloc = (destructor)cXmlStream_dealloc,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .tp_doc = DOCSTRING_XmlWrite_XmlStream,
+    .tp_methods = cXmlStream_methods,
+    .tp_members = cXmlStream_members,
+    .tp_getset = cXmlStream_properties,
+    .tp_init = (initproc)Generic_Stream_init<cXmlStream, XmlStream>,
+    .tp_new = cXmlStream_new,
 };
 
 #define Py_cXmlStreamType_CheckExact(op) (Py_TYPE(op) == &cXmlStreamType)
@@ -597,7 +560,7 @@ static PyTypeObject cXmlStreamType = {
 #pragma mark XhtmlStream
 /******************* XhtmlStream ********************/
 
-typedef struct : cXmlStream {
+typedef struct cXhtmlStream : cXmlStream {
 //    cXmlStream xmlstream;
 } cXhtmlStream;
 
@@ -642,55 +605,15 @@ static PyMethodDef cXhtmlStream_methods[] = {
 
 static PyTypeObject cXhtmlStreamType = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "cXmlWrite.cXhtmlStream",    /* tp_name */
-    sizeof(cXhtmlStream),        /* tp_basicsize */
-    0,                         /* tp_itemsize */
-    0,                         /* tp_dealloc */
-    0,                         /* tp_print */
-    0,                         /* tp_getattr */
-    0,                         /* tp_setattr */
-    0,                         /* tp_reserved */
-    0,                         /* tp_repr */
-    0,                         /* tp_as_number */
-    0,                         /* tp_as_sequence */
-    0,                         /* tp_as_mapping */
-    0,                         /* tp_hash  */
-    0,                         /* tp_call */
-    0,                         /* tp_str */
-    0,                         /* tp_getattro */
-    0,                         /* tp_setattro */
-    0,                         /* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT |
-    Py_TPFLAGS_BASETYPE,   /* tp_flags */
-    DOCSTRING_XmlWrite_XhtmlStream, /* tp_doc */
-    0,                         /* tp_traverse */
-    0,                         /* tp_clear */
-    0,                         /* tp_richcompare */
-    0,                         /* tp_weaklistoffset */
-    0,                         /* tp_iter */
-    0,                         /* tp_iternext */
-    cXhtmlStream_methods,      /* tp_methods */
-    cXhtmlStream_members,      /* tp_members */
-    0,                         /* tp_getset */
-    /* Assign at module initialisation time. */
-    0,                         /* tp_base */
-    0,                         /* tp_dict */
-    0,                         /* tp_descr_get */
-    0,                         /* tp_descr_set */
-    0,                         /* tp_dictoffset */
-    (initproc)Generic_Stream_init<cXhtmlStream, XhtmlStream>, /* tp_init */
-    0,                         /* tp_alloc */
-    0,                         /* tp_new */
-    0,                         /* tp_free */
-    0,                         /* tp_is_gc */
-    0,                         /* tp_bases */
-    0,                         /* tp_mro */
-    0,                         /* tp_cache */
-    0,                         /* tp_subclasses */
-    0,                         /* tp_weaklist */
-    0,                         /* tp_del */
-    0,                         /* tp_version_tag */
-    0,                         /* tp_finalise */
+    .tp_name = "cXmlWrite.cXhtmlStream",
+    .tp_basicsize = sizeof(cXhtmlStream),
+    .tp_itemsize = 0,
+    .tp_dealloc = (destructor)cXmlStream_dealloc,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .tp_doc = DOCSTRING_XmlWrite_XhtmlStream,
+    .tp_methods = cXhtmlStream_methods,
+    .tp_members = cXhtmlStream_members,
+    .tp_init = (initproc)Generic_Stream_init<cXhtmlStream, XhtmlStream>,
 };
 
 #define Py_cXhtmlStreamType_CheckExact(op) (Py_TYPE(op) == &cXhtmlStreamType)
@@ -825,54 +748,16 @@ static PyMemberDef cElement_members[] = {
 
 static PyTypeObject cElementType = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "cXmlWrite.Element",       /* tp_name */
-    sizeof(cElement),          /* tp_basicsize */
-    0,                         /* tp_itemsize */
-    (destructor)cElement_dealloc, /* tp_dealloc */
-    0,                         /* tp_print */
-    0,                         /* tp_getattr */
-    0,                         /* tp_setattr */
-    0,                         /* tp_reserved */
-    0,                         /* tp_repr */
-    0,                         /* tp_as_number */
-    0,                         /* tp_as_sequence */
-    0,                         /* tp_as_mapping */
-    0,                         /* tp_hash  */
-    0,                         /* tp_call */
-    0,                         /* tp_str */
-    0,                         /* tp_getattro */
-    0,                         /* tp_setattro */
-    0,                         /* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT |
-    Py_TPFLAGS_BASETYPE,       /* tp_flags */
-    "XML Element object",      /* tp_doc */
-    0,                         /* tp_traverse */
-    0,                         /* tp_clear */
-    0,                         /* tp_richcompare */
-    0,                         /* tp_weaklistoffset */
-    0,                         /* tp_iter */
-    0,                         /* tp_iternext */
-    cElement_methods,          /* tp_methods */
-    cElement_members,          /* tp_members */
-    0,                         /* tp_getset */
-    0,                         /* tp_base */
-    0,                         /* tp_dict */
-    0,                         /* tp_descr_get */
-    0,                         /* tp_descr_set */
-    0,                         /* tp_dictoffset */
-    (initproc)cElement_init,   /* tp_init */
-    0,                         /* tp_alloc */
-    cElement_new,              /* tp_new */
-    0,                         /* tp_free */
-    0,                         /* tp_is_gc */
-    0,                         /* tp_bases */
-    0,                         /* tp_mro */
-    0,                         /* tp_cache */
-    0,                         /* tp_subclasses */
-    0,                         /* tp_weaklist */
-    0,                         /* tp_del */
-    0,                         /* tp_version_tag */
-    0,                         /* tp_finalise */
+    .tp_name = "cXmlWrite.Element",
+    .tp_basicsize = sizeof(cElement),
+    .tp_itemsize = 0,
+    .tp_dealloc = (destructor)cElement_dealloc,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .tp_doc = "XML Element object",
+    .tp_methods = cElement_methods,
+    .tp_members = cElement_members,
+    .tp_init = (initproc)cElement_init,
+    .tp_new = cElement_new,
 };
 /**************** END: Element ******************/
 

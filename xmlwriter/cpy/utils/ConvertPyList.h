@@ -92,7 +92,7 @@ std_vector_to_py_list(const std::vector<T> &cpp_vec,
     if (! r) {
         goto except;
     }
-    for (Py_ssize_t i = 0; i < cpp_vec.size(); ++i) {
+    for (Py_ssize_t i = 0; i < (long) cpp_vec.size(); ++i) {
         PyObject *item = (*ConvertToPy)(cpp_vec[i]);
         if (! item || PyErr_Occurred() || PyList_SetItem(r, i, item)) {
             goto except;

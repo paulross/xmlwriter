@@ -109,3 +109,6 @@ tmp/
 # Old stuff
 archive/
 attic/
+
+cmake-build-debug/
+xmlwriter/xmlwriter.xcodeproj/
