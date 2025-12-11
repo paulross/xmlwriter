@@ -265,13 +265,14 @@ int main(int /* argc */, const char *[] /* argv[] */) {
 //    debug_function();
 
     int result = test_all();
+
+    run_performance_tests();
+
     if (result) {
         std::cout << "Tests FAILED with result=" << result << std::endl;
     } else {
         std::cout << "All tests PASSED!" << std::endl;
     }
-
-    run_performance_tests();
 
     std::cout << "Bye, bye!\n";
     return 0;
