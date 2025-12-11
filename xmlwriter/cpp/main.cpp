@@ -271,7 +271,7 @@ int main(int /* argc */, const char *[] /* argv[] */) {
         std::cout << "All tests PASSED!" << std::endl;
     }
 
-//    run_performance_tests();
+    run_performance_tests();
 
     std::cout << "Bye, bye!\n";
     return 0;
