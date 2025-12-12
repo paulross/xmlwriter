@@ -71,10 +71,18 @@ import sys
 #: 'tests/unit/test_pbXmlWrite.py::test_XmlWrite_small_XHTML_doc'
 RE_LONG_NAME_MATCH = re.compile(r'tests/unit/test_(\S+?)\.py::(.+)')
 
+
+# Composed from:
+#                    test_write_small_XHTML_document time:      878.591 (us) size:        61069 result: 1
+#                    test_write_large_XHTML_document time:    16601.258 (us) size:      1193497 result: 1
+#               test_write_very_large_XHTML_document time:   229004.726 (us) size:     15205585 result: 1
+#         test_write_small_XHTML_document_attributes time:     2436.720 (us) size:       109193 result: 1
+#         test_write_large_XHTML_document_attributes time:    43629.508 (us) size:      1907185 result: 1
+#    test_write_very_large_XHTML_document_attributes time:   432859.177 (us) size:     23635457 result: 1
 CPP_RESULTS = {
-    128 : [436.172e-6, 1392.958e-6],
-    2560 : [9283.854e-6, 23029.205e-6],
-    32768 : [140583.742e-6, 264157.906e-6]
+    128 : [878.591e-6, 2436.720e-6],
+    2560 : [16601.258e-6, 43629.508e-6],
+    32768 : [229004.726e-6, 432859.177e-6]
 }
 
 

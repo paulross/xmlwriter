@@ -1,0 +1,6 @@
+pybind11
+psutil
+pytest
+pytest-benchmark
+pytest-benchmark[histogram]
+Sphinx
