@@ -5,7 +5,7 @@
 
 bool RAISE_ON_ERROR = true;
 
-std::string encodeString(const std::string &theS,
+std::string base64encodeString(const std::string &theS,
                          const std::string &theCharPrefix) {
     if (theCharPrefix.size() != 1) {
         std::ostringstream err;
@@ -13,7 +13,7 @@ std::string encodeString(const std::string &theS,
         err <<theCharPrefix << "\"";
         throw ExceptionXml(err.str());
     }
-    // Threee steps:
+    // Three steps:
     // * Base64 encoding of theS
     // * Character substitution of the base64 sting.
     // * Prepend prefix.
@@ -37,7 +37,7 @@ std::string encodeString(const std::string &theS,
     return theCharPrefix + base64;
 }
 
-std::string decodeString(const std::string &theS) {
+std::string base64decodeString(const std::string &theS) {
     std::string result;
     for (size_t i = 1; i < theS.size(); ++i) {
         if (theS[i] == '-') {
@@ -57,8 +57,8 @@ std::string decodeString(const std::string &theS) {
     return result;
 }
 
-std::string nameFromString(const std::string &theStr) {
-    return encodeString(theStr, "Z");
+std::string base64nameFromString(const std::string &theStr) {
+    return base64encodeString(theStr, "Z");
 }
 
 XmlStream::XmlStream(const std::string &theEnc/* ='utf-8'*/,
@@ -76,7 +76,7 @@ std::string XmlStream::getvalue() const {
 
 std::string XmlStream::id() {
     std::ostringstream out;
-    ++_intId;
+    out << _intId++;
     return out.str();
 }
 
@@ -106,15 +106,19 @@ void XmlStream::startElement(const std::string &name, const tAttrs &attrs) {
 //    std::cout << "Help XmlStream::startElement: m_output" << std::endl;
     m_output << '<' << name;
     std::string attribute_value;
-    bool use_attribute_value;
     for (auto iter: attrs) {
         m_output << ' ' << iter.first << '=' << "\"";
+#if ENCODE_NEW_IMPLEMENTATION
+        m_output << _encode(iter.second);
+#else
+        bool use_attribute_value;
         use_attribute_value = _encode(iter.second, attribute_value);
         if (use_attribute_value) {
             m_output << attribute_value;
         } else {
             m_output << iter.second;
         }
+#endif
         m_output << "\"";
     }
     _inElem = true;
@@ -125,11 +129,15 @@ void XmlStream::startElement(const std::string &name, const tAttrs &attrs) {
 void XmlStream::characters(const std::string &theString) {
     _closeElemIfOpen();
     std::string encoded;
+#if ENCODE_NEW_IMPLEMENTATION
+    m_output << _encode(theString);
+#else
     if (_encode(theString, encoded)) {
         m_output << encoded;
     } else {
         m_output << theString;
     }
+#endif
     // mixed content - don't indent
     _flipIndent(false);
 }
@@ -146,22 +154,30 @@ void XmlStream::comment(const std::string &theS, bool newLine) {
     if (newLine) {
         _indent();
     }
+#if ENCODE_NEW_IMPLEMENTATION
+    m_output << "<!--" << _encode(theS) << "-->";
+#else
     std::string encoded;
     if (_encode(theS, encoded)) {
         m_output << "<!--" << encoded << "-->";
     } else {
         m_output << "<!--" << theS << "-->";
     }
+#endif
 }
 
 void XmlStream::pI(const std::string &theS) {
     _closeElemIfOpen();
+#if ENCODE_NEW_IMPLEMENTATION
+    m_output << "<?" << _encode(theS) << "?>";
+#else
     std::string encoded;
     if (_encode(theS, encoded)) {
         m_output << "<?" << encoded << "?>";
     } else {
         m_output << "<?" << theS << "?>";
     }
+#endif
     // mixed content - don't indent
     _flipIndent(false);
 }
@@ -256,6 +272,37 @@ void XmlStream::_write_to_output(const std::string &input,
     index_start = index_current + 1;
 }
 
+#if ENCODE_NEW_IMPLEMENTATION
+
+bool XmlStream::_must_encode(const std::string &theStr) const {
+    for (auto chr: theStr) {
+        auto entity_map_iter = ENTITY_MAP.find(chr);
+        if (entity_map_iter != ENTITY_MAP.end()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+// TODO: Doesn't this make more sense? Then just return the string.
+std::string XmlStream::_encode(const std::string &theStr) const {
+    if (_must_encode(theStr)) {
+        std::string result;
+        for (auto chr: theStr) {
+            auto entity_map_iter = ENTITY_MAP.find(chr);
+            if (entity_map_iter != ENTITY_MAP.end()) {
+                result.append(entity_map_iter->second);
+            } else {
+                result.push_back(chr);
+            }
+        }
+        return result;
+    }
+    return theStr;
+}
+
+#else
 // Encode the input to the output
 // Returns true if output must be used else the input can be used directly.
 bool XmlStream::_encode(const std::string &input,
@@ -303,6 +350,7 @@ bool XmlStream::_encode(const std::string &input,
     }
     return ! use_original;
 }
+#endif
 
 XmlStream &XmlStream::_enter() {
     m_output << "<?xml version='1.0' encoding=\"" << encodeing << "\"?>";

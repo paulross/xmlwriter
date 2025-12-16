@@ -50,4 +50,27 @@ plot "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$4)) t "Pure Python" with line
     "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$7)) t "Pybind & C++, with attributes" with linespoints lw 2, \
     "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$9)) t "CPython & C++, with attributes" with linespoints lw 2 lt 7
 
+set terminal png size 750,550           # choose the file format
+set output "XhtmlWriteFriction.png"   # choose the output device
+
+#set key title "Window Length"
+
+#  lw 2 pointsize 2
+#plot "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$4)) t "Pure Python" with linespoints lw 2, \
+    "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$5)) t "Pure Python, with attributes" with linespoints lw 2, \
+    "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$6)) t "Pybind & C++" with linespoints lw 2, \
+    "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$7)) t "Pybind & C++, with attributes" with linespoints lw 2, \
+    "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$8)) t "CPython & C++" with linespoints lw 2, \
+    "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$9)) t "CPython & C++, with attributes" with linespoints lw 2
+
+# No attributes
+plot "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$4)) t "Pure Python" with linespoints lw 2, \
+    "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$6)) t "Pybind & C++" with linespoints lw 2, \
+    "XhtmlWriteTime.dat" using 1:(Friction($1,$2,$8)) t "CPython & C++" with linespoints lw 2 lt 7
+
+# With Attributes only
+#plot "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$5)) t "Python, with attributes" with linespoints lw 2, \
+    "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$7)) t "Pybind & C++, with attributes" with linespoints lw 2, \
+    "XhtmlWriteTime.dat" using 1:(Friction($1,$3,$9)) t "CPython & C++, with attributes" with linespoints lw 2 lt 7
+
 reset

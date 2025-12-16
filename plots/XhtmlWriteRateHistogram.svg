@@ -283,15 +283,15 @@
 		</pattern>
 	</defs>
 	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat8)' points = '250.6,519.4 278.6,519.4 278.6,63.0 250.6,63.0 '/>
+		<polygon  fill = 'url(#gpPat8)' points = '250.6,519.4 278.6,519.4 278.6,347.8 250.6,347.8 '/>
 	</g>
-	<path stroke='rgb(148,   0, 211)'  d='M250.6,519.4 L250.6,63.1 L278.5,63.1 L278.5,519.4 L250.6,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat8)' points = '418.1,519.4 446.1,519.4 446.1,88.2 418.1,88.2 '/>
+	<path stroke='rgb(148,   0, 211)'  d='M250.6,519.4 L250.6,347.9 L278.5,347.9 L278.5,519.4 L250.6,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat8)' points = '418.1,519.4 446.1,519.4 446.1,388.9 418.1,388.9 '/>
 	</g>
-	<path stroke='rgb(148,   0, 211)'  d='M418.1,519.4 L418.1,88.3 L446.0,88.3 L446.0,519.4 L418.1,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat8)' points = '585.5,519.4 613.5,519.4 613.5,54.8 585.5,54.8 '/>
+	<path stroke='rgb(148,   0, 211)'  d='M418.1,519.4 L418.1,389.0 L446.0,389.0 L446.0,519.4 L418.1,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat8)' points = '585.5,519.4 613.5,519.4 613.5,339.7 585.5,339.7 '/>
 	</g>
-	<path stroke='rgb(148,   0, 211)'  d='M585.5,519.4 L585.5,54.9 L613.4,54.9 L613.4,519.4 L585.5,519.4 Z  '/></g>
+	<path stroke='rgb(148,   0, 211)'  d='M585.5,519.4 L585.5,339.8 L613.4,339.8 L613.4,519.4 L585.5,519.4 Z  '/></g>
 	</g>
 <g fill="none" color="white" stroke="rgb(148,   0, 211)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>

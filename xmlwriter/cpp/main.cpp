@@ -76,7 +76,11 @@ void test_XmlWrite__encode_no_encoding() {
     ExecClock clk;
     
     for (size_t i = 0; i < COUNT; ++i) {
+#if ENCODE_NEW_IMPLEMENTATION
+        xs._encode(text_no_encoding);
+#else
         xs._encode(text_no_encoding, output);
+#endif
     }
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
@@ -92,7 +96,11 @@ void test_XmlWrite__encode_with_encoding() {
     ExecClock clk;
     
     for (size_t i = 0; i < COUNT; ++i) {
+#if ENCODE_NEW_IMPLEMENTATION
+        xs._encode(text_requires_encoding);
+#else
         xs._encode(text_requires_encoding, output);
+#endif
     }
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
@@ -106,7 +114,7 @@ void test_XmlWrite_encodeString() {
     ExecClock clk;
     
     for (size_t i = 0; i < COUNT; ++i) {
-        encodeString(text_no_encoding);
+        base64encodeString(text_no_encoding);
     }
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
@@ -116,12 +124,12 @@ void test_XmlWrite_encodeString() {
 
 // Test performance of base64 encoding
 void test_XmlWrite_decodeString() {
-    std::string encoded = encodeString(text_no_encoding);
+    std::string encoded = base64encodeString(text_no_encoding);
     size_t COUNT = 100000;
     ExecClock clk;
 
     for (size_t i = 0; i < COUNT; ++i) {
-        decodeString(encoded);
+        base64decodeString(encoded);
     }
     std::cout << std::setw(50) <<__FUNCTION__ << " time: ";
     std::cout << std::setw(12) << std::fixed << std::setprecision(3);
@@ -237,8 +245,13 @@ void debug_function() {
         "George \"Shotgun\" Ziegler"
     };
     for (auto & input: inputs) {
+        bool use_output = false;
+#if ENCODE_NEW_IMPLEMENTATION
+        std::string output = xs._encode(input);
+#else
         std::string output;
-        bool use_output = xs._encode(input, output);
+        use_output = xs._encode(input, output);
+#endif
         std::cout << "Input: \"" << input << "\"";
         std::cout << " use_output: " << use_output;
         std::cout << " Output: \"" << output << "\"" << std::endl;

@@ -64,6 +64,7 @@ Rearrange as:
 32768   149181.365e-6   277061.839e-6   475908.8950e-6  1045429.1920e-6 281937.6000e-6  458238.8430e-6  148290.4980e-6  326430.3360e-6
 '''
 import json
+import pprint
 import re
 import sys
 
@@ -79,10 +80,28 @@ RE_LONG_NAME_MATCH = re.compile(r'tests/unit/test_(\S+?)\.py::(.+)')
 #         test_write_small_XHTML_document_attributes time:     2436.720 (us) size:       109193 result: 1
 #         test_write_large_XHTML_document_attributes time:    43629.508 (us) size:      1907185 result: 1
 #    test_write_very_large_XHTML_document_attributes time:   432859.177 (us) size:     23635457 result: 1
+# TODO:  / 8 is needed to make sense of the results. Why?
+# CPP_RESULTS = {
+#     128 : [878.591e-6 / 8, 2436.720e-6 / 8],
+#     2560 : [16601.258e-6 / 8, 43629.508e-6 / 8],
+#     32768 : [229004.726e-6 / 8, 432859.177e-6 / 8]
+# }
+
+# Release build, #define ENCODE_NEW_IMPLEMENTATION 0
+#                  test_XmlWrite__encode_no_encoding time:        0.904 (us)
+#                test_XmlWrite__encode_with_encoding time:        3.090 (us)
+#                         test_XmlWrite_encodeString time:        7.822 (us)
+#                         test_XmlWrite_decodeString time:       18.895 (us)
+#                    test_write_small_XHTML_document time:      330.266 (us) size:        61069 result: 1
+#                    test_write_large_XHTML_document time:     5023.703 (us) size:      1193497 result: 1
+#               test_write_very_large_XHTML_document time:    88557.657 (us) size:     15205585 result: 1
+#         test_write_small_XHTML_document_attributes time:     1107.822 (us) size:       109193 result: 1
+#         test_write_large_XHTML_document_attributes time:    19488.733 (us) size:      1907185 result: 1
+#    test_write_very_large_XHTML_document_attributes time:   169510.277 (us) size:     23635457 result: 1
 CPP_RESULTS = {
-    128 : [878.591e-6, 2436.720e-6],
-    2560 : [16601.258e-6, 43629.508e-6],
-    32768 : [229004.726e-6, 432859.177e-6]
+    128 : [330.266e-6, 1107.822e-6],
+    2560 : [5023.703e-6, 19488.733e-6],
+    32768 : [88557.657e-6, 169510.277]
 }
 
 
@@ -97,7 +116,7 @@ def extract(data, key):
     return {bm['fullname']:bm['stats'][key] for bm in data['benchmarks']}
 
 
-def test_size(m):
+def get_test_size(m):
     assert m is not None
     size = 0
     if m.group(2).startswith('test_XmlWrite_small'):
@@ -119,7 +138,7 @@ def transpose(data_dict):
     for k, v in data_dict.items():
         m = RE_LONG_NAME_MATCH.match(k)
         if m is not None:
-            size = test_size(m)
+            size = get_test_size(m)
             if size:
                 if size not in table_dict:
                     table_dict[size] = ['N/A'] * (2 * len(column_order))
@@ -142,6 +161,7 @@ def transpose(data_dict):
 def main(path):
     j = read_json(path)
     data = extract(j, 'min')
+    pprint.pprint(f'TRACE: {data}')
     transpose(data)
     return 0
 

@@ -111,4 +111,5 @@ archive/
 attic/
 
 cmake-build-debug/
+cmake-build-release/
 xmlwriter/xmlwriter.xcodeproj/

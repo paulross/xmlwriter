@@ -37,4 +37,19 @@ plot "XhtmlWriteTime.dat" using 1:2 t "C++, No attributes" with linespoints, \
     "XhtmlWriteTime.dat" using 1:8 t "Python, No attributes" with linespoints, \
     "XhtmlWriteTime.dat" using 1:9 t "Python, with attributes" with linespoints
 
+set terminal png size 750,550           # choose the file format
+set output "XhtmlWriteTime.png"   # choose the output device
+
+#set key title "Window Length"
+
+#  lw 2 pointsize 2
+plot "XhtmlWriteTime.dat" using 1:2 t "C++, No attributes" with linespoints, \
+    "XhtmlWriteTime.dat" using 1:3 t "C++, with attributes" with linespoints, \
+    "XhtmlWriteTime.dat" using 1:4 t "Python, No attributes" with linespoints, \
+    "XhtmlWriteTime.dat" using 1:5 t "Python, with attributes" with linespoints, \
+    "XhtmlWriteTime.dat" using 1:6 t "Pybind, No attributes" with linespoints, \
+    "XhtmlWriteTime.dat" using 1:7 t "Pybind, with attributes" with linespoints, \
+    "XhtmlWriteTime.dat" using 1:8 t "Python, No attributes" with linespoints, \
+    "XhtmlWriteTime.dat" using 1:9 t "Python, with attributes" with linespoints
+
 reset

@@ -60,4 +60,37 @@ plot "XhtmlWriteTime.dat" using (Friction($1,$2,$6)) t "Pybind & C++" w histogra
     "XhtmlWriteTime.dat" using (Friction($1,$2,$8)) t "CPython & C++"  w histograms fill solid 3, \
     "XhtmlWriteTime.dat" using (Friction($1,$3,$9)) t "CPython & C++, with attributes" w histograms fill pattern 5 lt 3
 
+set terminal png size 750,550           # choose the file format
+#set terminal png size 600,400           # choose the file format
+set output "XhtmlWriteFrictionHistogram.png"   # choose the output device
+
+#set key title "Window Length"
+
+#set style fill pattern 7
+set style histogram clustered
+
+# No Attributes
+#plot "XhtmlWriteTime.dat" using (Friction($1,$2,$4)) t "Pure Python" w histograms fill solid lt 7, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$6)) t "Pybind & C++" w histograms fill solid lt 2, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$8)) t "CPython & C++" w histograms fill solid lt 1
+
+# With Attributes
+#plot "XhtmlWriteTime.dat" using (Friction($1,$3,$5)) t "Pure Python, with attributes" w histograms fill solid lt 7, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$7)) t "Pybind & C++, with attributes" w histograms fill solid lt 2, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$9)) t "CPython & C++, with attributes" w histograms fill solid lt 1
+
+# With and without attributes
+#plot "XhtmlWriteTime.dat" using (Friction($1,$2,$4)) t "Pure Python" w histograms fill solid lt 7, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$5)) t "Pure Python, with attributes" w histograms fill solid lt 8, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$6)) t "Pybind & C++" w histograms fill solid lt 2, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$7)) t "Pybind & C++, with attributes" w histograms fill solid lt 3, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$8)) t "CPython & C++" w histograms fill solid lt 1, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$9)) t "CPython & C++, with attributes" w histograms fill solid lt 4
+
+# With and without attributes, pybind and CPython only
+plot "XhtmlWriteTime.dat" using (Friction($1,$2,$6)) t "Pybind & C++" w histograms fill pattern 3 lt 7, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$7)) t "Pybind & C++, with attributes"  w histograms fill pattern 5 lt 7, \
+    "XhtmlWriteTime.dat" using (Friction($1,$2,$8)) t "CPython & C++"  w histograms fill solid 3, \
+    "XhtmlWriteTime.dat" using (Friction($1,$3,$9)) t "CPython & C++, with attributes" w histograms fill pattern 5 lt 3
+
 reset

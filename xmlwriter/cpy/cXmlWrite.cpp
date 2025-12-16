@@ -43,9 +43,9 @@ encode_string(PyObject */* module */, PyObject *args, PyObject *kwargs) {
     }
     try {
         if (prefix) {
-            result = encodeString(str, prefix);
+            result = base64encodeString(str, prefix);
         } else {
-            result = encodeString(str);
+            result = base64encodeString(str);
         }
     } catch (ExceptionXml &err) {
         PyErr_Format(Py_ExceptionXml,
@@ -79,7 +79,7 @@ decode_string(PyObject */* module */, PyObject *encoded) {
         goto except;
     }
     try {
-        result = decodeString(encoded_str);
+        result = base64decodeString(encoded_str);
     } catch (ExceptionXml &err) {
         PyErr_Format(PyExc_RuntimeError,
                      "In %s \"decodeString\" failed with error %s",
@@ -114,7 +114,7 @@ name_from_string(PyObject */* module */, PyObject *py_string) {
         goto except;
     }
     try {
-        result = nameFromString(CPythonCpp::py_utf8_to_std_string(py_string));
+        result = base64nameFromString(CPythonCpp::py_utf8_to_std_string(py_string));
     } catch (ExceptionXml &err) {
         PyErr_Format(PyExc_RuntimeError,
                      "In %s \"nameFromString\" failed with error %s",

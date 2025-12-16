@@ -46,11 +46,11 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M63.6,519.4 L725.0,519.4  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M80.2,519.4 L725.0,519.4  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='black'  d='M63.6,519.4 L72.6,519.4 M725.0,519.4 L716.0,519.4  '/>	<g transform="translate(55.3,523.3)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+	<path stroke='black'  d='M80.2,519.4 L89.2,519.4 M725.0,519.4 L716.0,519.4  '/>	<g transform="translate(71.9,523.3)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
 		<text><tspan font-family="Arial" > 0</tspan></text>
 	</g>
 </g>
@@ -59,12 +59,12 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M63.6,441.8 L725.0,441.8  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M80.2,441.8 L725.0,441.8  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='black'  d='M63.6,441.8 L72.6,441.8 M725.0,441.8 L716.0,441.8  '/>	<g transform="translate(55.3,445.7)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 5</tspan></text>
+	<path stroke='black'  d='M80.2,441.8 L89.2,441.8 M725.0,441.8 L716.0,441.8  '/>	<g transform="translate(71.9,445.7)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 1x10</tspan><tspan font-family="Arial"  font-size="9.6" dy="-6.00px">6</tspan><tspan font-size="12.0" dy="6.00"></tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -72,12 +72,12 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M63.6,364.3 L725.0,364.3  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M80.2,364.3 L725.0,364.3  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='black'  d='M63.6,364.3 L72.6,364.3 M725.0,364.3 L716.0,364.3  '/>	<g transform="translate(55.3,368.2)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 10</tspan></text>
+	<path stroke='black'  d='M80.2,364.3 L89.2,364.3 M725.0,364.3 L716.0,364.3  '/>	<g transform="translate(71.9,368.2)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 2x10</tspan><tspan font-family="Arial"  font-size="9.6" dy="-6.00px">6</tspan><tspan font-size="12.0" dy="6.00"></tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -85,12 +85,12 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M63.6,286.7 L725.0,286.7  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M80.2,286.7 L725.0,286.7  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='black'  d='M63.6,286.7 L72.6,286.7 M725.0,286.7 L716.0,286.7  '/>	<g transform="translate(55.3,290.6)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 15</tspan></text>
+	<path stroke='black'  d='M80.2,286.7 L89.2,286.7 M725.0,286.7 L716.0,286.7  '/>	<g transform="translate(71.9,290.6)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 3x10</tspan><tspan font-family="Arial"  font-size="9.6" dy="-6.00px">6</tspan><tspan font-size="12.0" dy="6.00"></tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -98,12 +98,12 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M63.6,209.2 L725.0,209.2  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M80.2,209.2 L725.0,209.2  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='black'  d='M63.6,209.2 L72.6,209.2 M725.0,209.2 L716.0,209.2  '/>	<g transform="translate(55.3,213.1)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 20</tspan></text>
+	<path stroke='black'  d='M80.2,209.2 L89.2,209.2 M725.0,209.2 L716.0,209.2  '/>	<g transform="translate(71.9,213.1)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 4x10</tspan><tspan font-family="Arial"  font-size="9.6" dy="-6.00px">6</tspan><tspan font-size="12.0" dy="6.00"></tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -111,12 +111,12 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M63.6,131.6 L417.2,131.6 M716.7,131.6 L725.0,131.6  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M80.2,131.6 L417.2,131.6 M716.7,131.6 L725.0,131.6  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='black'  d='M63.6,131.6 L72.6,131.6 M725.0,131.6 L716.0,131.6  '/>	<g transform="translate(55.3,135.5)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 25</tspan></text>
+	<path stroke='black'  d='M80.2,131.6 L89.2,131.6 M725.0,131.6 L716.0,131.6  '/>	<g transform="translate(71.9,135.5)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 5x10</tspan><tspan font-family="Arial"  font-size="9.6" dy="-6.00px">6</tspan><tspan font-size="12.0" dy="6.00"></tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -124,25 +124,25 @@
 <g fill="none" color="black" stroke="black" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="gray" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M63.6,54.1 L725.0,54.1  '/></g>
+	<path stroke='gray' stroke-dasharray='2,4' class="gridline"  d='M80.2,54.1 L725.0,54.1  '/></g>
 <g fill="none" color="gray" stroke="gray" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='black'  d='M63.6,54.1 L72.6,54.1 M725.0,54.1 L716.0,54.1  '/>	<g transform="translate(55.3,58.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" > 30</tspan></text>
+	<path stroke='black'  d='M80.2,54.1 L89.2,54.1 M725.0,54.1 L716.0,54.1  '/>	<g transform="translate(71.9,58.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 6x10</tspan><tspan font-family="Arial"  font-size="9.6" dy="-6.00px">6</tspan><tspan font-size="12.0" dy="6.00"></tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='black'  d='M63.6,54.1 L63.6,519.4 L725.0,519.4 L725.0,54.1 L63.6,54.1 Z  '/></g>
+	<path stroke='black'  d='M80.2,54.1 L80.2,519.4 L725.0,519.4 L725.0,54.1 L80.2,54.1 Z  '/></g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(19.0,286.8) rotate(270)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
 		<text><tspan font-family="Arial" >Microseconds/Element.</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(394.3,541.3)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+	<g transform="translate(402.6,541.3)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
 		<text><tspan font-family="Arial" >Small, large and very large documents.</tspan></text>
 	</g>
 </g>
@@ -171,15 +171,15 @@
 		</pattern>
 	</defs>
 	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat2)' points = '173.8,519.4 201.5,519.4 201.5,128.4 173.8,128.4 '/>
+		<polygon  fill = 'url(#gpPat2)' points = '187.7,519.4 214.6,519.4 214.6,519.3 187.7,519.3 '/>
 	</g>
-	<path stroke='rgb(240, 228,  66)'  d='M173.8,519.4 L173.8,128.5 L201.4,128.5 L201.4,519.4 L173.8,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat2)' points = '339.2,519.4 366.8,519.4 366.8,194.7 339.2,194.7 '/>
+	<path stroke='rgb(240, 228,  66)'  d='M187.7,519.4 L214.5,519.4 L187.7,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat2)' points = '348.9,519.4 375.8,519.4 375.8,519.3 348.9,519.3 '/>
 	</g>
-	<path stroke='rgb(240, 228,  66)'  d='M339.2,519.4 L339.2,194.8 L366.7,194.8 L366.7,519.4 L339.2,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat2)' points = '504.5,519.4 532.2,519.4 532.2,212.8 504.5,212.8 '/>
+	<path stroke='rgb(240, 228,  66)'  d='M348.9,519.4 L375.7,519.4 L348.9,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat2)' points = '510.1,519.4 537.0,519.4 537.0,519.3 510.1,519.3 '/>
 	</g>
-	<path stroke='rgb(240, 228,  66)'  d='M504.5,519.4 L504.5,212.9 L532.1,212.9 L532.1,519.4 L504.5,519.4 Z  '/></g>
+	<path stroke='rgb(240, 228,  66)'  d='M510.1,519.4 L536.9,519.4 L510.1,519.4 Z  '/></g>
 	</g>
 	<g id="gnuplot_plot_2" ><title>Pybind  C++, with attributes</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -204,15 +204,15 @@
 		</pattern>
 	</defs>
 	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat4)' points = '201.4,519.4 229.1,519.4 229.1,414.4 201.4,414.4 '/>
+		<polygon  fill = 'url(#gpPat4)' points = '214.5,519.4 241.5,519.4 241.5,519.3 214.5,519.3 '/>
 	</g>
-	<path stroke='rgb(229,  30,  16)'  d='M201.4,519.4 L201.4,414.5 L229.0,414.5 L229.0,519.4 L201.4,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat4)' points = '366.7,519.4 394.4,519.4 394.4,435.1 366.7,435.1 '/>
+	<path stroke='rgb(229,  30,  16)'  d='M214.5,519.4 L241.4,519.4 L214.5,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat4)' points = '375.7,519.4 402.7,519.4 402.7,519.3 375.7,519.3 '/>
 	</g>
-	<path stroke='rgb(229,  30,  16)'  d='M366.7,519.4 L366.7,435.2 L394.3,435.2 L394.3,519.4 L366.7,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat4)' points = '532.1,519.4 559.8,519.4 559.8,428.7 532.1,428.7 '/>
+	<path stroke='rgb(229,  30,  16)'  d='M375.7,519.4 L402.6,519.4 L375.7,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat4)' points = '536.9,519.4 563.9,519.4 563.9,519.3 536.9,519.3 '/>
 	</g>
-	<path stroke='rgb(229,  30,  16)'  d='M532.1,519.4 L532.1,428.8 L559.7,428.8 L559.7,519.4 L532.1,519.4 Z  '/></g>
+	<path stroke='rgb(229,  30,  16)'  d='M536.9,519.4 L563.8,519.4 L536.9,519.4 Z  '/></g>
 	</g>
 	<g id="gnuplot_plot_3" ><title>CPython  C++, with attributes</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -237,15 +237,15 @@
 		</pattern>
 	</defs>
 	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat6)' points = '229.0,519.4 256.6,519.4 256.6,446.0 229.0,446.0 '/>
+		<polygon  fill = 'url(#gpPat6)' points = '241.4,519.4 268.4,519.4 268.4,519.3 241.4,519.3 '/>
 	</g>
-	<path stroke='rgb( 86, 180, 233)'  d='M229.0,519.4 L229.0,446.1 L256.5,446.1 L256.5,519.4 L229.0,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat6)' points = '394.3,519.4 422.0,519.4 422.0,460.1 394.3,460.1 '/>
+	<path stroke='rgb( 86, 180, 233)'  d='M241.4,519.4 L268.3,519.4 L241.4,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat6)' points = '402.6,519.4 429.6,519.4 429.6,519.3 402.6,519.3 '/>
 	</g>
-	<path stroke='rgb( 86, 180, 233)'  d='M394.3,519.4 L394.3,460.2 L421.9,460.2 L421.9,519.4 L394.3,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat6)' points = '559.7,519.4 587.3,519.4 587.3,455.2 559.7,455.2 '/>
+	<path stroke='rgb( 86, 180, 233)'  d='M402.6,519.4 L429.5,519.4 L402.6,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat6)' points = '563.8,519.4 590.8,519.4 590.8,519.3 563.8,519.3 '/>
 	</g>
-	<path stroke='rgb( 86, 180, 233)'  d='M559.7,519.4 L559.7,455.3 L587.2,455.3 L587.2,519.4 L559.7,519.4 Z  '/></g>
+	<path stroke='rgb( 86, 180, 233)'  d='M563.8,519.4 L590.7,519.4 L563.8,519.4 Z  '/></g>
 	</g>
 	<g id="gnuplot_plot_4" ><title>C++ Baseline, with attributes</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -270,15 +270,15 @@
 		</pattern>
 	</defs>
 	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat8)' points = '256.5,519.4 284.2,519.4 284.2,224.0 256.5,224.0 '/>
+		<polygon  fill = 'url(#gpPat8)' points = '268.3,519.4 295.2,519.4 295.2,519.3 268.3,519.3 '/>
 	</g>
-	<path stroke='rgb(148,   0, 211)'  d='M256.5,519.4 L256.5,224.1 L284.1,224.1 L284.1,519.4 L256.5,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat8)' points = '421.9,519.4 449.5,519.4 449.5,255.0 421.9,255.0 '/>
+	<path stroke='rgb(148,   0, 211)'  d='M268.3,519.4 L295.1,519.4 L268.3,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat8)' points = '429.5,519.4 456.4,519.4 456.4,519.3 429.5,519.3 '/>
 	</g>
-	<path stroke='rgb(148,   0, 211)'  d='M421.9,519.4 L421.9,255.1 L449.4,255.1 L449.4,519.4 L421.9,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
-		<polygon  fill = 'url(#gpPat8)' points = '587.2,519.4 614.9,519.4 614.9,314.4 587.2,314.4 '/>
+	<path stroke='rgb(148,   0, 211)'  d='M429.5,519.4 L456.3,519.4 L429.5,519.4 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat8)' points = '590.7,519.4 617.6,519.4 617.6,118.1 590.7,118.1 '/>
 	</g>
-	<path stroke='rgb(148,   0, 211)'  d='M587.2,519.4 L587.2,314.5 L614.8,314.5 L614.8,519.4 L587.2,519.4 Z  '/></g>
+	<path stroke='rgb(148,   0, 211)'  d='M590.7,519.4 L590.7,118.2 L617.5,118.2 L617.5,519.4 L590.7,519.4 Z  '/></g>
 	</g>
 <g fill="none" color="white" stroke="rgb(148,   0, 211)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
@@ -287,9 +287,9 @@
 <g fill="none" color="black" stroke="black" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='black'  d='M63.6,54.1 L63.6,519.4 L725.0,519.4 L725.0,54.1 L63.6,54.1 Z  '/></g>
+	<path stroke='black'  d='M80.2,54.1 L80.2,519.4 L725.0,519.4 L725.0,54.1 L80.2,54.1 Z  '/></g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<g transform="translate(394.3,31.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+	<g transform="translate(402.6,31.0)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
 		<text><tspan font-family="Arial" >Xhtml Write Time (Microseconds/Element). Typically 0.7 kb/element including attributes.</tspan></text>
 	</g>
 </g>

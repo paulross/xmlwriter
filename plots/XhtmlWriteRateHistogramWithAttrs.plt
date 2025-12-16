@@ -56,4 +56,35 @@ plot "XhtmlWriteTime.dat" using (Rate($1,$5)) t "Pure Python, with attributes" w
     "XhtmlWriteTime.dat" using (Rate($1,$2)) t "C++ Baseline" w histograms fill pattern 3 lt 1,\
     "XhtmlWriteTime.dat" using (Rate($1,$3)) t "C++ Baseline, with attributes" w histograms fill pattern 1 lt 1
     
+set terminal png size 750,550           # choose the file format
+set output "XhtmlWriteRateHistogramWithAttrs.png"   # choose the output device
+
+#set key title "Window Length"
+
+
+set style fill pattern 3
+set style histogram clustered
+
+# No Attributes
+#plot "XhtmlWriteTime.dat" using (Rate($1,$4)) t "Pure Python" w histograms fill pattern 3 lt 13, \
+    "XhtmlWriteTime.dat" using (Rate($1,$6)) t "Pybind & C++" w histograms fill pattern 3 lt 7, \
+    "XhtmlWriteTime.dat" using (Rate($1,$8)) t "CPython & C++" w histograms fill pattern 3 lt 3, \
+    "XhtmlWriteTime.dat" using (Rate($1,$2)) t "C++ Baseline" w histograms fill pattern 3 lt 1
+
+# With Attributes
+plot "XhtmlWriteTime.dat" using (Rate($1,$5)) t "Pure Python, with attributes" w histograms fill pattern 3 lt 13, \
+    "XhtmlWriteTime.dat" using (Rate($1,$7)) t "Pybind & C++, with attributes" w histograms fill pattern 3 lt 7, \
+    "XhtmlWriteTime.dat" using (Rate($1,$9)) t "CPython & C++, with attributes" w histograms fill pattern 3 lt 3, \
+    "XhtmlWriteTime.dat" using (Rate($1,$3)) t "C++ Baseline, with attributes" w histograms fill pattern 3 lt 1
+
+# All
+#plot "XhtmlWriteTime.dat" using (Rate($1,$4)) t "Pure Python" w histograms fill pattern 3 lt 13, \
+    "XhtmlWriteTime.dat" using (Rate($1,$5)) t "Pure Python, with attributes" w histograms fill pattern 1 lt 13, \
+    "XhtmlWriteTime.dat" using (Rate($1,$6)) t "Pybind & C++" w histograms fill pattern 3 lt 7, \
+    "XhtmlWriteTime.dat" using (Rate($1,$7)) t "Pybind & C++, with attributes" w histograms fill pattern 1 lt 7, \
+    "XhtmlWriteTime.dat" using (Rate($1,$8)) t "CPython & C++" w histograms fill pattern 3 lt 3, \
+    "XhtmlWriteTime.dat" using (Rate($1,$9)) t "CPython & C++, with attributes" w histograms fill pattern 1 lt 3, \
+    "XhtmlWriteTime.dat" using (Rate($1,$2)) t "C++ Baseline" w histograms fill pattern 3 lt 1,\
+    "XhtmlWriteTime.dat" using (Rate($1,$3)) t "C++ Baseline, with attributes" w histograms fill pattern 1 lt 1
+
 reset

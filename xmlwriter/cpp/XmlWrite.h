@@ -19,7 +19,7 @@
 /**
  * This is pure C++ code but is designed to be specialised for a Python
  * interface. As such this has no dependencies on pybind11 or Python.h
- * Interfaces to those framworks will need to implement at least _enter()
+ * Interfaces to those frameworks will need to implement at least _enter()
  * which takes a number of specific arguments.
  */
 
@@ -46,12 +46,14 @@ public:
 extern bool RAISE_ON_ERROR;
 
 // base64 encoding and decoding
-std::string encodeString(const std::string &theS,
+std::string base64encodeString(const std::string &theS,
                          const std::string &theCharPrefix="_");
-std::string decodeString(const std::string &theS);
-std::string nameFromString(const std::string &theStr);
+std::string base64decodeString(const std::string &theS);
+std::string base64nameFromString(const std::string &theStr);
 
 using tAttrs = std::map<std::string, std::string>;
+
+#define ENCODE_NEW_IMPLEMENTATION 1
 
 // Base stream class
 class XmlStream {
@@ -76,10 +78,14 @@ public:
     void writeCSS(const std::map<std::string, tAttrs> &theCSSMap);
     void _indent(size_t offset=0);
     void _closeElemIfOpen();
-//    std::string _encode(const std::string &theStr) const;
+#if ENCODE_NEW_IMPLEMENTATION
+    bool _must_encode(const std::string &theStr) const;
+    std::string _encode(const std::string &theStr) const;
+#else
     // Returns true if output contains the encode string otherwise use
     // input.
     bool _encode(const std::string &input, std::string &output) const;
+#endif
     XmlStream &_enter();
     bool _exit() {
         _close();
